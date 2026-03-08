@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DT1 Control</title>
     <style>
-        /* Fuentes espectaculares pero legibles */
+        /* Fuentes espectaculares pero muy legibles */
         @import url('https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@600&family=MedievalSharp&family=Quicksand:wght@400;600&display=swap');
 
         :root {
-            --fondo-oscuro: #0a020a;
-            --morado-vivido: #bc13fe;
-            --rojo-sangre: #ff073a;
+            --fondo-oscuro: #050105; /* Casi negro */
+            --cheshire-morado: #2d0a3d; /* Morado base profundo */
+            --cheshire-rosa: #ff00ff; /* Rosa neón vibrante */
+            --cheshire-morado-luz: #bc13fe; /* Morado vibrante */
             --oro: #c5a059;
             --blanco: #f5f5f5;
         }
@@ -22,29 +23,25 @@
             font-family: 'Quicksand', sans-serif;
             margin: 0; padding: 0; overflow-x: hidden;
             min-height: 100vh; color: var(--blanco);
-            /* Fondo viscoso animado */
-            background: linear-gradient(45deg, #0a020a, #2a0101, #1a0026, #000000);
-            background-size: 400% 400%;
-            animation: fluido 15s ease infinite;
+            background: var(--fondo-oscuro);
+            /* Gradiente estático que evoca al gato en la oscuridad */
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(188, 19, 254, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(255, 0, 255, 0.1) 0%, transparent 40%),
+                linear-gradient(180deg, var(--fondo-oscuro) 0%, #1a051a 100%);
         }
 
-        @keyframes fluido {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Gota de carga */
+        /* Gota de carga estilo sonrisa flotante */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); display: none; flex-direction: column;
             align-items: center; justify-content: center; z-index: 9000; backdrop-filter: blur(8px);
         }
         .gota {
-            width: 35px; height: 35px; background: var(--morado-vivido);
+            width: 35px; height: 35px; background: var(--cheshire-rosa);
             border-radius: 0 50% 50% 50%; transform: rotate(45deg);
             animation: goteo 1s infinite cubic-bezier(0.5, 0, 0.5, 1);
-            box-shadow: 0 0 25px var(--morado-vivido);
+            box-shadow: 0 0 25px var(--cheshire-rosa);
         }
         @keyframes goteo {
             0% { transform: translateY(-60px) rotate(45deg) scale(0.8); opacity: 0; }
@@ -61,24 +58,30 @@
             align-items: center; justify-content: center; z-index: 8000;
         }
         .pass-input { 
-            background: none; border: none; border-bottom: 2px solid var(--morado-vivido);
+            background: none; border: none; border-bottom: 2px solid var(--cheshire-rosa);
             color: var(--blanco); padding: 10px; text-align: center;
             font-size: 2rem; width: 60%; outline: none; font-family: 'Grenze Gotisch';
         }
 
-        h1 { font-family: 'Grenze Gotisch', serif; font-size: 3rem; text-align: center; margin: 0; color: var(--morado-vivido); text-shadow: 0 0 15px var(--morado-vivido); }
+        h1 { font-family: 'Grenze Gotisch', serif; font-size: 3rem; text-align: center; margin: 0; color: var(--cheshire-morado-luz); text-shadow: 0 0 15px var(--cheshire-morado-luz); }
         .fecha-sub { text-align: center; font-family: 'MedievalSharp'; color: var(--oro); font-size: 0.9rem; margin-bottom: 35px; letter-spacing: 2px; }
 
-        /* Menú */
+        /* Menú - Rayas del Gato */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card { 
-            background: rgba(20, 0, 30, 0.7); border: 1px solid rgba(188, 19, 254, 0.2);
+            background: linear-gradient(145deg, var(--cheshire-morado), #1a051a);
+            border: 1px solid rgba(255, 0, 255, 0.1);
             border-radius: 20px; padding: 25px 10px; text-align: center; cursor: pointer;
             backdrop-filter: blur(5px); transition: 0.3s;
+            position: relative; overflow: hidden;
         }
-        .card:active { transform: scale(0.95); border-color: var(--morado-vivido); }
-        .card i { font-size: 2.5rem; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 8px var(--morado-vivido)); }
-        .card b { font-family: 'Grenze Gotisch'; font-size: 1.1rem; letter-spacing: 1px; }
+        .card::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+            background: var(--cheshire-rosa); opacity: 0.3;
+        }
+        .card:active { transform: scale(0.95); border-color: var(--cheshire-rosa); box-shadow: 0 0 15px var(--cheshire-rosa); }
+        .card i { font-size: 2.5rem; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 8px var(--cheshire-morado-luz)); }
+        .card b { font-family: 'Grenze Gotisch'; font-size: 1.1rem; letter-spacing: 1px; color: var(--blanco); }
 
         /* Secciones */
         .sec { display: none; animation: fadeIn 0.4s ease-out; }
@@ -89,36 +92,39 @@
         .btn-box {
             width: 100%; padding: 22px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);
             color: white; font-size: 1.2rem; font-family: 'Grenze Gotisch'; margin-bottom: 15px;
-            background: linear-gradient(90deg, rgba(40,0,60,0.8), rgba(10,0,10,0.8));
+            background: linear-gradient(90deg, #1d0a2d, #050105);
             display: flex; justify-content: space-between; align-items: center;
             box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+            border-left: 5px solid var(--cheshire-morado-luz);
         }
-        .btn-box.rojo { border-left: 5px solid var(--rojo-sangre); }
-        .btn-box.morado { border-left: 5px solid var(--morado-vivido); }
+        .btn-box:active { background: #1a051a; box-shadow: 0 0 10px var(--cheshire-morado-luz); }
+        .btn-box.rojo { border-left-color: #ff073a; color: #ff073a; }
 
         .input-v {
-            width: 100%; background: none; border: none; border-bottom: 2px solid var(--oro);
+            width: 100%; background: none; border: none; border-bottom: 2px solid var(--cheshire-rosa);
             padding: 10px; color: var(--oro); font-size: 3.5rem; text-align: center; 
             font-family: 'Grenze Gotisch'; outline: none; margin-bottom: 20px;
         }
 
         .resumen-card {
-            background: rgba(0,0,0,0.5); border: 1px solid var(--morado-vivido);
+            background: rgba(0,0,0,0.5); border: 1px solid var(--cheshire-morado-luz);
             border-radius: 20px; padding: 20px; margin-bottom: 15px;
+            position: relative;
         }
         .resumen-card h3 { font-family: 'MedievalSharp'; font-size: 0.8rem; color: var(--oro); margin: 0 0 10px 0; text-transform: uppercase; }
 
         #notif { 
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: var(--morado-vivido); color: black; padding: 12px 25px;
+            background: var(--cheshire-rosa); color: black; padding: 12px 25px;
             border-radius: 10px; font-weight: bold; font-family: 'MedievalSharp'; z-index: 9999; display: none;
+            box-shadow: 0 0 20px var(--cheshire-rosa);
         }
     </style>
 </head>
 <body>
 
 <div id="loader"><div class="gota"></div></div>
-<div id="notif">REGISTRADO</div>
+<div id="notif">SELLADO</div>
 
 <div id="bloqueo">
     <h1>WONDERLAND</h1>
@@ -135,28 +141,28 @@
         <div class="card" onclick="ir('s-ale')"><i>⚠️</i><b>ALERTAS</b></div>
         <div class="card" onclick="ir('s-reg')"><i>💧</i><b>CICLO</b></div>
         <div class="card" onclick="ir('s-med')"><i>📊</i><b>MEDIA</b></div>
-        <div class="card" onclick="cargarResumen()" style="grid-column: span 2; border: 1px solid var(--oro)">
+        <div class="card" onclick="cargarResumen()" style="grid-column: span 2; border-color: var(--oro)">
             <i>📋</i><b>RESUMEN DEL DÍA</b>
         </div>
     </div>
 
     <div id="s-glu" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <button class="btn-box morado" onclick="envG('ALTA')">AYUNAS > 130 <span>▲</span></button>
+        <button class="btn-box" onclick="envG('ALTA')">AYUNAS > 130 <span>▲</span></button>
         <button class="btn-box rojo" onclick="envG('BAJA')">AYUNAS < 80 <span>▼</span></button>
         <input type="number" id="v-m" class="input-v" placeholder="000" inputmode="numeric">
-        <button class="btn-box" onclick="envG('MANUAL')" style="justify-content:center">GUARDAR VALOR</button>
+        <button class="btn-box" onclick="envG('MANUAL')" style="justify-content:center; border-left:none; border-bottom: 3px solid var(--cheshire-morado-luz);">GUARDAR VALOR</button>
     </div>
 
     <div id="s-ale" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
         <button class="btn-box rojo" onclick="envS('EVENTOS', 'HIPO ↓')">HIPOGLUCEMIA</button>
-        <button class="btn-box morado" onclick="envS('EVENTOS', 'HIPER ↑')">HIPERGLUCEMIA</button>
+        <button class="btn-box" onclick="envS('EVENTOS', 'HIPER ↑')">HIPERGLUCEMIA</button>
     </div>
 
     <div id="s-reg" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <button class="btn-box morado" onclick="regla('INICIO')">INICIAR CICLO</button>
+        <button class="btn-box" onclick="regla('INICIO')">INICIAR CICLO</button>
         <button class="btn-box rojo" onclick="regla('FIN')">TERMINAR CICLO</button>
     </div>
 
@@ -164,10 +170,10 @@
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
         <input type="number" id="v-med" class="input-v" placeholder="000" oninput="calcA1c()">
         <div id="c-a1c" style="display:none; text-align:center; padding:15px; border: 1px solid var(--oro); margin-bottom:20px;">
-            <div id="v-a1c" style="font-size:3.5rem; font-family:'Grenze Gotisch'; color:var(--morado-vivido)">0.0%</div>
+            <div id="v-a1c" style="font-size:3.5rem; font-family:'Grenze Gotisch'; color:var(--cheshire-rosa)">0.0%</div>
             <div style="font-family:'MedievalSharp'; font-size:0.8rem;">A1C ESTIMADA</div>
         </div>
-        <button class="btn-box morado" onclick="envS('MEDIA', document.getElementById('v-med').value)" style="justify-content:center">ENVIAR MEDIA</button>
+        <button class="btn-box" onclick="envS('MEDIA', document.getElementById('v-med').value)" style="justify-content:center; border-left:none; border-bottom: 3px solid var(--cheshire-morado-luz);">ENVIAR MEDIA</button>
     </div>
 
     <div id="s-res" class="sec">
@@ -178,7 +184,7 @@
         </div>
         <div class="resumen-card">
             <h3>PROMEDIO SEMANAL</h3>
-            <div id="r-med" style="color:var(--morado-vivido); font-size:1.2rem;">...</div>
+            <div id="r-med" style="color:var(--cheshire-rosa); font-size:1.2rem;">...</div>
         </div>
         <div class="resumen-card">
             <h3>ESTADO DE ALERTAS</h3>
@@ -187,6 +193,8 @@
         </div>
     </div>
 </div>
+
+<div id="notif">...</div>
 
 <script>
     const CLAVE = "Idnopiras"; 
@@ -212,7 +220,7 @@
             c.style.display = 'block';
             const a = (parseFloat(m) + 46.7) / 28.7;
             v.innerText = a.toFixed(1) + "%";
-            v.style.color = a > 8 ? "var(--rojo-sangre)" : "var(--morado-vivido)";
+            v.style.color = a > 8 ? "#ff073a" : "var(--cheshire-rosa)";
         } else { c.style.display = 'none'; }
     }
 
@@ -228,8 +236,8 @@
             document.getElementById('r-hpe').innerText = d.hiperInfo;
             
             // Colores semáforo
-            document.getElementById('r-hpo').style.color = d.hipoInfo.includes("⚠️") ? "var(--rojo-sangre)" : "#4ade80";
-            document.getElementById('r-hpe').style.color = d.hiperInfo.includes("⚠️") ? "var(--rojo-sangre)" : "#4ade80";
+            document.getElementById('r-hpo').style.color = d.hipoInfo.includes("⚠️") ? "#ff073a" : "#4ade80";
+            document.getElementById('r-hpe').style.color = d.hiperInfo.includes("⚠️") ? "#ff073a" : "#4ade80";
         } catch (e) { document.getElementById('r-lev').innerText = "Error al conectar..."; }
         document.getElementById('loader').style.display = 'none';
     }
@@ -258,7 +266,7 @@
         fetch(URL_APP, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) })
         .then(() => { 
             document.getElementById('loader').style.display = 'none';
-            msg("GUARDADO");
+            msg("SELLADO");
             setTimeout(() => { volver(); }, 1200); 
         });
     }
@@ -269,132 +277,4 @@
     }
 </script>
 </body>
-</html><div class="app-container" id="app" style="display:none">
-    <h1>MI DIARIO</h1>
-    <div class="sub">Control de Sangre & Tiempo</div>
-    
-    <div id="menu" class="menu-grid">
-        <div class="card" onclick="ir('s-glu')"><i>🩸</i><b>SANGRE</b></div>
-        <div class="card" onclick="ir('s-ale')"><i>🃏</i><b>ALERTAS</b></div>
-        <div class="card" onclick="ir('s-reg')"><i>💧</i><b>CICLO</b></div>
-        <div class="card" onclick="ir('s-med')"><i>📉</i><b>MEDIA</b></div>
-        <div class="card" onclick="cargarResumen()" style="grid-column: span 2; border: 1px solid var(--rojo-l)"><i>🕯️</i><b>RESUMEN DEL DÍA</b></div>
-    </div>
-
-    <div id="s-glu" class="sec">
-        <button class="btn-atras" onclick="volver()">← REGRESAR</button>
-        <button class="btn-box" onclick="envG('ALTA')">AYUNAS > 130 <span>▲</span></button>
-        <button class="btn-box" onclick="envG('BAJA')">AYUNAS < 80 <span>▼</span></button>
-        <input type="number" id="v-m" class="input-v" placeholder="000" inputmode="numeric">
-        <button class="btn-box" onclick="envG('MANUAL')" style="margin-top:20px; justify-content:center">GUARDAR MANUAL</button>
-    </div>
-
-    <div id="s-ale" class="sec">
-        <button class="btn-atras" onclick="volver()">← REGRESAR</button>
-        <button class="btn-box red" onclick="envS('EVENTOS', 'HIPO ↓')">HIPOGLUCEMIA ↓</button>
-        <button class="btn-box" onclick="envS('EVENTOS', 'HIPER ↑')">HIPERGLUCEMIA ↑</button>
-    </div>
-
-    <div id="s-reg" class="sec">
-        <button class="btn-atras" onclick="volver()">← REGRESAR</button>
-        <button class="btn-box" onclick="regla('INICIO')">INICIAR CICLO <span>▶</span></button>
-        <button class="btn-box red" onclick="regla('FIN')">CERRAR CICLO <span>■</span></button>
-    </div>
-
-    <div id="s-med" class="sec">
-        <button class="btn-atras" onclick="volver()">← REGRESAR</button>
-        <input type="number" id="v-med" class="input-v" placeholder="000" oninput="calcA1c()">
-        <div id="c-a1c" style="display:none; text-align:center; padding:20px">
-            <div id="v-a1c" style="font-size:3.5rem; font-family:'Cinzel'; color:var(--morado-l)">0.0%</div>
-            <div style="font-size:0.8rem; letter-spacing:2px">A1C ESTIMADA</div>
-        </div>
-        <button class="btn-box" onclick="envS('MEDIA', document.getElementById('v-med').value)" style="margin-top:20px; justify-content:center">SUBIR MEDIA</button>
-    </div>
-
-    <div id="s-res" class="sec">
-        <button class="btn-atras" onclick="volver()">← REGRESAR</button>
-        <div class="summary-card"><div id="r-lev" style="font-family:'Cinzel'; font-size:1.2rem">...</div></div>
-        <div class="summary-card"><div id="r-med" style="color:var(--morado-l)">...</div></div>
-        <div class="summary-card"><div id="r-hpo">...</div><div id="r-hpe" style="margin-top:10px">...</div></div>
-    </div>
-</div>
-
-<script>
-    const CLAVE = "Idnopiras"; 
-    const URL_APP = "https://script.google.com/macros/s/AKfycbzdYhjgVmixnrpw0nBCOTTGRPob5J2oU9unnz5VjaKhDrZz_F-qOl6vTZsZZQnzqtNm/exec";
-
-    function acceder() { 
-        if(document.getElementById('pass').value === CLAVE) { 
-            document.getElementById('bloqueo').style.display = "none"; 
-            document.getElementById('app').style.display = "block"; 
-        } 
-    }
-    // Listener para el Enter en el password
-    document.getElementById('pass').addEventListener('keypress', (e) => { if(e.key==='Enter') acceder(); });
-
-    function ir(id) { document.getElementById('menu').style.display = 'none'; document.getElementById(id).style.display = 'block'; }
-    function volver() { document.getElementById('menu').style.display = 'grid'; document.querySelectorAll('.sec').forEach(s => s.style.display = 'none'); }
-
-    function calcA1c() {
-        const m = document.getElementById('v-med').value;
-        const c = document.getElementById('c-a1c');
-        const v = document.getElementById('v-a1c');
-        if (m > 50) {
-            c.style.display = 'block';
-            const a = (parseFloat(m) + 46.7) / 28.7;
-            v.innerText = a.toFixed(1) + "%";
-            v.style.color = a > 8 ? "var(--rojo-l)" : "var(--morado-l)";
-        } else { c.style.display = 'none'; }
-    }
-
-    async function cargarResumen() {
-        document.getElementById('loader').style.display = 'flex';
-        ir('s-res');
-        try {
-            const resp = await fetch(URL_APP);
-            const d = await resp.json();
-            document.getElementById('r-lev').innerText = d.levantado;
-            document.getElementById('r-med').innerText = d.mediaInfo;
-            document.getElementById('r-hpo').innerText = d.hipoInfo;
-            document.getElementById('r-hpe').innerText = d.hiperInfo;
-        } catch (e) { document.getElementById('r-lev').innerText = "Error de conexión"; }
-        document.getElementById('loader').style.display = 'none';
-    }
-
-    function regla(tipo) {
-        const u = localStorage.getItem('last_reg');
-        if (tipo === 'INICIO' && u) {
-            if (((new Date() - new Date(u)) / 86400000) < 20 && !confirm("¿Tan pronto, Alicia?")) return;
-        }
-        if (tipo === 'INICIO') localStorage.setItem('last_reg', new Date());
-        envS('REGLA', tipo);
-    }
-
-    function envG(tipo) {
-        let d = { destino: 'GLUCOSA' };
-        if(tipo==='ALTA'){ d.alta="X"; d.glucosa=">130"; } 
-        else if(tipo==='BAJA'){ d.baja="X"; d.glucosa="<80"; }
-        else if(tipo==='MANUAL'){ d.otros=document.getElementById('v-m').value; d.glucosa="MANUAL"; }
-        enviar(d);
-    }
-
-    function envS(dest, val) { if(!val) return; enviar({ destino: dest, valor: val }); }
-
-    function enviar(datos) {
-        document.getElementById('loader').style.display = 'flex';
-        fetch(URL_APP, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) })
-        .then(() => { 
-            document.getElementById('loader').style.display = 'none';
-            msg("SANGRE REGISTRADA");
-            setTimeout(() => { volver(); }, 1200); 
-        });
-    }
-
-    function msg(t) { 
-        const n = document.getElementById('notif'); n.innerText = t; n.style.display = "block";
-        setTimeout(()=> n.style.display="none", 2000);
-    }
-</script>
-</body>
 </html>
-
