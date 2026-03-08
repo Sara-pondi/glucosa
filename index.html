@@ -3,180 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DT1 Neon Stealth</title>
+    <title>DT1 Control Pro</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap');
+
         :root {
-            --bg: #020205;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(188, 19, 254, 0.3);
-            --neon-p: #bc13fe;
-            --neon-b: #00f3ff;
-            --neon-r: #ff073a;
-            --glow: 0 0 20px rgba(188, 19, 254, 0.5);
+            --fondo: #000000;
+            --tarjeta: #1a1a1a;
+            --morado: #bc13fe;
+            --azul: #00f3ff;
+            --rojo: #ff073a;
+            --texto: #ffffff;
+            --borde: #333333;
         }
 
         body { 
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg); color: white; margin: 0; padding: 20px;
-            display: flex; justify-content: center; overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% -20%, #1a0b2e 0%, #020205 100%);
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--fondo); color: var(--texto);
+            margin: 0; padding: 20px; display: flex; justify-content: center;
+            background-image: linear-gradient(to bottom, #0a0a0a 0%, #000000 100%);
         }
 
         .app-container { width: 100%; max-width: 400px; }
 
-        /* Pantalla de Bloqueo Futurista */
+        /* Pantalla de Bloqueo */
         #bloqueo {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); display: flex; flex-direction: column; 
+            background: var(--fondo); display: flex; flex-direction: column; 
             align-items: center; justify-content: center; z-index: 2000;
         }
-        .login-card {
-            background: var(--glass); padding: 40px; border-radius: 40px;
-            border: 1px solid var(--border); backdrop-filter: blur(10px);
-            text-align: center; box-shadow: var(--glow);
-        }
         .pass-input { 
-            background: rgba(0,0,0,0.5); border: 1px solid var(--neon-p);
-            color: white; padding: 15px; border-radius: 15px; text-align: center;
-            font-size: 1.5rem; width: 80%; outline: none; margin-top: 20px;
+            background: #111; border: 2px solid var(--morado);
+            color: white; padding: 15px; border-radius: 10px; text-align: center;
+            font-size: 1.8rem; width: 70%; outline: none; font-family: 'Orbitron', sans-serif;
+            box-shadow: 0 0 15px rgba(188, 19, 254, 0.3);
         }
 
-        /* Dashboard Espectacular */
-        h1 { font-size: 2.8rem; font-weight: 900; letter-spacing: -3px; margin: 20px 0; text-shadow: 0 0 20px rgba(188,19,254,0.4); }
-        h1 span { font-size: 0.9rem; letter-spacing: 5px; color: var(--neon-p); display: block; text-transform: uppercase; }
+        /* Cabecera */
+        h1 { 
+            font-family: 'Orbitron', sans-serif; font-size: 2rem; 
+            text-align: center; color: var(--morado); margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(188, 19, 254, 0.5);
+        }
 
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        /* Menu Principal */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card { 
-            background: var(--glass); border-radius: 35px; padding: 30px 10px;
-            text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            backdrop-filter: blur(5px);
+            background: var(--tarjeta); border-radius: 20px; padding: 25px 10px;
+            text-align: center; cursor: pointer; border: 2px solid var(--borde);
+            transition: all 0.2s ease;
         }
-        .card:active { transform: scale(0.85); border-color: var(--neon-p); box-shadow: var(--glow); }
-        .card i { font-size: 2.5rem; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 5px white); }
-        .card b { font-size: 0.75rem; color: #aaa; letter-spacing: 1.5px; }
+        .card:active { transform: scale(0.95); border-color: var(--morado); background: #222; }
+        .card i { font-size: 2.2rem; display: block; margin-bottom: 8px; }
+        .card b { font-size: 1rem; color: #ddd; text-transform: uppercase; letter-spacing: 1px; }
 
         /* Secciones */
-        .sec { display: none; animation: showSec 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        @keyframes showSec { from { opacity: 0; transform: translateY(50px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
-
-        .btn-back { color: var(--neon-p); background: none; border: none; font-weight: 800; cursor: pointer; margin-bottom: 20px; }
-
-        /* Botones Acción "Neon-Rim" */
-        .btn-action {
-            width: 100%; padding: 25px; border-radius: 25px; border: none;
-            color: white; font-size: 1rem; font-weight: 800; margin-bottom: 15px;
-            cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
-            background: linear-gradient(145deg, #1a1a1a, #000);
-            border: 1px solid rgba(255,255,255,0.1);
-            display: flex; justify-content: space-between; align-items: center;
+        .sec { display: none; }
+        .btn-volver { 
+            color: #888; background: none; border: 1px solid #444; 
+            padding: 8px 15px; border-radius: 8px; cursor: pointer; margin-bottom: 20px;
         }
-        .btn-action:active { filter: brightness(1.5); box-shadow: 0 0 20px currentColor; }
-        .p-border { border-color: var(--neon-p); color: var(--neon-p); }
-        .r-border { border-color: var(--neon-r); color: var(--neon-r); }
-        .b-border { border-color: var(--neon-b); color: var(--neon-b); }
+
+        /* Botones de Acción */
+        .btn-accion {
+            width: 100%; padding: 22px; border-radius: 15px; border: none;
+            color: white; font-size: 1.2rem; font-weight: 700; margin-bottom: 15px;
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            background: #222; border: 2px solid transparent;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        .m-borde { border-color: var(--morado); box-shadow: 0 4px 15px rgba(188, 19, 254, 0.2); }
+        .a-borde { border-color: var(--azul); box-shadow: 0 4px 15px rgba(0, 243, 255, 0.2); }
+        .r-borde { border-color: var(--rojo); box-shadow: 0 4px 15px rgba(255, 7, 58, 0.2); }
 
         input[type="number"] {
-            width: 100%; background: #000; border: 1px solid #333; padding: 25px;
-            border-radius: 25px; color: white; font-size: 2.5rem; text-align: center; margin-bottom: 20px;
+            width: 100%; background: #111; border: 2px solid #444; padding: 20px;
+            border-radius: 15px; color: white; font-size: 2rem; text-align: center; 
+            margin-bottom: 20px; font-family: 'Orbitron', sans-serif;
         }
 
-        #toast { 
+        #aviso { 
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: white; color: black; padding: 15px 40px; border-radius: 100px;
-            font-weight: 900; display: none; z-index: 3000; box-shadow: 0 0 30px white;
+            background: var(--morado); color: white; padding: 15px 30px; border-radius: 10px;
+            font-weight: 900; display: none; z-index: 3000;
         }
     </style>
 </head>
 <body>
 
 <div id="bloqueo">
-    <div class="login-card">
-        <h1>MY<span>STEALTH</span></h1>
-        <input type="password" id="pass" class="pass-input" placeholder="PASS">
-        <button onclick="check()" style="margin-top:20px; background:none; border:none; color:var(--neon-p); font-weight:900; cursor:pointer;">UNSEAL</button>
-    </div>
+    <h1>ACCESO PRIVADO</h1>
+    <input type="password" id="pass" class="pass-input" placeholder="****">
+    <button onclick="check()" style="margin-top:25px; background:none; border:none; color:white; font-size:1.2rem; cursor:pointer;">ENTRAR</button>
 </div>
 
 <div class="app-container main-app" id="app">
-    <h1>CORE<span>INTERFACE</span></h1>
+    <h1>MI DIARIO DT1</h1>
     
     <div id="menu" class="menu-grid">
-        <div class="card" onclick="show('s-glu')"><i>⚡</i><b>GLUCOSA</b></div>
-        <div class="card" onclick="show('s-ale')"><i>🔥</i><b>ALERTA</b></div>
-        <div class="card" onclick="show('s-reg')"><i>🌸</i><b>CICLO</b></div>
-        <div class="card" onclick="show('s-med')"><i>📈</i><b>MEDIA</b></div>
+        <div class="card" onclick="ver('s-glu')"><i>🩸</i><b>GLUCOSA</b></div>
+        <div class="card" onclick="ver('s-ale')"><i>⚠️</i><b>ALERTA</b></div>
+        <div class="card" onclick="ver('s-reg')"><i>💧</i><b>CICLO</b></div>
+        <div class="card" onclick="ver('s-med')"><i>📊</i><b>MEDIA</b></div>
     </div>
 
     <div id="s-glu" class="sec">
-        <button class="btn-back" onclick="home()">[ BACK ]</button>
-        <button class="btn-action p-border" onclick="env('ALTA')">Ayunando > 130 <span>▲</span></button>
-        <button class="btn-action b-border" onclick="env('BAJA')">Ayunando < 80 <span>▼</span></button>
-        <button class="btn-action" style="color:#666" onclick="document.getElementById('p-o').style.display='block'">Manual Input...</button>
+        <button class="btn-volver" onclick="home()">ATRAS</button>
+        <button class="btn-accion m-borde" onclick="enviarGlu('ALTA')">AYUNAS > 130 <span>▲</span></button>
+        <button class="btn-accion a-borde" onclick="enviarGlu('BAJA')">AYUNAS < 80 <span>▼</span></button>
+        <button class="btn-accion" style="border-color:#444" onclick="document.getElementById('p-o').style.display='block'">VALOR MANUAL</button>
         <div id="p-o" style="display:none; margin-top:10px">
             <input type="number" id="v-otros" inputmode="numeric">
-            <button class="btn-action p-border" onclick="env('MANUAL')" style="justify-content:center">CONFIRM</button>
+            <button class="btn-accion m-borde" onclick="enviarGlu('MANUAL')" style="justify-content:center">GUARDAR VALOR</button>
         </div>
     </div>
 
     <div id="s-ale" class="sec">
-        <button class="btn-back" onclick="home()">[ BACK ]</button>
-        <button class="btn-action r-border" onclick="envSimple('EVENTOS', 'HIPO ↓')">HIPO ↓</button>
-        <button class="btn-action p-border" onclick="envSimple('EVENTOS', 'HIPER ↑')">HIPER ↑</button>
+        <button class="btn-volver" onclick="home()">ATRAS</button>
+        <button class="btn-accion r-borde" onclick="enviarSimple('EVENTOS', 'HIPOGLUCEMIA ↓')">HIPO ↓</button>
+        <button class="btn-accion m-borde" onclick="enviarSimple('EVENTOS', 'HIPERGLUCEMIA ↑')">HIPER ↑</button>
     </div>
 
     <div id="s-reg" class="sec">
-        <button class="btn-back" onclick="home()">[ BACK ]</button>
-        <button class="btn-action p-border" onclick="checkRegla('INICIO')">INICIAR CICLO <span>▶</span></button>
-        <button class="btn-action r-border" onclick="checkRegla('FIN')">FINALIZAR CICLO <span>■</span></button>
+        <button class="btn-volver" onclick="home()">ATRAS</button>
+        <button class="btn-accion m-borde" onclick="controlRegla('INICIO')">INICIO CICLO <span>▶</span></button>
+        <button class="btn-accion r-borde" onclick="controlRegla('FIN')">FINAL CICLO <span>■</span></button>
     </div>
 
     <div id="s-med" class="sec">
-        <button class="btn-back" onclick="home()">[ BACK ]</button>
-        <input type="number" id="v-med" placeholder="0.0" inputmode="decimal">
-        <button class="btn-action b-border" onclick="envSimple('MEDIA', document.getElementById('v-med').value)" style="justify-content:center">UPLOAD MEDIA</button>
+        <button class="btn-volver" onclick="home()">ATRAS</button>
+        <input type="number" id="v-med" placeholder="0.0" step="0.1">
+        <button class="btn-accion a-borde" onclick="enviarSimple('MEDIA', document.getElementById('v-med').value)" style="justify-content:center">SUBIR MEDIA</button>
     </div>
 </div>
 
-<div id="toast">DATA SEALED</div>
+<div id="aviso">REGISTRANDO...</div>
 
 <script>
-    const P_OK = "iDNOPIRAS"; 
-    const URL = "https://script.google.com/macros/s/AKfycbzdYhjgVmixnrpw0nBCOTTGRPob5J2oU9unnz5VjaKhDrZz_F-qOl6vTZsZZQnzqtNm/exec";
+    const CLAVE = "Idnopiras"; 
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzdYhjgVmixnrpw0nBCOTTGRPob5J2oU9unnz5VjaKhDrZz_F-qOl6vTZsZZQnzqtNm/exec";
 
-    function check() { if(document.getElementById('pass').value === P_OK) { document.getElementById('bloqueo').style.display = "none"; document.getElementById('app').style.display = "block"; } }
-    function show(id) { document.getElementById('menu').style.display = 'none'; document.getElementById(id).style.display = 'block'; }
+    function check() { if(document.getElementById('pass').value === CLAVE) { document.getElementById('bloqueo').style.display = "none"; document.getElementById('app').style.display = "block"; } }
+    function ver(id) { document.getElementById('menu').style.display = 'none'; document.getElementById(id).style.display = 'block'; }
     function home() { document.getElementById('menu').style.display = 'grid'; document.querySelectorAll('.sec').forEach(s => s.style.display = 'none'); }
 
-    function checkRegla(tipo) {
-        const ultimaVez = localStorage.getItem('lastRegla');
-        const hoy = new Date();
-        
-        if (tipo === 'INICIO' && ultimaVez) {
-            const diferenciaDias = (hoy - new Date(ultimaVez)) / (1000 * 60 * 60 * 24);
-            if (diferenciaDias < 25 && !confirm("Registraste inicio hace poco. ¿Segura?")) return;
+    function controlRegla(tipo) {
+        const ultima = localStorage.getItem('last_reg');
+        if (tipo === 'INICIO' && ultima) {
+            const dias = (new Date() - new Date(ultima)) / (1000*60*60*24);
+            if (dias < 20 && !confirm("Registraste hace poco. ¿Continuar?")) return;
         }
-        
-        if (tipo === 'INICIO') localStorage.setItem('lastRegla', hoy);
-        envSimple('REGLA', tipo);
+        if (tipo === 'INICIO') localStorage.setItem('last_reg', new Date());
+        enviarSimple('REGLA', tipo);
     }
 
-    async function env(tipo) {
-        const t = document.getElementById('toast'); t.style.display="block"; t.innerText="ENCRYPTING...";
+    async function enviarGlu(tipo) {
+        const a = document.getElementById('aviso'); a.style.display="block";
         let d = { destino: 'GLUCOSA' };
         if(tipo==='ALTA'){ d.alta="X"; d.glucosa=">130"; } 
         if(tipo==='BAJA'){ d.baja="X"; d.glucosa="<80"; }
         if(tipo==='MANUAL'){ d.otros=document.getElementById('v-otros').value; d.glucosa="MANUAL"; }
 
-        fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) })
-        .then(() => { t.innerText="SUCCESS ✨"; setTimeout(()=>{t.style.display="none"; home();}, 1500); })
+        fetch(WEB_APP_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) })
+        .then(() => { a.innerText="¡GUARDADO! ✨"; setTimeout(()=>{a.style.display="none"; home();}, 1500); });
     }
 
-    async function envSimple(dest, val) {
+    async function enviarSimple(dest, val) {
         if(!val) return;
-        const t = document.getElementById('toast'); t.style.display="block"; t.innerText="SENDING...";
-        fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ destino: dest, valor: val }) })
-        .then(() => { t.innerText="SUCCESS ✅"; setTimeout(()=>{t.style.display="none"; home();}, 1500); });
+        const a = document.getElementById('aviso'); a.style.display="block";
+        fetch(WEB_APP_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ destino: dest, valor: val }) })
+        .then(() => { a.innerText="¡ÉXITO! ✅"; setTimeout(()=>{a.style.display="none"; home();}, 1500); });
     }
 </script>
 </body>
