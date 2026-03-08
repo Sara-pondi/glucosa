@@ -3,247 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DT1 Elite Control</title>
+    <title>DT1 Wonderland</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Quicksand:wght@300;500&display=swap');
 
         :root {
-            --fondo: #000000;
-            --tarjeta: #0a0a0a;
-            --acento: #bc13fe;
-            --azul: #00d4ff;
-            --rojo: #ff3b30;
-            --texto: #ffffff;
-            --borde: rgba(255,255,255,0.08);
+            --negro: #0a020a;
+            --morado-v: #2d0a3d;
+            --morado-l: #bc13fe;
+            --rojo-v: #4a0404;
+            --rojo-l: #ff073a;
+            --texto: #f2e6f2;
         }
 
         body { 
-            font-family: 'Outfit', sans-serif;
-            background: var(--fondo); color: var(--texto);
-            margin: 0; padding: 0; display: flex; justify-content: center;
-            min-height: 100vh; -webkit-tap-highlight-color: transparent;
+            font-family: 'Quicksand', sans-serif;
+            background: var(--negro); color: var(--texto);
+            margin: 0; padding: 0; overflow-x: hidden;
+            background-image: radial-gradient(circle at center, var(--morado-v) 0%, var(--negro) 100%);
         }
 
-        .app-container { width: 100%; max-width: 430px; padding: 40px 25px; box-sizing: border-box; }
+        /* Animación de Gota al cargar */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--negro); display: none; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 5000;
+        }
+        .gota {
+            width: 40px; height: 40px; background: var(--morado-l);
+            border-radius: 0 50% 50% 50%; transform: rotate(45deg);
+            animation: goteo 1.2s infinite ease-in-out;
+            box-shadow: 0 0 20px var(--morado-l);
+        }
+        @keyframes goteo {
+            0% { transform: translateY(-50px) rotate(45deg) scale(0.8); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(100px) rotate(45deg) scale(1.2); opacity: 0; }
+        }
 
-        /* Pantalla de Bloqueo Luxury */
+        .app-container { width: 100%; max-width: 430px; padding: 40px 25px; box-sizing: border-box; margin: auto; }
+
+        /* Pantalla de Bloqueo */
         #bloqueo {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--fondo); display: flex; flex-direction: column; 
-            align-items: center; justify-content: center; z-index: 3000;
+            background: var(--negro); display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; z-index: 4000;
         }
         .pass-input { 
-            background: #0d0d0d; border: 1px solid var(--borde);
-            color: white; padding: 20px; border-radius: 20px; text-align: center;
-            font-size: 1.8rem; width: 70%; outline: none; transition: 0.3s;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--morado-l);
+            color: white; padding: 20px; border-radius: 50px; text-align: center;
+            font-size: 1.5rem; width: 70%; outline: none; font-family: 'Cinzel';
         }
 
-        /* Cabecera */
-        header { margin-bottom: 40px; }
-        header h1 { font-size: 2.8rem; font-weight: 700; margin: 0; letter-spacing: -1.5px; }
-        header p { color: #555; margin: 5px 0 0; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; }
+        h1 { font-family: 'Cinzel'; font-size: 2.2rem; text-align: center; color: var(--morado-l); text-shadow: 0 0 15px var(--morado-l); margin-bottom: 5px; }
+        .sub { text-align: center; color: var(--rojo-l); font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 40px; }
 
-        /* Grid de Menú */
+        /* Botones Estilo "Viscoso" */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card { 
-            background: var(--tarjeta); border-radius: 30px; padding: 30px 15px;
+            background: linear-gradient(145deg, #1a051a, #050105);
+            border-radius: 20px 40px 20px 40px; padding: 25px 10px;
             text-align: center; cursor: pointer; border: 1px solid var(--borde);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.5); transition: 0.3s;
+            border-bottom: 3px solid var(--morado-v);
         }
-        .card:active { transform: scale(0.94); background: #111; }
-        .card i { font-size: 2.2rem; display: block; margin-bottom: 10px; }
-        .card b { font-size: 0.85rem; color: #fff; text-transform: uppercase; letter-spacing: 1.5px; }
+        .card:active { transform: scale(0.9) rotate(-2deg); border-bottom: 1px solid var(--morado-l); }
+        .card i { font-size: 2.5rem; filter: drop-shadow(0 0 10px var(--morado-l)); }
+        .card b { display: block; margin-top: 10px; font-family: 'Cinzel'; letter-spacing: 1px; }
 
-        /* Secciones */
-        .sec { display: none; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .sec { display: none; animation: blurIn 0.5s ease; }
+        @keyframes blurIn { from { filter: blur(10px); opacity: 0; } to { filter: blur(0); opacity: 1; } }
 
-        .btn-atras { color: #666; background: none; border: none; font-size: 1rem; cursor: pointer; margin-bottom: 30px; font-weight: 600; }
-        
-        /* Botones de Acción Premium */
+        .btn-atras { color: var(--rojo-l); background: none; border: none; font-family: 'Cinzel'; cursor: pointer; margin-bottom: 20px; }
+
         .btn-box {
-            width: 100%; padding: 26px; border-radius: 25px; border: 1px solid var(--borde);
-            color: white; font-size: 1.1rem; font-weight: 600; margin-bottom: 15px;
-            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            background: #050505; transition: 0.2s;
+            width: 100%; padding: 24px; border-radius: 20px; border: none;
+            color: white; font-size: 1.1rem; font-family: 'Cinzel'; margin-bottom: 15px;
+            background: rgba(20, 5, 20, 0.8); border-left: 5px solid var(--morado-l);
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.4); display: flex; justify-content: space-between; align-items: center;
         }
-        .btn-box:active { background: #111; }
-        .accent-text { color: var(--acento); border-color: rgba(188, 19, 254, 0.2); }
-        .blue-text { color: var(--azul); border-color: rgba(0, 212, 255, 0.2); }
-        .red-text { color: var(--rojo); border-color: rgba(255, 59, 48, 0.2); }
+        .btn-box.red { border-left-color: var(--rojo-l); color: var(--rojo-l); }
 
-        /* Inputs de datos */
-        .input-grande {
-            width: 100%; background: transparent; border: none; border-bottom: 2px solid #1a1a1a;
-            padding: 20px 0; color: white; font-size: 3.5rem; text-align: center; 
-            margin-bottom: 30px; font-weight: 300; outline: none;
+        .input-v {
+            width: 100%; background: none; border: none; border-bottom: 2px solid var(--morado-l);
+            padding: 15px; color: white; font-size: 3rem; text-align: center; font-family: 'Cinzel'; outline: none;
         }
 
-        /* Tarjetas de Resumen y A1c */
-        .luxury-card {
-            background: rgba(255,255,255,0.02); border-radius: 30px; padding: 25px;
-            margin-bottom: 15px; border: 1px solid var(--borde);
+        .summary-card {
+            background: rgba(45, 10, 61, 0.2); border-radius: 30px; padding: 25px;
+            border: 1px solid var(--morado-v); margin-bottom: 15px;
+            backdrop-filter: blur(5px);
         }
-        .a1c-num { font-size: 4rem; font-weight: 700; color: var(--azul); text-align: center; }
-        .label-mini { font-size: 0.75rem; color: #555; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 8px; }
 
-        #notificacion { 
-            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
-            background: #fff; color: #000; padding: 15px 40px; border-radius: 100px;
-            font-weight: 700; font-size: 0.9rem; display: none; z-index: 4000;
+        #notif { 
+            position: fixed; top: 20px; width: 80%; left: 10%; 
+            background: var(--morado-l); color: black; padding: 15px;
+            border-radius: 50px; text-align: center; font-weight: 700; display: none;
         }
     </style>
 </head>
 <body>
 
+<div id="loader"><div class="gota"></div><p style="font-family:'Cinzel'; margin-top:20px">Sincronizando sangre...</p></div>
+<div id="notif">REGISTRADO</div>
+
 <div id="bloqueo">
-    <div style="font-size: 3rem; margin-bottom: 20px;">🔒</div>
-    <input type="password" id="pass" class="pass-input" placeholder="ACCESO">
-    <button onclick="acceder()" style="margin-top:20px; background:none; border:none; color:#444; cursor:pointer; font-weight:600;">ENTRAR AL SISTEMA</button>
+    <h1>WONDERLAND</h1>
+    <input type="password" id="pass" class="pass-input" placeholder="PALABRA CLAVE">
 </div>
 
-<div class="app-container main-app" id="app">
-    <header>
-        <p id="txt-fecha"></p>
-        <h1>Mi Diario.</h1>
-    </header>
+<div class="app-container" id="app" style="display:none">
+    <h1>MI DIARIO</h1>
+    <div class="sub">Control de Sangre & Tiempo</div>
     
     <div id="menu" class="menu-grid">
-        <div class="card" onclick="ir('s-glu')"><i>🩸</i><b>Glucosa</b></div>
-        <div class="card" onclick="ir('s-ale')"><i>⚠️</i><b>Alertas</b></div>
-        <div class="card" onclick="ir('s-reg')"><i>💧</i><b>Ciclo</b></div>
-        <div class="card" onclick="ir('s-med')"><i>📊</i><b>Media</b></div>
-        <div class="card" onclick="cargarResumen()" style="grid-column: span 2; border-color: var(--acento); margin-top: 10px;">
-            <i style="margin-bottom: 5px;">✨</i><b>Resumen del Día</b>
-        </div>
+        <div class="card" onclick="ir('s-glu')"><i>🩸</i><b>SANGRE</b></div>
+        <div class="card" onclick="ir('s-ale')"><i>🃏</i><b>ALERTAS</b></div>
+        <div class="card" onclick="ir('s-reg')"><i>💧</i><b>CICLO</b></div>
+        <div class="card" onclick="ir('s-med')"><i>📉</i><b>MEDIA</b></div>
+        <div class="card" onclick="cargarResumen()" style="grid-column: span 2; border: 1px solid var(--rojo-l)"><i>🕯️</i><b>RESUMEN DEL DÍA</b></div>
     </div>
 
     <div id="s-glu" class="sec">
-        <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <button class="btn-box accent-text" onclick="envG('ALTA')">Ayunando > 130 <span>▲</span></button>
-        <button class="btn-box blue-text" onclick="envG('BAJA')">Ayunando < 80 <span>▼</span></button>
-        <button class="btn-box" style="color:#444; border:none; justify-content:center" onclick="document.getElementById('m-in').style.display='block'">Valor Manual</button>
-        <div id="m-in" style="display:none">
-            <input type="number" id="v-m" class="input-grande" placeholder="000" inputmode="numeric">
-            <button class="btn-box accent-text" onclick="envG('MANUAL')" style="justify-content:center">GUARDAR REGISTRO</button>
-        </div>
+        <button class="btn-atras" onclick="volver()">← REGRESAR</button>
+        <button class="btn-box" onclick="envG('ALTA')">AYUNAS > 130 <span>▲</span></button>
+        <button class="btn-box" onclick="envG('BAJA')">AYUNAS < 80 <span>▼</span></button>
+        <input type="number" id="v-m" class="input-v" placeholder="000" inputmode="numeric">
+        <button class="btn-box" onclick="envG('MANUAL')" style="margin-top:20px; justify-content:center">GUARDAR MANUAL</button>
     </div>
 
     <div id="s-ale" class="sec">
-        <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <button class="btn-box red-text" onclick="envS('EVENTOS', 'HIPO ↓')">HIPOGLUCEMIA ↓</button>
-        <button class="btn-box accent-text" onclick="envS('EVENTOS', 'HIPER ↑')">HIPERGLUCEMIA ↑</button>
+        <button class="btn-atras" onclick="volver()">← REGRESAR</button>
+        <button class="btn-box red" onclick="envS('EVENTOS', 'HIPO ↓')">HIPOGLUCEMIA ↓</button>
+        <button class="btn-box" onclick="envS('EVENTOS', 'HIPER ↑')">HIPERGLUCEMIA ↑</button>
     </div>
 
     <div id="s-reg" class="sec">
-        <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <button class="btn-box accent-text" onclick="regla('INICIO')">INICIAR CICLO <span>○</span></button>
-        <button class="btn-box red-text" onclick="regla('FIN')">FINALIZAR CICLO <span>●</span></button>
+        <button class="btn-atras" onclick="volver()">← REGRESAR</button>
+        <button class="btn-box" onclick="regla('INICIO')">INICIAR CICLO <span>▶</span></button>
+        <button class="btn-box red" onclick="regla('FIN')">CERRAR CICLO <span>■</span></button>
     </div>
 
     <div id="s-med" class="sec">
-        <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <input type="number" id="v-med" class="input-grande" placeholder="000" oninput="calcA1c()" inputmode="numeric">
-        <div id="card-a1c" class="luxury-card" style="display:none">
-            <div class="a1c-num" id="val-a1c">0.0%</div>
-            <div style="text-align:center; color:#555; font-size:0.9rem; letter-spacing:2px; margin-top:10px;">A1c ESTIMADA</div>
+        <button class="btn-atras" onclick="volver()">← REGRESAR</button>
+        <input type="number" id="v-med" class="input-v" placeholder="000" oninput="calcA1c()">
+        <div id="c-a1c" style="display:none; text-align:center; padding:20px">
+            <div id="v-a1c" style="font-size:3.5rem; font-family:'Cinzel'; color:var(--morado-l)">0.0%</div>
+            <div style="font-size:0.8rem; letter-spacing:2px">A1C ESTIMADA</div>
         </div>
-        <button class="btn-box blue-text" onclick="envS('MEDIA', document.getElementById('v-med').value)" style="justify-content:center">SINCRONIZAR MEDIA</button>
+        <button class="btn-box" onclick="envS('MEDIA', document.getElementById('v-med').value)" style="margin-top:20px; justify-content:center">SUBIR MEDIA</button>
     </div>
 
     <div id="s-res" class="sec">
-        <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <div class="luxury-card">
-            <span class="label-mini">Última Glucosa</span>
-            <div id="res-glu" style="font-size:2rem; font-weight:700; color:var(--acento);">...</div>
-        </div>
-        <div class="luxury-card">
-            <span class="label-mini">Estado Ciclo</span>
-            <div id="res-reg" style="font-size:1.6rem; font-weight:600; color:var(--azul);">...</div>
-        </div>
+        <button class="btn-atras" onclick="volver()">← REGRESAR</button>
+        <div class="summary-card"><div id="r-lev" style="font-family:'Cinzel'; font-size:1.2rem">...</div></div>
+        <div class="summary-card"><div id="r-med" style="color:var(--morado-l)">...</div></div>
+        <div class="summary-card"><div id="r-hpo">...</div><div id="r-hpe" style="margin-top:10px">...</div></div>
     </div>
 </div>
 
-<div id="notificacion">...</div>
-
 <script>
-    const PASS_CORRECTA = "Idnopiras"; 
-    const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbzdYhjgVmixnrpw0nBCOTTGRPob5J2oU9unnz5VjaKhDrZz_F-qOl6vTZsZZQnzqtNm/exec";
-
-    // Poner fecha de hoy
-    document.getElementById('txt-fecha').innerText = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long' }).toUpperCase();
+    const CLAVE = "Idnopiras"; 
+    const URL_APP = "https://script.google.com/macros/s/AKfycbzdYhjgVmixnrpw0nBCOTTGRPob5J2oU9unnz5VjaKhDrZz_F-qOl6vTZsZZQnzqtNm/exec";
 
     function acceder() { 
-        if(document.getElementById('pass').value === PASS_CORRECTA) { 
+        if(document.getElementById('pass').value === CLAVE) { 
             document.getElementById('bloqueo').style.display = "none"; 
             document.getElementById('app').style.display = "block"; 
         } 
     }
+    // Listener para el Enter en el password
+    document.getElementById('pass').addEventListener('keypress', (e) => { if(e.key==='Enter') acceder(); });
 
     function ir(id) { document.getElementById('menu').style.display = 'none'; document.getElementById(id).style.display = 'block'; }
-    function volver() { document.getElementById('menu').style.display = 'grid'; document.querySelectorAll('.sec').forEach(s => s.style.display = 'none'); document.getElementById('m-in').style.display='none'; }
+    function volver() { document.getElementById('menu').style.display = 'grid'; document.querySelectorAll('.sec').forEach(s => s.style.display = 'none'); }
 
     function calcA1c() {
         const m = document.getElementById('v-med').value;
-        const c = document.getElementById('card-a1c');
-        const v = document.getElementById('val-a1c');
+        const c = document.getElementById('c-a1c');
+        const v = document.getElementById('v-a1c');
         if (m > 50) {
             c.style.display = 'block';
             const a = (parseFloat(m) + 46.7) / 28.7;
             v.innerText = a.toFixed(1) + "%";
-            v.style.color = a > 8 ? "var(--rojo)" : (a > 7 ? "orange" : "var(--azul)");
+            v.style.color = a > 8 ? "var(--rojo-l)" : "var(--morado-l)";
         } else { c.style.display = 'none'; }
     }
 
     async function cargarResumen() {
+        document.getElementById('loader').style.display = 'flex';
         ir('s-res');
-        document.getElementById('res-glu').innerText = "Cargando...";
         try {
-            const resp = await fetch(URL_SCRIPT);
-            const data = await resp.json();
-            document.getElementById('res-glu').innerText = data.ultimaGlucosa;
-            document.getElementById('res-reg').innerText = data.estadoCiclo;
-        } catch (e) {
-            document.getElementById('res-glu').innerText = "Error de red";
-        }
+            const resp = await fetch(URL_APP);
+            const d = await resp.json();
+            document.getElementById('r-lev').innerText = d.levantado;
+            document.getElementById('r-med').innerText = d.mediaInfo;
+            document.getElementById('r-hpo').innerText = d.hipoInfo;
+            document.getElementById('r-hpe').innerText = d.hiperInfo;
+        } catch (e) { document.getElementById('r-lev').innerText = "Error de conexión"; }
+        document.getElementById('loader').style.display = 'none';
     }
 
     function regla(tipo) {
-        const u = localStorage.getItem('last_r');
+        const u = localStorage.getItem('last_reg');
         if (tipo === 'INICIO' && u) {
-            const dias = (new Date() - new Date(u)) / 86400000;
-            if (dias < 20 && !confirm("¿Registrar inicio tan pronto?")) return;
+            if (((new Date() - new Date(u)) / 86400000) < 20 && !confirm("¿Tan pronto, Alicia?")) return;
         }
-        if (tipo === 'INICIO') localStorage.setItem('last_r', new Date());
+        if (tipo === 'INICIO') localStorage.setItem('last_reg', new Date());
         envS('REGLA', tipo);
     }
 
-    async function envG(tipo) {
-        msg("GUARDANDO...");
+    function envG(tipo) {
         let d = { destino: 'GLUCOSA' };
         if(tipo==='ALTA'){ d.alta="X"; d.glucosa=">130"; } 
         else if(tipo==='BAJA'){ d.baja="X"; d.glucosa="<80"; }
         else if(tipo==='MANUAL'){ d.otros=document.getElementById('v-m').value; d.glucosa="MANUAL"; }
-        post(d);
+        enviar(d);
     }
 
-    async function envS(dest, val) {
-        if(!val) return;
-        msg("SINCRONIZANDO...");
-        post({ destino: dest, valor: val });
-    }
+    function envS(dest, val) { if(!val) return; enviar({ destino: dest, valor: val }); }
 
-    function post(d) {
-        fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) })
+    function enviar(datos) {
+        document.getElementById('loader').style.display = 'flex';
+        fetch(URL_APP, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) })
         .then(() => { 
-            msg("REGISTRADO ✨"); 
-            setTimeout(() => { document.getElementById('notificacion').style.display="none"; volver(); }, 1500); 
+            document.getElementById('loader').style.display = 'none';
+            msg("SANGRE REGISTRADA");
+            setTimeout(() => { volver(); }, 1200); 
         });
     }
 
     function msg(t) { 
-        const n = document.getElementById('notificacion'); 
-        n.style.display = "block"; n.innerText = t; 
+        const n = document.getElementById('notif'); n.innerText = t; n.style.display = "block";
+        setTimeout(()=> n.style.display="none", 2000);
     }
 </script>
 </body>
