@@ -3,145 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DT1 Control</title>
+    <title>DT1 Elite</title>
     <style>
-        /* Fuentes espectaculares pero muy legibles */
-        @import url('https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@600&family=MedievalSharp&family=Quicksand:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Montserrat:wght@300;400;600&display=swap');
 
         :root {
-            --fondo-oscuro: #050105; /* Casi negro */
-            --cheshire-morado: #2d0a3d; /* Morado base profundo */
-            --cheshire-rosa: #ff00ff; /* Rosa neón vibrante */
-            --cheshire-morado-luz: #bc13fe; /* Morado vibrante */
-            --oro: #c5a059;
-            --blanco: #f5f5f5;
+            --bg: #050108;
+            --glass: rgba(25, 10, 35, 0.7);
+            --border: rgba(188, 19, 254, 0.2);
+            --accent: #bc13fe; /* Morado Cheshire */
+            --pink: #ff2d55;   /* Rosa Cheshire */
+            --gold: #d4af37;
+            --text: #ffffff;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body { 
-            font-family: 'Quicksand', sans-serif;
-            margin: 0; padding: 0; overflow-x: hidden;
-            min-height: 100vh; color: var(--blanco);
-            background: var(--fondo-oscuro);
-            /* Gradiente estático que evoca al gato en la oscuridad */
+            font-family: 'Montserrat', sans-serif;
+            margin: 0; padding: 0; min-height: 100vh;
+            color: var(--text);
+            background: var(--bg);
+            /* Fondo de atmósfera profunda */
             background-image: 
-                radial-gradient(circle at 10% 10%, rgba(188, 19, 254, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(255, 0, 255, 0.1) 0%, transparent 40%),
-                linear-gradient(180deg, var(--fondo-oscuro) 0%, #1a051a 100%);
+                radial-gradient(circle at top right, rgba(188, 19, 254, 0.1), transparent 50%),
+                radial-gradient(circle at bottom left, rgba(255, 45, 85, 0.05), transparent 50%);
+            background-attachment: fixed;
         }
 
-        /* Gota de carga estilo sonrisa flotante */
+        /* Pantalla de Carga Luxury */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); display: none; flex-direction: column;
-            align-items: center; justify-content: center; z-index: 9000; backdrop-filter: blur(8px);
+            background: var(--bg); display: none; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 9999;
         }
-        .gota {
-            width: 35px; height: 35px; background: var(--cheshire-rosa);
-            border-radius: 0 50% 50% 50%; transform: rotate(45deg);
-            animation: goteo 1s infinite cubic-bezier(0.5, 0, 0.5, 1);
-            box-shadow: 0 0 25px var(--cheshire-rosa);
+        .smile-loader {
+            width: 60px; height: 30px;
+            border: 4px solid var(--accent);
+            border-radius: 0 0 60px 60px;
+            border-top: 0;
+            box-shadow: 0 10px 20px var(--accent);
+            animation: pulse 1s infinite alternate;
         }
-        @keyframes goteo {
-            0% { transform: translateY(-60px) rotate(45deg) scale(0.8); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(100px) rotate(45deg) scale(1.1); opacity: 0; }
-        }
+        @keyframes pulse { from { transform: scale(0.9); opacity: 0.5; } to { transform: scale(1.1); opacity: 1; } }
 
-        .app-container { width: 100%; max-width: 430px; padding: 30px 20px; margin: auto; position: relative; z-index: 10; }
+        .app-container { width: 100%; max-width: 420px; padding: 40px 25px; margin: auto; }
 
-        /* Bloqueo */
+        /* Login con Clase */
         #bloqueo {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: black; display: flex; flex-direction: column; 
+            background: var(--bg); display: flex; flex-direction: column; 
             align-items: center; justify-content: center; z-index: 8000;
         }
         .pass-input { 
-            background: none; border: none; border-bottom: 2px solid var(--cheshire-rosa);
-            color: var(--blanco); padding: 10px; text-align: center;
-            font-size: 2rem; width: 60%; outline: none; font-family: 'Grenze Gotisch';
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+            color: var(--text); padding: 18px; border-radius: 15px; text-align: center;
+            font-size: 1.5rem; width: 75%; outline: none; font-family: 'Cinzel';
+            letter-spacing: 5px;
         }
 
-        h1 { font-family: 'Grenze Gotisch', serif; font-size: 3rem; text-align: center; margin: 0; color: var(--cheshire-morado-luz); text-shadow: 0 0 15px var(--cheshire-morado-luz); }
-        .fecha-sub { text-align: center; font-family: 'MedievalSharp'; color: var(--oro); font-size: 0.9rem; margin-bottom: 35px; letter-spacing: 2px; }
+        header h1 { 
+            font-family: 'Cinzel', serif; font-size: 2.5rem; text-align: center; margin: 0;
+            background: linear-gradient(to bottom, #fff, var(--accent));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+        }
+        .date-label { 
+            text-align: center; font-size: 0.7rem; letter-spacing: 3px; 
+            color: var(--gold); text-transform: uppercase; margin-top: 5px; margin-bottom: 40px;
+            font-weight: 600; opacity: 0.8;
+        }
 
-        /* Menú - Rayas del Gato */
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        /* Grid de Menú Estilo "Glass" */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .card { 
-            background: linear-gradient(145deg, var(--cheshire-morado), #1a051a);
-            border: 1px solid rgba(255, 0, 255, 0.1);
-            border-radius: 20px; padding: 25px 10px; text-align: center; cursor: pointer;
-            backdrop-filter: blur(5px); transition: 0.3s;
-            position: relative; overflow: hidden;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 24px; padding: 35px 15px;
+            text-align: center; cursor: pointer;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
-        .card::before {
-            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
-            background: var(--cheshire-rosa); opacity: 0.3;
-        }
-        .card:active { transform: scale(0.95); border-color: var(--cheshire-rosa); box-shadow: 0 0 15px var(--cheshire-rosa); }
-        .card i { font-size: 2.5rem; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 8px var(--cheshire-morado-luz)); }
-        .card b { font-family: 'Grenze Gotisch'; font-size: 1.1rem; letter-spacing: 1px; color: var(--blanco); }
+        .card:active { transform: scale(0.92); background: rgba(188, 19, 254, 0.1); border-color: var(--accent); }
+        .card i { font-size: 2.2rem; display: block; margin-bottom: 12px; filter: drop-shadow(0 0 10px var(--accent)); }
+        .card b { font-family: 'Cinzel'; font-size: 0.9rem; letter-spacing: 1px; color: var(--text); font-weight: 800; }
 
         /* Secciones */
-        .sec { display: none; animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .sec { display: none; animation: slideUp 0.5s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        .btn-atras { color: var(--oro); background: none; border: none; font-family: 'MedievalSharp'; cursor: pointer; margin-bottom: 25px; font-size: 1rem; }
+        .btn-atras { color: var(--gold); background: none; border: none; font-family: 'Cinzel'; cursor: pointer; margin-bottom: 30px; font-weight: 800; font-size: 0.9rem; }
 
         .btn-box {
-            width: 100%; padding: 22px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);
-            color: white; font-size: 1.2rem; font-family: 'Grenze Gotisch'; margin-bottom: 15px;
-            background: linear-gradient(90deg, #1d0a2d, #050105);
+            width: 100%; padding: 25px; border-radius: 20px; border: 1px solid var(--border);
+            color: white; font-size: 1rem; font-family: 'Cinzel'; margin-bottom: 15px;
+            background: rgba(255,255,255,0.02);
             display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.4);
-            border-left: 5px solid var(--cheshire-morado-luz);
+            font-weight: 800;
         }
-        .btn-box:active { background: #1a051a; box-shadow: 0 0 10px var(--cheshire-morado-luz); }
-        .btn-box.rojo { border-left-color: #ff073a; color: #ff073a; }
+        .btn-box:active { background: var(--accent); color: #000; }
+        .btn-box.red { border-left: 6px solid var(--pink); }
 
         .input-v {
-            width: 100%; background: none; border: none; border-bottom: 2px solid var(--cheshire-rosa);
-            padding: 10px; color: var(--oro); font-size: 3.5rem; text-align: center; 
-            font-family: 'Grenze Gotisch'; outline: none; margin-bottom: 20px;
+            width: 100%; background: none; border: none; border-bottom: 2px solid var(--border);
+            padding: 15px; color: var(--accent); font-size: 4rem; text-align: center; 
+            font-family: 'Cinzel'; outline: none; margin-bottom: 30px; font-weight: 800;
         }
 
-        .resumen-card {
-            background: rgba(0,0,0,0.5); border: 1px solid var(--cheshire-morado-luz);
-            border-radius: 20px; padding: 20px; margin-bottom: 15px;
-            position: relative;
+        .summary-wrapper {
+            background: rgba(255,255,255,0.03); border-radius: 30px; padding: 25px;
+            border: 1px solid var(--border); box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-        .resumen-card h3 { font-family: 'MedievalSharp'; font-size: 0.8rem; color: var(--oro); margin: 0 0 10px 0; text-transform: uppercase; }
+        .summary-item { margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
+        .summary-item:last-child { border: none; }
+        .summary-item label { font-family: 'Cinzel'; font-size: 0.65rem; color: var(--gold); letter-spacing: 2px; display: block; margin-bottom: 8px; }
+        .summary-item div { font-size: 1.2rem; font-weight: 400; }
 
         #notif { 
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: var(--cheshire-rosa); color: black; padding: 12px 25px;
-            border-radius: 10px; font-weight: bold; font-family: 'MedievalSharp'; z-index: 9999; display: none;
-            box-shadow: 0 0 20px var(--cheshire-rosa);
+            position: fixed; top: 40px; left: 50%; transform: translateX(-50%);
+            background: var(--accent); color: #000; padding: 12px 30px;
+            border-radius: 40px; font-weight: 800; font-family: 'Cinzel'; z-index: 9999; display: none;
+            box-shadow: 0 0 30px var(--accent);
         }
     </style>
 </head>
 <body>
 
-<div id="loader"><div class="gota"></div></div>
-<div id="notif">SELLADO</div>
+<div id="loader"><div class="smile-loader"></div></div>
+<div id="notif">CONFIRMADO</div>
 
 <div id="bloqueo">
-    <h1>WONDERLAND</h1>
-    <input type="password" id="pass" class="pass-input" placeholder="CLAVE">
-    <p style="color:var(--oro); margin-top:30px; font-family:'MedievalSharp'; cursor:pointer;" onclick="acceder()">ENTRAR</p>
+    <header><h1>CHESHIRE</h1></header>
+    <div class="date-label">Elite Health System</div>
+    <input type="password" id="pass" class="pass-input" placeholder="••••">
+    <p style="color:var(--accent); margin-top:40px; font-family:'Cinzel'; font-size:0.8rem; cursor:pointer;" onclick="acceder()">Entrar al Sistema</p>
 </div>
 
 <div class="app-container" id="app" style="display:none">
-    <h1>MI DIARIO</h1>
-    <div class="fecha-sub" id="txt-fecha"></div>
+    <header>
+        <h1>MI DIARIO</h1>
+        <div class="date-label" id="txt-fecha"></div>
+    </header>
     
     <div id="menu" class="menu-grid">
         <div class="card" onclick="ir('s-glu')"><i>🩸</i><b>GLUCOSA</b></div>
         <div class="card" onclick="ir('s-ale')"><i>⚠️</i><b>ALERTAS</b></div>
         <div class="card" onclick="ir('s-reg')"><i>💧</i><b>CICLO</b></div>
         <div class="card" onclick="ir('s-med')"><i>📊</i><b>MEDIA</b></div>
-        <div class="card" onclick="cargarResumen()" style="grid-column: span 2; border-color: var(--oro)">
+        <div class="card" onclick="cargarResumen()" style="grid-column: span 2; border: 1px solid var(--accent); background: rgba(188,19,254,0.05)">
             <i>📋</i><b>RESUMEN DEL DÍA</b>
         </div>
     </div>
@@ -149,52 +159,52 @@
     <div id="s-glu" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
         <button class="btn-box" onclick="envG('ALTA')">AYUNAS > 130 <span>▲</span></button>
-        <button class="btn-box rojo" onclick="envG('BAJA')">AYUNAS < 80 <span>▼</span></button>
+        <button class="btn-box red" onclick="envG('BAJA')">AYUNAS < 80 <span>▼</span></button>
         <input type="number" id="v-m" class="input-v" placeholder="000" inputmode="numeric">
-        <button class="btn-box" onclick="envG('MANUAL')" style="justify-content:center; border-left:none; border-bottom: 3px solid var(--cheshire-morado-luz);">GUARDAR VALOR</button>
+        <button class="btn-box" onclick="envG('MANUAL')" style="justify-content:center; border: 1px solid var(--accent);">GUARDAR VALOR</button>
     </div>
 
     <div id="s-ale" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <button class="btn-box rojo" onclick="envS('EVENTOS', 'HIPO ↓')">HIPOGLUCEMIA</button>
+        <button class="btn-box red" onclick="envS('EVENTOS', 'HIPO ↓')">HIPOGLUCEMIA</button>
         <button class="btn-box" onclick="envS('EVENTOS', 'HIPER ↑')">HIPERGLUCEMIA</button>
     </div>
 
     <div id="s-reg" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
         <button class="btn-box" onclick="regla('INICIO')">INICIAR CICLO</button>
-        <button class="btn-box rojo" onclick="regla('FIN')">TERMINAR CICLO</button>
+        <button class="btn-box red" onclick="regla('FIN')">TERMINAR CICLO</button>
     </div>
 
     <div id="s-med" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
         <input type="number" id="v-med" class="input-v" placeholder="000" oninput="calcA1c()">
-        <div id="c-a1c" style="display:none; text-align:center; padding:15px; border: 1px solid var(--oro); margin-bottom:20px;">
-            <div id="v-a1c" style="font-size:3.5rem; font-family:'Grenze Gotisch'; color:var(--cheshire-rosa)">0.0%</div>
-            <div style="font-family:'MedievalSharp'; font-size:0.8rem;">A1C ESTIMADA</div>
+        <div id="c-a1c" style="display:none; text-align:center; padding:25px; background:var(--glass); border-radius:20px; border:1px solid var(--gold); margin-bottom:30px;">
+            <div id="v-a1c" style="font-size:4rem; font-family:'Cinzel'; color:var(--accent)">0.0%</div>
+            <div style="font-family:'Cinzel'; font-size:0.7rem; color:var(--gold); letter-spacing:3px;">A1C ESTIMADA</div>
         </div>
-        <button class="btn-box" onclick="envS('MEDIA', document.getElementById('v-med').value)" style="justify-content:center; border-left:none; border-bottom: 3px solid var(--cheshire-morado-luz);">ENVIAR MEDIA</button>
+        <button class="btn-box" onclick="envS('MEDIA', document.getElementById('v-med').value)" style="justify-content:center; border:1px solid var(--accent)">ENVIAR MEDIA</button>
     </div>
 
     <div id="s-res" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <div class="resumen-card">
-            <h3>GLUCOSA AL DESPERTAR</h3>
-            <div id="r-lev" style="font-family:'Grenze Gotisch'; font-size:1.6rem;">...</div>
-        </div>
-        <div class="resumen-card">
-            <h3>PROMEDIO SEMANAL</h3>
-            <div id="r-med" style="color:var(--cheshire-rosa); font-size:1.2rem;">...</div>
-        </div>
-        <div class="resumen-card">
-            <h3>ESTADO DE ALERTAS</h3>
-            <div id="r-hpo">...</div>
-            <div id="r-hpe" style="margin-top:10px">...</div>
+        <div class="summary-wrapper">
+            <div class="summary-item">
+                <label>Glucosa al despertar</label>
+                <div id="r-lev" style="font-family:'Cinzel'; font-weight:800; color:var(--accent)">...</div>
+            </div>
+            <div class="summary-item">
+                <label>Promedio Semanal</label>
+                <div id="r-med" style="color:var(--text)">...</div>
+            </div>
+            <div class="summary-item">
+                <label>Alertas del día</label>
+                <div id="r-hpo">...</div>
+                <div id="r-hpe" style="margin-top:8px">...</div>
+            </div>
         </div>
     </div>
 </div>
-
-<div id="notif">...</div>
 
 <script>
     const CLAVE = "Idnopiras"; 
@@ -208,6 +218,7 @@
             document.getElementById('app').style.display = "block"; 
         } 
     }
+    document.getElementById('pass').addEventListener('keypress', (e) => { if(e.key==='Enter') acceder(); });
 
     function ir(id) { document.getElementById('menu').style.display = 'none'; document.getElementById(id).style.display = 'block'; }
     function volver() { document.getElementById('menu').style.display = 'grid'; document.querySelectorAll('.sec').forEach(s => s.style.display = 'none'); }
@@ -220,7 +231,7 @@
             c.style.display = 'block';
             const a = (parseFloat(m) + 46.7) / 28.7;
             v.innerText = a.toFixed(1) + "%";
-            v.style.color = a > 8 ? "#ff073a" : "var(--cheshire-rosa)";
+            v.style.color = a > 8 ? "var(--pink)" : "var(--accent)";
         } else { c.style.display = 'none'; }
     }
 
@@ -234,18 +245,16 @@
             document.getElementById('r-med').innerText = d.mediaInfo;
             document.getElementById('r-hpo').innerText = d.hipoInfo;
             document.getElementById('r-hpe').innerText = d.hiperInfo;
-            
-            // Colores semáforo
-            document.getElementById('r-hpo').style.color = d.hipoInfo.includes("⚠️") ? "#ff073a" : "#4ade80";
-            document.getElementById('r-hpe').style.color = d.hiperInfo.includes("⚠️") ? "#ff073a" : "#4ade80";
-        } catch (e) { document.getElementById('r-lev').innerText = "Error al conectar..."; }
+            document.getElementById('r-hpo').style.color = d.hipoInfo.includes("⚠️") ? "var(--pink)" : "#4ade80";
+            document.getElementById('r-hpe').style.color = d.hiperInfo.includes("⚠️") ? "var(--pink)" : "#4ade80";
+        } catch (e) { document.getElementById('r-lev').innerText = "Error de red"; }
         document.getElementById('loader').style.display = 'none';
     }
 
     function regla(tipo) {
         const u = localStorage.getItem('last_reg');
         if (tipo === 'INICIO' && u) {
-            if (((new Date() - new Date(u)) / 86400000) < 20 && !confirm("¿Registrar inicio de nuevo?")) return;
+            if (((new Date() - new Date(u)) / 86400000) < 20 && !confirm("¿Segura?")) return;
         }
         if (tipo === 'INICIO') localStorage.setItem('last_reg', new Date());
         envS('REGLA', tipo);
@@ -266,7 +275,7 @@
         fetch(URL_APP, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) })
         .then(() => { 
             document.getElementById('loader').style.display = 'none';
-            msg("SELLADO");
+            msg("REGISTRADO");
             setTimeout(() => { volver(); }, 1200); 
         });
     }
