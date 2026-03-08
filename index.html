@@ -3,142 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DT1 Pro - Acceso Seguro</title>
+    <title>DT1 Pro - Registro Rápido</title>
     <style>
         :root {
-            --bg: #f0f2f5;
-            --grad-morado: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --grad-rojo: linear-gradient(135deg, #ff5f6d 0%, #ffc371 100%);
-            --grad-azul: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
-            --grad-verde: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            --white: #ffffff;
-            --text: #2d3436;
+            --grad: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --rojo: #ff5f6d; --naranja: #ff9f43; --azul: #54a0ff; --verde: #10ac84;
         }
 
-        body { 
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg); margin: 0; padding: 20px;
-            display: flex; justify-content: center; color: var(--text);
-        }
+        body { font-family: sans-serif; background: #f0f2f5; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .app-container { width: 100%; max-width: 400px; }
+        
+        /* Bloqueo */
+        #bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--grad); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .login-box { background: rgba(255,255,255,0.2); padding: 30px; border-radius: 30px; backdrop-filter: blur(10px); text-align: center; width: 80%; }
+        .pass-input { width: 100%; padding: 15px; border-radius: 15px; border: none; font-size: 1.2rem; text-align: center; }
 
-        /* Pantalla de Inicio de Sesión */
-        #bloqueo {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--grad-morado);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 1000; color: white; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .login-box {
-            background: rgba(255,255,255,0.15);
-            padding: 30px; border-radius: 25px; backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3); text-align: center; width: 80%; max-width: 300px;
-        }
-
-        .pass-input {
-            width: 100%; background: white; border: none;
-            font-size: 1.1rem; padding: 15px; text-align: center;
-            border-radius: 15px; margin-top: 20px; outline: none;
-            box-sizing: border-box; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .btn-login {
-            background: white; color: #764ba2; border: none;
-            padding: 12px 25px; border-radius: 12px; margin-top: 20px;
-            font-weight: 800; cursor: pointer; width: 100%;
-        }
-
-        /* App Principal */
-        .app-container { width: 100%; max-width: 400px; display: none; }
-        h1 { text-align: center; font-weight: 800; background: var(--grad-morado); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        /* Dashboard */
+        .main-app { display: none; }
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card-btn { background: white; border-radius: 24px; padding: 25px 10px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: 0.3s; cursor: pointer; }
-        .card-btn:active { transform: scale(0.92); }
-        .icon-circle { width: 55px; height: 55px; border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; }
-        .bg-morado { background: var(--grad-morado); }
-        .bg-rojo { background: var(--grad-rojo); }
-        .bg-azul { background: var(--grad-azul); }
-        .bg-verde { background: var(--grad-verde); }
-        .card-btn span { font-weight: 700; font-size: 0.8rem; color: #636e72; text-transform: uppercase; }
+        .card { background: white; border-radius: 25px; padding: 25px; text-align: center; box-shadow: 0 8px 15px rgba(0,0,0,0.05); cursor: pointer; }
+        
+        /* Secciones */
+        .sec { display: none; background: white; padding: 25px; border-radius: 30px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .btn-back { background: #f1f3f5; border: none; padding: 10px 15px; border-radius: 12px; margin-bottom: 15px; cursor: pointer; font-weight: bold; }
 
-        .seccion { display: none; background: white; padding: 25px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        .btn-back { background: #eee; border: none; width: 40px; height: 40px; border-radius: 12px; cursor: pointer; margin-right: 15px; }
-        input, select { width: 100%; padding: 15px; margin-top: 8px; border: 2px solid #f1f3f5; border-radius: 15px; font-size: 1rem; box-sizing: border-box; }
-        .btn-send { width: 100%; border: none; padding: 18px; border-radius: 15px; color: white; font-weight: 800; margin-top: 25px; cursor: pointer; }
-        .purple { background: var(--grad-morado); }
-        .red { background: var(--grad-rojo); }
-        .blue { background: var(--grad-azul); }
-        .green { background: var(--grad-verde); }
-        #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #2d3436; color: white; padding: 12px 25px; border-radius: 50px; display: none; z-index: 100; }
+        /* BOTONES DE GLUCOSA ESPECÍFICOS */
+        .glu-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 10px; }
+        .btn-glu { 
+            padding: 20px; border-radius: 20px; border: none; color: white; 
+            font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: 0.2s;
+        }
+        .btn-glu:active { transform: scale(0.95); }
+        
+        .b-naranja { background: var(--naranja); }
+        .b-azul { background: var(--azul); }
+        .b-otros { background: #576574; }
+
+        #area-otros { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; }
+        input[type="number"] { width: 100%; padding: 15px; border-radius: 15px; border: 2px solid #eee; font-size: 1.2rem; text-align: center; box-sizing: border-box; }
+
+        .btn-send { width: 100%; border: none; padding: 20px; border-radius: 20px; color: white; font-weight: 800; margin-top: 15px; cursor: pointer; }
+        
+        #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #2d3436; color: white; padding: 15px 30px; border-radius: 50px; display: none; z-index: 100; }
     </style>
 </head>
 <body>
 
 <div id="bloqueo">
     <div class="login-box">
-        <h2 style="margin:0">🔒 Acceso Privado</h2>
-        <p style="font-size: 0.9rem; opacity: 0.9">Introduce tu contraseña</p>
-        <input type="password" id="pass" class="pass-input" placeholder="••••••••">
-        <button class="btn-login" onclick="checkPass()">ENTRAR</button>
-        <p id="error" style="color: #ff5f6d; font-size: 0.8rem; margin-top: 10px; display: none;">Contraseña incorrecta</p>
+        <input type="password" id="pass" class="pass-input" placeholder="Contraseña">
+        <button onclick="check()" style="width:100%; margin-top:10px; padding:15px; border-radius:15px; border:none; font-weight:bold;">ENTRAR</button>
     </div>
 </div>
 
-<div class="app-container" id="app">
-    <h1>Diario Pro DT1</h1>
+<div class="app-container main-app" id="app">
+    <h1 style="text-align:center; color:#764ba2">Mi Diario DT1</h1>
+    
     <div id="menu" class="menu-grid">
-        <div class="card-btn" onclick="openSec('sec-regla')"><div class="icon-circle bg-morado">📅</div><span>Ciclo</span></div>
-        <div class="card-btn" onclick="openSec('sec-eventos')"><div class="icon-circle bg-rojo">⚠️</div><span>Alertas</span></div>
-        <div class="card-btn" onclick="openSec('sec-glucosa')"><div class="icon-circle bg-azul">🩸</div><span>Glucosa</span></div>
-        <div class="card-btn" onclick="openSec('sec-media')"><div class="icon-circle bg-verde">📊</div><span>Media</span></div>
+        <div class="card" onclick="show('s-glu')"><i>🩸</i><br><b>GLUCOSA</b></div>
+        <div class="card" onclick="show('s-ale')"><i>⚠️</i><br><b>ALERTA</b></div>
+        <div class="card" onclick="show('s-reg')"><i>📅</i><br><b>REGLA</b></div>
+        <div class="card" onclick="show('s-med')"><i>📊</i><br><b>MEDIA</b></div>
     </div>
 
-    <div id="sec-regla" class="seccion"><button class="btn-back" onclick="goHome()">←</button><h3>Ciclo</h3><label>Inicio</label><input type="date" id="regla_ini"><label>Fin</label><input type="date" id="regla_fin"><button class="btn-send purple" onclick="sendData('REGLA')">Guardar</button></div>
-    <div id="sec-eventos" class="seccion"><button class="btn-back" onclick="goHome()">←</button><h3>Alertas</h3><select id="evento_tipo"><option value="Hipo <60">🔴 Hipoglucemia Grave</option><option value="Hiper >240">🟠 Hiperglucemia (>240)</option></select><button class="btn-send red" onclick="sendData('EVENTOS')">Enviar</button></div>
-    <div id="sec-glucosa" class="seccion"><button class="btn-back" onclick="goHome()">←</button><h3>Glucosa</h3><input type="number" id="glu_val" placeholder="mg/dL"><select id="glu_marca" style="margin-top:10px"><option value="Normal">Normal</option><option value="Ayunas >130">☀️ Ayunas >130</option><option value="Ayunas <80">🌙 Ayunas <80</option></select><button class="btn-send blue" onclick="sendData('GLUCOSA')">Registrar</button></div>
-    <div id="sec-media" class="seccion"><button class="btn-back" onclick="goHome()">←</button><h3>Media</h3><input type="number" id="med_val" placeholder="Semanal"><button class="btn-send green" onclick="sendData('MEDIA')">Subir</button></div>
+    <div id="s-glu" class="sec">
+        <button class="btn-back" onclick="home()">← VOLVER</button>
+        <h2 style="margin-bottom:20px">¿Cómo estás hoy?</h2>
+        
+        <div class="glu-grid">
+            <button class="btn-glu b-naranja" onclick="enviarGlucosa('ALTA')">☀️ AYUNAS > 130</button>
+            <button class="btn-glu b-azul" onclick="enviarGlucosa('BAJA')">🌙 AYUNAS < 80</button>
+            <button class="btn-glu b-otros" onclick="mostrarOtros()">✏️ OTROS (Escribir)</button>
+        </div>
+
+        <div id="area-otros">
+            <input type="number" id="v-otros" placeholder="Escribe valor mg/dL" inputmode="numeric">
+            <button class="btn-send b-otros" onclick="enviarGlucosa('MANUAL')">GUARDAR OTROS</button>
+        </div>
+    </div>
+
+    <div id="s-ale" class="sec"><button class="btn-back" onclick="home()">← VOLVER</button><h2>Alerta</h2><button class="btn-send" style="background:red" onclick="enviarSimple('EVENTOS', 'HIPO')">🚨 HIPO GRAVE</button></div>
+    <div id="s-reg" class="sec"><button class="btn-back" onclick="home()">← VOLVER</button><h2>Ciclo</h2><button class="btn-send" style="background:purple" onclick="enviarSimple('REGLA', 'INICIO')">REGISTRAR HOY</button></div>
+    <div id="s-med" class="sec"><button class="btn-back" onclick="home()">← VOLVER</button><h2>Media</h2><input type="number" id="v-med" placeholder="Media"><button class="btn-send" style="background:green" onclick="enviarSimple('MEDIA', document.getElementById('v-med').value)">SUBIR</button></div>
 </div>
 
-<div id="toast">¡Guardado con éxito! ✨</div>
+<div id="toast">¡Guardado! ✨</div>
 
 <script>
-    // --- CONFIGURACIÓN ---
-    const PASS_CORRECTA = "Idnopiras"; 
-    const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbyzt3huXi9UkJLVgM5SZAwazBuSvhXiuYyMCCtn9PPnzDwGy4tMiKb3MJoEgTAGN8fb/exec";
-    // ---------------------
+    const P_OK = "Idnopiras"; 
+    const URL = "https://script.google.com/macros/s/AKfycbyzt3huXi9UkJLVgM5SZAwazBuSvhXiuYyMCCtn9PPnzDwGy4tMiKb3MJoEgTAGN8fb/exec";
 
-    function checkPass() {
-        const input = document.getElementById('pass').value;
-        const error = document.getElementById('error');
-        if(input === PASS_CORRECTA) {
-            document.getElementById('bloqueo').style.transform = "translateY(-100%)";
-            setTimeout(() => {
-                document.getElementById('bloqueo').style.display = "none";
-                document.getElementById('app').style.display = "block";
-            }, 600);
-        } else {
-            error.style.display = "block";
-            document.getElementById('pass').value = "";
-        }
+    function check() { if(document.getElementById('pass').value === P_OK) { document.getElementById('bloqueo').style.display = "none"; document.getElementById('app').style.display = "block"; } }
+    function show(id) { document.getElementById('menu').style.display = 'none'; document.getElementById(id).style.display = 'block'; }
+    function home() { document.getElementById('menu').style.display = 'grid'; document.querySelectorAll('.sec').forEach(s => s.style.display = 'none'); document.getElementById('area-otros').style.display='none'; }
+    function mostrarOtros() { document.getElementById('area-otros').style.display = 'block'; }
+
+    async function enviarGlucosa(tipo) {
+        const t = document.getElementById('toast');
+        t.style.display = "block"; t.innerText = "Enviando...";
+        
+        let d = { destino: 'GLUCOSA' };
+        
+        // Mapeo según tus columnas de Google Sheet
+        if(tipo === 'ALTA')   { d.marca = "> 130"; d.glucosa = "130"; } 
+        if(tipo === 'BAJA')   { d.marca = "< 80";  d.glucosa = "80"; }
+        if(tipo === 'MANUAL') { d.marca = "OTROS"; d.glucosa = document.getElementById('v-otros').value; }
+
+        try {
+            await fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) });
+            t.innerText = "¡Dato guardado! ✨";
+            setTimeout(() => { t.style.display="none"; home(); }, 1500);
+        } catch(e) { t.innerText = "Error ❌"; }
     }
 
-    // Funciones de navegación y envío (igual que antes)
-    function openSec(id) { document.getElementById('menu').style.display = 'none'; document.querySelectorAll('.seccion').forEach(s => s.style.display = 'none'); document.getElementById(id).style.display = 'block'; }
-    function goHome() { document.getElementById('menu').style.display = 'grid'; document.querySelectorAll('.seccion').forEach(s => s.style.display = 'none'); }
-    async function sendData(destino) {
-        const toast = document.getElementById('toast');
-        const btn = event.target;
-        btn.innerText = "Enviando..."; btn.disabled = true;
-        let datos = { destino: destino };
-        if(destino==='REGLA'){ datos.comienzo=document.getElementById('regla_ini').value; datos.fin=document.getElementById('regla_fin').value; }
-        else if(destino==='EVENTOS'){ datos.evento=document.getElementById('evento_tipo').value; }
-        else if(destino==='GLUCOSA'){ datos.glucosa=document.getElementById('glu_val').value; datos.marca=document.getElementById('glu_marca').value; }
-        else if(destino==='MEDIA'){ datos.valor=document.getElementById('med_val').value; }
+    async function enviarSimple(dest, val) {
+        const t = document.getElementById('toast'); t.style.display = "block";
+        let d = { destino: dest, valor: val };
         try {
-            await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) });
-            toast.style.display = "block";
-            setTimeout(() => { toast.style.display = "none"; goHome(); btn.innerText = "Guardar"; btn.disabled = false; }, 2000);
-        } catch(e) { alert("Error"); btn.innerText = "Error"; btn.disabled = false; }
+            await fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) });
+            t.innerText = "Guardado ✅";
+            setTimeout(() => { t.style.display="none"; home(); }, 1500);
+        } catch(e) { t.innerText = "Error ❌"; }
     }
 </script>
 </body>
