@@ -3,204 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DT1 Elite</title>
+    <title>Mad Hatter's Control</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Montserrat:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Almendra+Display&family=Bungee&family=Quicksand:wght@700&display=swap');
 
         :root {
-            --bg: #050108;
-            --glass: rgba(25, 10, 35, 0.7);
-            --border: rgba(188, 19, 254, 0.2);
-            --accent: #bc13fe; /* Morado Cheshire */
-            --pink: #ff2d55;   /* Rosa Cheshire */
-            --gold: #d4af37;
-            --text: #ffffff;
+            --morado: #9d00ff;
+            --rosa: #ff007f;
+            --cian: #00ffff;
+            --lima: #39ff14;
+            --fondo: #120024;
+            --gradiente: linear-gradient(45deg, #9d00ff, #ff007f);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body { 
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Quicksand', sans-serif;
             margin: 0; padding: 0; min-height: 100vh;
-            color: var(--text);
-            background: var(--bg);
-            /* Fondo de atmósfera profunda */
+            color: white; background: var(--fondo);
+            /* Fondo Fantasía con burbujas de color */
             background-image: 
-                radial-gradient(circle at top right, rgba(188, 19, 254, 0.1), transparent 50%),
-                radial-gradient(circle at bottom left, rgba(255, 45, 85, 0.05), transparent 50%);
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 255, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 127, 0.2) 0%, transparent 40%),
+                url('https://www.transparenttextures.com/patterns/cubes.png');
             background-attachment: fixed;
         }
 
-        /* Pantalla de Carga Luxury */
+        /* Gota Mágica que cambia de color */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); display: none; flex-direction: column;
+            background: rgba(18, 0, 36, 0.95); display: none; flex-direction: column;
             align-items: center; justify-content: center; z-index: 9999;
         }
-        .smile-loader {
-            width: 60px; height: 30px;
-            border: 4px solid var(--accent);
-            border-radius: 0 0 60px 60px;
-            border-top: 0;
-            box-shadow: 0 10px 20px var(--accent);
-            animation: pulse 1s infinite alternate;
+        .gota {
+            width: 40px; height: 40px; border-radius: 0 50% 50% 50%;
+            transform: rotate(45deg);
+            animation: goteoMagico 1s infinite alternate, colorSwap 2s infinite;
+            box-shadow: 0 0 30px currentColor;
         }
-        @keyframes pulse { from { transform: scale(0.9); opacity: 0.5; } to { transform: scale(1.1); opacity: 1; } }
+        @keyframes goteoMagico {
+            0% { transform: translateY(-100px) rotate(45deg) scale(0.8); }
+            100% { transform: translateY(100px) rotate(45deg) scale(1.2); }
+        }
+        @keyframes colorSwap {
+            0% { background: var(--cian); color: var(--cian); }
+            33% { background: var(--rosa); color: var(--rosa); }
+            66% { background: var(--lima); color: var(--lima); }
+            100% { background: var(--cian); color: var(--cian); }
+        }
 
-        .app-container { width: 100%; max-width: 420px; padding: 40px 25px; margin: auto; }
+        .app-container { width: 100%; max-width: 420px; padding: 25px; margin: auto; }
 
-        /* Login con Clase */
+        /* Login Psicodélico */
         #bloqueo {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); display: flex; flex-direction: column; 
+            background: var(--fondo); display: flex; flex-direction: column; 
             align-items: center; justify-content: center; z-index: 8000;
         }
         .pass-input { 
-            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-            color: var(--text); padding: 18px; border-radius: 15px; text-align: center;
-            font-size: 1.5rem; width: 75%; outline: none; font-family: 'Cinzel';
-            letter-spacing: 5px;
+            background: rgba(255,255,255,0.1); border: 4px solid var(--cian);
+            color: var(--lima); padding: 20px; border-radius: 20px; text-align: center;
+            font-size: 2.5rem; width: 80%; outline: none; font-family: 'Bungee';
+            box-shadow: 0 0 20px var(--cian);
         }
 
-        header h1 { 
-            font-family: 'Cinzel', serif; font-size: 2.5rem; text-align: center; margin: 0;
-            background: linear-gradient(to bottom, #fff, var(--accent));
+        h1 { 
+            font-family: 'Almendra Display', serif; font-size: 4rem; text-align: center; 
+            margin: 0; background: linear-gradient(to bottom, var(--cian), var(--rosa));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
+            filter: drop-shadow(0 0 10px rgba(255, 0, 127, 0.5));
         }
-        .date-label { 
-            text-align: center; font-size: 0.7rem; letter-spacing: 3px; 
-            color: var(--gold); text-transform: uppercase; margin-top: 5px; margin-bottom: 40px;
-            font-weight: 600; opacity: 0.8;
+        .sub { 
+            text-align: center; font-family: 'Bungee'; color: var(--lima); 
+            font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 30px;
         }
 
-        /* Grid de Menú Estilo "Glass" */
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        /* Menú "Candy Buttons" */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card { 
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 24px; padding: 35px 15px;
-            text-align: center; cursor: pointer;
-            backdrop-filter: blur(12px);
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            background: linear-gradient(135deg, rgba(157, 0, 255, 0.4), rgba(255, 0, 127, 0.4));
+            border: 3px solid white; border-radius: 30px; padding: 25px 5px;
+            text-align: center; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 10px 0px rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
         }
-        .card:active { transform: scale(0.92); background: rgba(188, 19, 254, 0.1); border-color: var(--accent); }
-        .card i { font-size: 2.2rem; display: block; margin-bottom: 12px; filter: drop-shadow(0 0 10px var(--accent)); }
-        .card b { font-family: 'Cinzel'; font-size: 0.9rem; letter-spacing: 1px; color: var(--text); font-weight: 800; }
+        .card:active { transform: translateY(8px); box-shadow: 0 2px 0px rgba(0,0,0,0.3); }
+        .card i { font-size: 3rem; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 10px white); }
+        .card b { font-family: 'Bungee'; font-size: 1rem; color: white; text-shadow: 2px 2px var(--fondo); }
 
         /* Secciones */
-        .sec { display: none; animation: slideUp 0.5s ease; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .sec { display: none; animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes zoomIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        .btn-atras { color: var(--gold); background: none; border: none; font-family: 'Cinzel'; cursor: pointer; margin-bottom: 30px; font-weight: 800; font-size: 0.9rem; }
+        .btn-atras { 
+            background: var(--lima); color: var(--fondo); border: none; 
+            padding: 8px 20px; font-family: 'Bungee'; border-radius: 10px;
+            cursor: pointer; margin-bottom: 20px; font-size: 0.7rem;
+        }
 
         .btn-box {
-            width: 100%; padding: 25px; border-radius: 20px; border: 1px solid var(--border);
-            color: white; font-size: 1rem; font-family: 'Cinzel'; margin-bottom: 15px;
-            background: rgba(255,255,255,0.02);
-            display: flex; justify-content: space-between; align-items: center;
-            font-weight: 800;
+            width: 100%; padding: 22px; border-radius: 25px; border: 3px solid white;
+            color: white; font-size: 1.2rem; font-family: 'Bungee'; margin-bottom: 15px;
+            background: var(--morado); display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 8px 0px #5e0099;
         }
-        .btn-box:active { background: var(--accent); color: #000; }
-        .btn-box.red { border-left: 6px solid var(--pink); }
+        .btn-box:active { transform: translateY(4px); box-shadow: 0 4px 0px #5e0099; }
+        .btn-box.rojo { background: var(--rosa); box-shadow: 0 8px 0px #b30059; }
 
         .input-v {
-            width: 100%; background: none; border: none; border-bottom: 2px solid var(--border);
-            padding: 15px; color: var(--accent); font-size: 4rem; text-align: center; 
-            font-family: 'Cinzel'; outline: none; margin-bottom: 30px; font-weight: 800;
+            width: 100%; background: white; border: 5px solid var(--cian);
+            padding: 15px; color: var(--morado); font-size: 4rem; text-align: center; 
+            font-family: 'Bungee'; border-radius: 30px; outline: none; margin-bottom: 25px;
         }
 
-        .summary-wrapper {
-            background: rgba(255,255,255,0.03); border-radius: 30px; padding: 25px;
-            border: 1px solid var(--border); box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        /* Resumen de Fantasía */
+        .res-container {
+            background: rgba(255,255,255,0.1); border-radius: 40px; padding: 25px;
+            border: 4px solid var(--lima);
         }
-        .summary-item { margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
-        .summary-item:last-child { border: none; }
-        .summary-item label { font-family: 'Cinzel'; font-size: 0.65rem; color: var(--gold); letter-spacing: 2px; display: block; margin-bottom: 8px; }
-        .summary-item div { font-size: 1.2rem; font-weight: 400; }
+        .res-item { margin-bottom: 25px; text-align: center; }
+        .res-item label { font-family: 'Bungee'; color: var(--cian); font-size: 0.8rem; display: block; margin-bottom: 5px; }
+        .res-item span { font-size: 2rem; font-family: 'Almendra Display'; color: white; }
 
         #notif { 
-            position: fixed; top: 40px; left: 50%; transform: translateX(-50%);
-            background: var(--accent); color: #000; padding: 12px 30px;
-            border-radius: 40px; font-weight: 800; font-family: 'Cinzel'; z-index: 9999; display: none;
-            box-shadow: 0 0 30px var(--accent);
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background: var(--lima); color: var(--fondo); padding: 15px 40px;
+            border-radius: 50px; font-family: 'Bungee'; z-index: 10000; display: none;
+            box-shadow: 0 0 30px var(--lima);
         }
     </style>
 </head>
 <body>
 
-<div id="loader"><div class="smile-loader"></div></div>
-<div id="notif">CONFIRMADO</div>
+<div id="loader"><div class="gota"></div><h2 style="font-family:'Bungee'; color:white; margin-top:20px">VIAJANDO...</h2></div>
+<div id="notif">¡CONSEGUIDO!</div>
 
 <div id="bloqueo">
-    <header><h1>CHESHIRE</h1></header>
-    <div class="date-label">Elite Health System</div>
-    <input type="password" id="pass" class="pass-input" placeholder="••••">
-    <p style="color:var(--accent); margin-top:40px; font-family:'Cinzel'; font-size:0.8rem; cursor:pointer;" onclick="acceder()">Entrar al Sistema</p>
+    <h1>Wonderland</h1>
+    <div class="sub">DIARIO MÁGICO DE SANGRE</div>
+    <input type="password" id="pass" class="pass-input" placeholder="????">
+    <button onclick="acceder()" style="margin-top:30px; background:white; color:var(--morado); border:none; padding:15px 40px; font-family:'Bungee'; border-radius:20px; box-shadow: 0 10px 0 var(--cian)">ENTRAR</button>
 </div>
 
 <div class="app-container" id="app" style="display:none">
-    <header>
-        <h1>MI DIARIO</h1>
-        <div class="date-label" id="txt-fecha"></div>
-    </header>
+    <h1>Mi Diario</h1>
+    <div class="sub" id="txt-fecha"></div>
     
     <div id="menu" class="menu-grid">
-        <div class="card" onclick="ir('s-glu')"><i>🩸</i><b>GLUCOSA</b></div>
-        <div class="card" onclick="ir('s-ale')"><i>⚠️</i><b>ALERTAS</b></div>
-        <div class="card" onclick="ir('s-reg')"><i>💧</i><b>CICLO</b></div>
-        <div class="card" onclick="ir('s-med')"><i>📊</i><b>MEDIA</b></div>
-        <div class="card" onclick="cargarResumen()" style="grid-column: span 2; border: 1px solid var(--accent); background: rgba(188,19,254,0.05)">
-            <i>📋</i><b>RESUMEN DEL DÍA</b>
+        <div class="card" onclick="ir('s-glu')"><i>🍬</i><b>GLUCOSA</b></div>
+        <div class="card" onclick="ir('s-ale')"><i>🍄</i><b>ALERTAS</b></div>
+        <div class="card" onclick="ir('s-reg')"><i>🎀</i><b>CICLO</b></div>
+        <div class="card" onclick="ir('s-med')"><i>🍭</i><b>MEDIA</b></div>
+        <div class="card" onclick="cargarResumen()" style="grid-column: span 2; background: var(--lima); border-color: var(--fondo);">
+            <i style="filter: none;">✨</i><b style="color:var(--fondo); text-shadow: none;">RESUMEN DEL DÍA</b>
         </div>
     </div>
 
     <div id="s-glu" class="sec">
-        <button class="btn-atras" onclick="volver()">← VOLVER</button>
+        <button class="btn-atras" onclick="volver()">← ATRÁS</button>
         <button class="btn-box" onclick="envG('ALTA')">AYUNAS > 130 <span>▲</span></button>
-        <button class="btn-box red" onclick="envG('BAJA')">AYUNAS < 80 <span>▼</span></button>
+        <button class="btn-box rojo" onclick="envG('BAJA')">AYUNAS < 80 <span>▼</span></button>
         <input type="number" id="v-m" class="input-v" placeholder="000" inputmode="numeric">
-        <button class="btn-box" onclick="envG('MANUAL')" style="justify-content:center; border: 1px solid var(--accent);">GUARDAR VALOR</button>
+        <button class="btn-box" onclick="envG('MANUAL')" style="justify-content:center; background: var(--cian); color: var(--fondo);">GUARDAR</button>
     </div>
 
     <div id="s-ale" class="sec">
-        <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <button class="btn-box red" onclick="envS('EVENTOS', 'HIPO ↓')">HIPOGLUCEMIA</button>
-        <button class="btn-box" onclick="envS('EVENTOS', 'HIPER ↑')">HIPERGLUCEMIA</button>
+        <button class="btn-atras" onclick="volver()">← ATRÁS</button>
+        <button class="btn-box rojo" onclick="envS('EVENTOS', 'HIPO ↓')">HIPO!</button>
+        <button class="btn-box" onclick="envS('EVENTOS', 'HIPER ↑')">HIPER!</button>
     </div>
 
     <div id="s-reg" class="sec">
-        <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <button class="btn-box" onclick="regla('INICIO')">INICIAR CICLO</button>
-        <button class="btn-box red" onclick="regla('FIN')">TERMINAR CICLO</button>
+        <button class="btn-atras" onclick="volver()">← ATRÁS</button>
+        <button class="btn-box" onclick="regla('INICIO')">EMPIEZA</button>
+        <button class="btn-box rojo" onclick="regla('FIN')">TERMINA</button>
     </div>
 
     <div id="s-med" class="sec">
-        <button class="btn-atras" onclick="volver()">← VOLVER</button>
+        <button class="btn-atras" onclick="volver()">← ATRÁS</button>
         <input type="number" id="v-med" class="input-v" placeholder="000" oninput="calcA1c()">
-        <div id="c-a1c" style="display:none; text-align:center; padding:25px; background:var(--glass); border-radius:20px; border:1px solid var(--gold); margin-bottom:30px;">
-            <div id="v-a1c" style="font-size:4rem; font-family:'Cinzel'; color:var(--accent)">0.0%</div>
-            <div style="font-family:'Cinzel'; font-size:0.7rem; color:var(--gold); letter-spacing:3px;">A1C ESTIMADA</div>
+        <div id="c-a1c" style="display:none; text-align:center; padding:20px; border: 5px dashed var(--rosa); border-radius:30px; margin-bottom:20px;">
+            <div id="v-a1c" style="font-size:4rem; font-family:'Bungee'; color:var(--lima)">0.0%</div>
+            <div style="font-family:'Quicksand'; font-size:1rem; color:white">A1C MÁGICA</div>
         </div>
-        <button class="btn-box" onclick="envS('MEDIA', document.getElementById('v-med').value)" style="justify-content:center; border:1px solid var(--accent)">ENVIAR MEDIA</button>
+        <button class="btn-box" onclick="envS('MEDIA', document.getElementById('v-med').value)" style="justify-content:center">SUBIR</button>
     </div>
 
     <div id="s-res" class="sec">
-        <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <div class="summary-wrapper">
-            <div class="summary-item">
-                <label>Glucosa al despertar</label>
-                <div id="r-lev" style="font-family:'Cinzel'; font-weight:800; color:var(--accent)">...</div>
+        <button class="btn-atras" onclick="volver()">← ATRÁS</button>
+        <div class="res-container">
+            <div class="res-item">
+                <label>AL DESPERTAR</label>
+                <span id="r-lev">...</span>
             </div>
-            <div class="summary-item">
-                <label>Promedio Semanal</label>
-                <div id="r-med" style="color:var(--text)">...</div>
+            <div class="res-item">
+                <label>PROMEDIO SEMANAL</label>
+                <span id="r-med" style="color:var(--lima)">...</span>
             </div>
-            <div class="summary-item">
-                <label>Alertas del día</label>
-                <div id="r-hpo">...</div>
-                <div id="r-hpe" style="margin-top:8px">...</div>
+            <div class="res-item">
+                <label>ALERTAS</label>
+                <div id="r-hpo" style="font-size:1.2rem; font-weight: bold;">...</div>
+                <div id="r-hpe" style="font-size:1.2rem; font-weight: bold; margin-top:10px">...</div>
             </div>
         </div>
     </div>
@@ -218,7 +222,6 @@
             document.getElementById('app').style.display = "block"; 
         } 
     }
-    document.getElementById('pass').addEventListener('keypress', (e) => { if(e.key==='Enter') acceder(); });
 
     function ir(id) { document.getElementById('menu').style.display = 'none'; document.getElementById(id).style.display = 'block'; }
     function volver() { document.getElementById('menu').style.display = 'grid'; document.querySelectorAll('.sec').forEach(s => s.style.display = 'none'); }
@@ -231,7 +234,6 @@
             c.style.display = 'block';
             const a = (parseFloat(m) + 46.7) / 28.7;
             v.innerText = a.toFixed(1) + "%";
-            v.style.color = a > 8 ? "var(--pink)" : "var(--accent)";
         } else { c.style.display = 'none'; }
     }
 
@@ -245,18 +247,14 @@
             document.getElementById('r-med').innerText = d.mediaInfo;
             document.getElementById('r-hpo').innerText = d.hipoInfo;
             document.getElementById('r-hpe').innerText = d.hiperInfo;
-            document.getElementById('r-hpo').style.color = d.hipoInfo.includes("⚠️") ? "var(--pink)" : "#4ade80";
-            document.getElementById('r-hpe').style.color = d.hiperInfo.includes("⚠️") ? "var(--pink)" : "#4ade80";
-        } catch (e) { document.getElementById('r-lev').innerText = "Error de red"; }
+            document.getElementById('r-hpo').style.color = d.hipoInfo.includes("⚠️") ? "var(--rosa)" : "var(--lima)";
+            document.getElementById('r-hpe').style.color = d.hiperInfo.includes("⚠️") ? "var(--rosa)" : "var(--lima)";
+        } catch (e) { document.getElementById('r-lev').innerText = "ERROR MÁGICO"; }
         document.getElementById('loader').style.display = 'none';
     }
 
     function regla(tipo) {
-        const u = localStorage.getItem('last_reg');
-        if (tipo === 'INICIO' && u) {
-            if (((new Date() - new Date(u)) / 86400000) < 20 && !confirm("¿Segura?")) return;
-        }
-        if (tipo === 'INICIO') localStorage.setItem('last_reg', new Date());
+        if (tipo === 'INICIO' && !confirm("¿Empieza la magia?")) return;
         envS('REGLA', tipo);
     }
 
@@ -275,7 +273,7 @@
         fetch(URL_APP, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) })
         .then(() => { 
             document.getElementById('loader').style.display = 'none';
-            msg("REGISTRADO");
+            msg("¡SANGRE REGISTRADA!");
             setTimeout(() => { volver(); }, 1200); 
         });
     }
