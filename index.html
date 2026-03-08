@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DT1 Elite Control</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
 
         :root {
             --fondo: #000000;
-            --tarjeta: #111111;
+            --tarjeta: #0a0a0a;
             --acento: #bc13fe;
             --azul: #00d4ff;
             --rojo: #ff3b30;
             --texto: #ffffff;
             --borde: rgba(255,255,255,0.08);
-            --sh: 0 20px 40px rgba(0,0,0,0.4);
         }
 
         body { 
@@ -33,82 +32,80 @@
             background: var(--fondo); display: flex; flex-direction: column; 
             align-items: center; justify-content: center; z-index: 3000;
         }
-        .lock-icon { font-size: 3rem; margin-bottom: 20px; opacity: 0.8; }
         .pass-input { 
-            background: #0a0a0a; border: 1px solid var(--borde);
+            background: #0d0d0d; border: 1px solid var(--borde);
             color: white; padding: 20px; border-radius: 20px; text-align: center;
             font-size: 1.8rem; width: 70%; outline: none; transition: 0.3s;
         }
-        .pass-input:focus { border-color: var(--acento); }
 
-        /* Dashboard */
-        .main-app { display: none; }
+        /* Cabecera */
         header { margin-bottom: 40px; }
         header h1 { font-size: 2.8rem; font-weight: 700; margin: 0; letter-spacing: -1.5px; }
-        header p { color: #666; margin: 5px 0 0; font-size: 1.1rem; }
+        header p { color: #555; margin: 5px 0 0; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; }
 
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        /* Grid de Menú */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card { 
-            background: var(--tarjeta); border-radius: 35px; padding: 35px 20px;
+            background: var(--tarjeta); border-radius: 30px; padding: 30px 15px;
             text-align: center; cursor: pointer; border: 1px solid var(--borde);
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); box-shadow: var(--sh);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .card:active { transform: scale(0.92); background: #1a1a1a; }
-        .card i { font-size: 2.4rem; display: block; margin-bottom: 12px; }
-        .card b { font-size: 0.9rem; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
+        .card:active { transform: scale(0.94); background: #111; }
+        .card i { font-size: 2.2rem; display: block; margin-bottom: 10px; }
+        .card b { font-size: 0.85rem; color: #fff; text-transform: uppercase; letter-spacing: 1.5px; }
 
         /* Secciones */
-        .sec { display: none; animation: slideUp 0.6s ease; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .sec { display: none; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .btn-atras { color: #555; background: none; border: none; font-size: 1rem; cursor: pointer; margin-bottom: 30px; display: flex; align-items: center; gap: 8px; }
+        .btn-atras { color: #666; background: none; border: none; font-size: 1rem; cursor: pointer; margin-bottom: 30px; font-weight: 600; }
         
-        /* Botones de Acción Elegantes */
+        /* Botones de Acción Premium */
         .btn-box {
-            width: 100%; padding: 28px; border-radius: 30px; border: 1px solid var(--borde);
+            width: 100%; padding: 26px; border-radius: 25px; border: 1px solid var(--borde);
             color: white; font-size: 1.1rem; font-weight: 600; margin-bottom: 15px;
             cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            background: #0a0a0a; transition: 0.3s;
+            background: #050505; transition: 0.2s;
         }
-        .btn-box:active { background: #1a1a1a; border-color: #444; }
+        .btn-box:active { background: #111; }
         .accent-text { color: var(--acento); border-color: rgba(188, 19, 254, 0.2); }
         .blue-text { color: var(--azul); border-color: rgba(0, 212, 255, 0.2); }
         .red-text { color: var(--rojo); border-color: rgba(255, 59, 48, 0.2); }
 
-        /* Input de Datos */
+        /* Inputs de datos */
         .input-grande {
-            width: 100%; background: transparent; border: none; border-bottom: 2px solid #222;
+            width: 100%; background: transparent; border: none; border-bottom: 2px solid #1a1a1a;
             padding: 20px 0; color: white; font-size: 3.5rem; text-align: center; 
             margin-bottom: 30px; font-weight: 300; outline: none;
         }
 
-        /* Caja de A1c Estimado */
-        .a1c-display {
-            background: rgba(255,255,255,0.03); border-radius: 30px; padding: 30px;
-            text-align: center; margin-bottom: 30px; border: 1px solid var(--borde);
+        /* Tarjetas de Resumen y A1c */
+        .luxury-card {
+            background: rgba(255,255,255,0.02); border-radius: 30px; padding: 25px;
+            margin-bottom: 15px; border: 1px solid var(--borde);
         }
-        .a1c-num { font-size: 4rem; font-weight: 700; color: var(--azul); line-height: 1; }
-        .a1c-label { font-size: 0.9rem; color: #555; text-transform: uppercase; letter-spacing: 2px; margin-top: 10px; }
+        .a1c-num { font-size: 4rem; font-weight: 700; color: var(--azul); text-align: center; }
+        .label-mini { font-size: 0.75rem; color: #555; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 8px; }
 
         #notificacion { 
             position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
-            background: #fff; color: #000; padding: 18px 45px; border-radius: 100px;
-            font-weight: 700; font-size: 0.9rem; display: none; box-shadow: 0 20px 50px rgba(0,0,0,0.5); z-index: 4000;
+            background: #fff; color: #000; padding: 15px 40px; border-radius: 100px;
+            font-weight: 700; font-size: 0.9rem; display: none; z-index: 4000;
         }
     </style>
 </head>
 <body>
 
 <div id="bloqueo">
-    <div class="lock-icon">🔒</div>
-    <input type="password" id="pass" class="pass-input" placeholder="Clave de acceso">
-    <button onclick="acceder()" style="margin-top:30px; background:none; border:none; color:#444; cursor:pointer; font-size: 1rem;">DESBLOQUEAR SISTEMA</button>
+    <div style="font-size: 3rem; margin-bottom: 20px;">🔒</div>
+    <input type="password" id="pass" class="pass-input" placeholder="ACCESO">
+    <button onclick="acceder()" style="margin-top:20px; background:none; border:none; color:#444; cursor:pointer; font-weight:600;">ENTRAR AL SISTEMA</button>
 </div>
 
 <div class="app-container main-app" id="app">
     <header>
-        <p id="fecha-hoy"></p>
-        <h1>Mi Control.</h1>
+        <p id="txt-fecha"></p>
+        <h1>Mi Diario.</h1>
     </header>
     
     <div id="menu" class="menu-grid">
@@ -116,101 +113,138 @@
         <div class="card" onclick="ir('s-ale')"><i>⚠️</i><b>Alertas</b></div>
         <div class="card" onclick="ir('s-reg')"><i>💧</i><b>Ciclo</b></div>
         <div class="card" onclick="ir('s-med')"><i>📊</i><b>Media</b></div>
+        <div class="card" onclick="cargarResumen()" style="grid-column: span 2; border-color: var(--acento); margin-top: 10px;">
+            <i style="margin-bottom: 5px;">✨</i><b>Resumen del Día</b>
+        </div>
     </div>
 
     <div id="s-glu" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <button class="btn-box accent-text" onclick="enviarG('ALTA')">Ayunando > 130 <span>▲</span></button>
-        <button class="btn-box blue-text" onclick="enviarG('BAJA')">Ayunando < 80 <span>▼</span></button>
-        <button class="btn-box" style="color:#444; border:none; justify-content:center" onclick="mostrarInput()">Uso de valor manual</button>
-        <div id="manual" style="display:none">
+        <button class="btn-box accent-text" onclick="envG('ALTA')">Ayunando > 130 <span>▲</span></button>
+        <button class="btn-box blue-text" onclick="envG('BAJA')">Ayunando < 80 <span>▼</span></button>
+        <button class="btn-box" style="color:#444; border:none; justify-content:center" onclick="document.getElementById('m-in').style.display='block'">Valor Manual</button>
+        <div id="m-in" style="display:none">
             <input type="number" id="v-m" class="input-grande" placeholder="000" inputmode="numeric">
-            <button class="btn-box accent-text" onclick="enviarG('MANUAL')" style="justify-content:center">GUARDAR REGISTRO</button>
+            <button class="btn-box accent-text" onclick="envG('MANUAL')" style="justify-content:center">GUARDAR REGISTRO</button>
         </div>
     </div>
 
     <div id="s-ale" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <button class="btn-box red-text" onclick="enviarS('EVENTOS', 'HIPOGLUCEMIA ↓')">HIPOGLUCEMIA ↓</button>
-        <button class="btn-box accent-text" onclick="enviarS('EVENTOS', 'HIPERGLUCEMIA ↑')">HIPERGLUCEMIA ↑</button>
+        <button class="btn-box red-text" onclick="envS('EVENTOS', 'HIPO ↓')">HIPOGLUCEMIA ↓</button>
+        <button class="btn-box accent-text" onclick="envS('EVENTOS', 'HIPER ↑')">HIPERGLUCEMIA ↑</button>
     </div>
 
     <div id="s-reg" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <button class="btn-box accent-text" onclick="regla('INICIO')">INICIO DEL CICLO <span>○</span></button>
-        <button class="btn-box red-text" onclick="regla('FIN')">FIN DEL CICLO <span>●</span></button>
+        <button class="btn-box accent-text" onclick="regla('INICIO')">INICIAR CICLO <span>○</span></button>
+        <button class="btn-box red-text" onclick="regla('FIN')">FINALIZAR CICLO <span>●</span></button>
     </div>
 
     <div id="s-med" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <input type="number" id="v-med" class="input-grande" placeholder="000" oninput="calcA()">
-        <div id="a1c-card" class="a1c-display" style="display:none">
-            <div id="a1c-val" class="a1c-num">0.0</div>
-            <div class="a1c-label">A1c Estimada</div>
+        <input type="number" id="v-med" class="input-grande" placeholder="000" oninput="calcA1c()" inputmode="numeric">
+        <div id="card-a1c" class="luxury-card" style="display:none">
+            <div class="a1c-num" id="val-a1c">0.0%</div>
+            <div style="text-align:center; color:#555; font-size:0.9rem; letter-spacing:2px; margin-top:10px;">A1c ESTIMADA</div>
         </div>
-        
-        <button class="btn-box blue-text" onclick="enviarS('MEDIA', document.getElementById('v-med').value)" style="justify-content:center">SINCRONIZAR MEDIA</button>
+        <button class="btn-box blue-text" onclick="envS('MEDIA', document.getElementById('v-med').value)" style="justify-content:center">SINCRONIZAR MEDIA</button>
+    </div>
+
+    <div id="s-res" class="sec">
+        <button class="btn-atras" onclick="volver()">← VOLVER</button>
+        <div class="luxury-card">
+            <span class="label-mini">Última Glucosa</span>
+            <div id="res-glu" style="font-size:2rem; font-weight:700; color:var(--acento);">...</div>
+        </div>
+        <div class="luxury-card">
+            <span class="label-mini">Estado Ciclo</span>
+            <div id="res-reg" style="font-size:1.6rem; font-weight:600; color:var(--azul);">...</div>
+        </div>
     </div>
 </div>
 
-<div id="notificacion">GUARDANDO...</div>
+<div id="notificacion">...</div>
 
 <script>
-    const CLAVE = "Idnopiras"; 
-    const URL_APP = "https://script.google.com/macros/s/AKfycbzdYhjgVmixnrpw0nBCOTTGRPob5J2oU9unnz5VjaKhDrZz_F-qOl6vTZsZZQnzqtNm/exec";
+    const PASS_CORRECTA = "Idnopiras"; 
+    const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbzdYhjgVmixnrpw0nBCOTTGRPob5J2oU9unnz5VjaKhDrZz_F-qOl6vTZsZZQnzqtNm/exec";
 
-    // Fecha en el header
-    const opciones = { day: 'numeric', month: 'long' };
-    document.getElementById('fecha-hoy').innerText = new Date().toLocaleDateString('es-ES', opciones).toUpperCase();
+    // Poner fecha de hoy
+    document.getElementById('txt-fecha').innerText = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long' }).toUpperCase();
 
-    function acceder() { if(document.getElementById('pass').value === CLAVE) { document.getElementById('bloqueo').style.display = "none"; document.getElementById('app').style.display = "block"; } }
+    function acceder() { 
+        if(document.getElementById('pass').value === PASS_CORRECTA) { 
+            document.getElementById('bloqueo').style.display = "none"; 
+            document.getElementById('app').style.display = "block"; 
+        } 
+    }
+
     function ir(id) { document.getElementById('menu').style.display = 'none'; document.getElementById(id).style.display = 'block'; }
-    function volver() { document.getElementById('menu').style.display = 'grid'; document.querySelectorAll('.sec').forEach(s => s.style.display = 'none'); document.getElementById('manual').style.display='none'; }
-    function mostrarInput() { document.getElementById('manual').style.display='block'; }
+    function volver() { document.getElementById('menu').style.display = 'grid'; document.querySelectorAll('.sec').forEach(s => s.style.display = 'none'); document.getElementById('m-in').style.display='none'; }
 
-    function calcA() {
+    function calcA1c() {
         const m = document.getElementById('v-med').value;
-        const c = document.getElementById('a1c-card');
-        const v = document.getElementById('a1c-val');
-        if (m > 60) {
+        const c = document.getElementById('card-a1c');
+        const v = document.getElementById('val-a1c');
+        if (m > 50) {
             c.style.display = 'block';
             const a = (parseFloat(m) + 46.7) / 28.7;
             v.innerText = a.toFixed(1) + "%";
-            v.style.color = a > 7.5 ? "var(--rojo)" : "var(--azul)";
+            v.style.color = a > 8 ? "var(--rojo)" : (a > 7 ? "orange" : "var(--azul)");
         } else { c.style.display = 'none'; }
+    }
+
+    async function cargarResumen() {
+        ir('s-res');
+        document.getElementById('res-glu').innerText = "Cargando...";
+        try {
+            const resp = await fetch(URL_SCRIPT);
+            const data = await resp.json();
+            document.getElementById('res-glu').innerText = data.ultimaGlucosa;
+            document.getElementById('res-reg').innerText = data.estadoCiclo;
+        } catch (e) {
+            document.getElementById('res-glu').innerText = "Error de red";
+        }
     }
 
     function regla(tipo) {
         const u = localStorage.getItem('last_r');
         if (tipo === 'INICIO' && u) {
-            const d = (new Date() - new Date(u)) / 86400000;
-            if (d < 20 && !confirm("¿Registrar inicio de nuevo tan pronto?")) return;
+            const dias = (new Date() - new Date(u)) / 86400000;
+            if (dias < 20 && !confirm("¿Registrar inicio tan pronto?")) return;
         }
         if (tipo === 'INICIO') localStorage.setItem('last_r', new Date());
-        enviarS('REGLA', tipo);
+        envS('REGLA', tipo);
     }
 
-    async function enviarG(tipo) {
-        msg("REGISTRANDO...");
+    async function envG(tipo) {
+        msg("GUARDANDO...");
         let d = { destino: 'GLUCOSA' };
         if(tipo==='ALTA'){ d.alta="X"; d.glucosa=">130"; } 
-        if(tipo==='BAJA'){ d.baja="X"; d.glucosa="<80"; }
-        if(tipo==='MANUAL'){ d.otros=document.getElementById('v-m').value; d.glucosa="MANUAL"; }
+        else if(tipo==='BAJA'){ d.baja="X"; d.glucosa="<80"; }
+        else if(tipo==='MANUAL'){ d.otros=document.getElementById('v-m').value; d.glucosa="MANUAL"; }
         post(d);
     }
 
-    async function enviarS(dest, val) {
+    async function envS(dest, val) {
         if(!val) return;
         msg("SINCRONIZANDO...");
         post({ destino: dest, valor: val });
     }
 
     function post(d) {
-        fetch(URL_APP, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) })
-        .then(() => { msg("HECHO ✨"); setTimeout(()=>{ document.getElementById('notificacion').style.display="none"; volver(); }, 1500); });
+        fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) })
+        .then(() => { 
+            msg("REGISTRADO ✨"); 
+            setTimeout(() => { document.getElementById('notificacion').style.display="none"; volver(); }, 1500); 
+        });
     }
 
-    function msg(texto) { const n = document.getElementById('notificacion'); n.style.display="block"; n.innerText=texto; }
+    function msg(t) { 
+        const n = document.getElementById('notificacion'); 
+        n.style.display = "block"; n.innerText = t; 
+    }
 </script>
 </body>
 </html>
