@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mad Hatter's Control</title>
+    <title>Cheshire Elite Control</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Almendra+Display&family=Bungee&family=Quicksand:wght@700&display=swap');
 
@@ -12,8 +12,8 @@
             --rosa: #ff007f;
             --cian: #00ffff;
             --lima: #39ff14;
-            --fondo: #120024;
-            --gradiente: linear-gradient(45deg, #9d00ff, #ff007f);
+            --fondo: #0f001e;
+            --glass: rgba(255, 255, 255, 0.1);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -22,128 +22,104 @@
             font-family: 'Quicksand', sans-serif;
             margin: 0; padding: 0; min-height: 100vh;
             color: white; background: var(--fondo);
-            /* Fondo Fantasía con burbujas de color */
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 255, 255, 0.2) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(255, 0, 127, 0.2) 0%, transparent 40%),
-                url('https://www.transparenttextures.com/patterns/cubes.png');
+                radial-gradient(circle at 50% 0%, rgba(157, 0, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 50% 100%, rgba(0, 255, 255, 0.2) 0%, transparent 50%);
             background-attachment: fixed;
         }
 
-        /* Gota Mágica que cambia de color */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(18, 0, 36, 0.95); display: none; flex-direction: column;
-            align-items: center; justify-content: center; z-index: 9999;
+            background: rgba(15, 0, 30, 0.9); display: none; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(10px);
         }
         .gota {
-            width: 40px; height: 40px; border-radius: 0 50% 50% 50%;
-            transform: rotate(45deg);
-            animation: goteoMagico 1s infinite alternate, colorSwap 2s infinite;
-            box-shadow: 0 0 30px currentColor;
+            width: 40px; height: 40px; border-radius: 0 50% 50% 50%; transform: rotate(45deg);
+            background: var(--cian); box-shadow: 0 0 30px var(--cian);
+            animation: goteo 0.8s infinite alternate;
         }
-        @keyframes goteoMagico {
-            0% { transform: translateY(-100px) rotate(45deg) scale(0.8); }
-            100% { transform: translateY(100px) rotate(45deg) scale(1.2); }
-        }
-        @keyframes colorSwap {
-            0% { background: var(--cian); color: var(--cian); }
-            33% { background: var(--rosa); color: var(--rosa); }
-            66% { background: var(--lima); color: var(--lima); }
-            100% { background: var(--cian); color: var(--cian); }
-        }
+        @keyframes goteo { from { transform: translateY(-50px) rotate(45deg); } to { transform: translateY(50px) rotate(45deg); } }
 
         .app-container { width: 100%; max-width: 420px; padding: 25px; margin: auto; }
 
-        /* Login Psicodélico */
         #bloqueo {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--fondo); display: flex; flex-direction: column; 
             align-items: center; justify-content: center; z-index: 8000;
         }
         .pass-input { 
-            background: rgba(255,255,255,0.1); border: 4px solid var(--cian);
-            color: var(--lima); padding: 20px; border-radius: 20px; text-align: center;
+            background: var(--glass); border: 4px solid var(--rosa);
+            color: white; padding: 20px; border-radius: 20px; text-align: center;
             font-size: 2.5rem; width: 80%; outline: none; font-family: 'Bungee';
-            box-shadow: 0 0 20px var(--cian);
         }
 
         h1 { 
-            font-family: 'Almendra Display', serif; font-size: 4rem; text-align: center; 
-            margin: 0; background: linear-gradient(to bottom, var(--cian), var(--rosa));
+            font-family: 'Almendra Display', serif; font-size: 3.5rem; text-align: center; 
+            margin: 0; background: linear-gradient(to right, var(--cian), var(--rosa));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(255, 0, 127, 0.5));
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
         }
-        .sub { 
-            text-align: center; font-family: 'Bungee'; color: var(--lima); 
-            font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 30px;
-        }
+        .sub { text-align: center; font-family: 'Bungee'; color: var(--cian); font-size: 0.8rem; margin-bottom: 30px; }
 
-        /* Menú "Candy Buttons" */
+        /* Menú Principal */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card { 
-            background: linear-gradient(135deg, rgba(157, 0, 255, 0.4), rgba(255, 0, 127, 0.4));
-            border: 3px solid white; border-radius: 30px; padding: 25px 5px;
-            text-align: center; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 10px 0px rgba(0,0,0,0.3);
-            backdrop-filter: blur(5px);
+            background: linear-gradient(135deg, rgba(157, 0, 255, 0.3), rgba(255, 0, 127, 0.3));
+            border: 2px solid rgba(255,255,255,0.2); border-radius: 25px; padding: 25px 5px;
+            text-align: center; cursor: pointer; transition: 0.2s; backdrop-filter: blur(5px);
         }
-        .card:active { transform: translateY(8px); box-shadow: 0 2px 0px rgba(0,0,0,0.3); }
-        .card i { font-size: 3rem; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 10px white); }
-        .card b { font-family: 'Bungee'; font-size: 1rem; color: white; text-shadow: 2px 2px var(--fondo); }
+        .card:active { transform: scale(0.9); background: var(--rosa); }
+        .card i { font-size: 2.8rem; display: block; margin-bottom: 10px; }
+        .card b { font-family: 'Bungee'; font-size: 1rem; color: white; }
 
-        /* Secciones */
-        .sec { display: none; animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes zoomIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        .btn-atras { 
-            background: var(--lima); color: var(--fondo); border: none; 
-            padding: 8px 20px; font-family: 'Bungee'; border-radius: 10px;
-            cursor: pointer; margin-bottom: 20px; font-size: 0.7rem;
+        /* EL BOTÓN DE RESUMEN (Ya no es verde horroroso) */
+        .btn-resumen-lujo {
+            grid-column: span 2; background: linear-gradient(to right, #6a11cb, #2575fc);
+            border: 3px solid var(--cian) !important; box-shadow: 0 0 15px var(--cian);
         }
+
+        .sec { display: none; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .btn-atras { background: none; border: 2px solid var(--cian); color: var(--cian); padding: 8px 15px; font-family: 'Bungee'; border-radius: 10px; margin-bottom: 20px; }
 
         .btn-box {
-            width: 100%; padding: 22px; border-radius: 25px; border: 3px solid white;
+            width: 100%; padding: 25px; border-radius: 20px; border: none;
             color: white; font-size: 1.2rem; font-family: 'Bungee'; margin-bottom: 15px;
-            background: var(--morado); display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 8px 0px #5e0099;
+            background: var(--morado); box-shadow: 0 8px 0 #5e0099;
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .btn-box:active { transform: translateY(4px); box-shadow: 0 4px 0px #5e0099; }
-        .btn-box.rojo { background: var(--rosa); box-shadow: 0 8px 0px #b30059; }
+        .btn-box:active { transform: translateY(4px); box-shadow: 0 4px 0 #5e0099; }
+        .btn-box.rojo { background: var(--rosa); box-shadow: 0 8px 0 #b30059; }
+        .btn-box.otros { background: var(--cian); color: var(--fondo); box-shadow: 0 8px 0 #009999; }
 
-        .input-v {
-            width: 100%; background: white; border: 5px solid var(--cian);
-            padding: 15px; color: var(--morado); font-size: 4rem; text-align: center; 
-            font-family: 'Bungee'; border-radius: 30px; outline: none; margin-bottom: 25px;
+        /* RESUMEN MEJORADO */
+        .resumen-v2 {
+            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.1) 100%);
+            border-radius: 35px; padding: 30px; border: 2px solid var(--rosa);
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.3);
         }
-
-        /* Resumen de Fantasía */
-        .res-container {
-            background: rgba(255,255,255,0.1); border-radius: 40px; padding: 25px;
-            border: 4px solid var(--lima);
-        }
-        .res-item { margin-bottom: 25px; text-align: center; }
-        .res-item label { font-family: 'Bungee'; color: var(--cian); font-size: 0.8rem; display: block; margin-bottom: 5px; }
-        .res-item span { font-size: 2rem; font-family: 'Almendra Display'; color: white; }
+        .res-row { margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+        .res-row:last-child { border: none; }
+        .res-label { font-family: 'Bungee'; color: var(--cian); font-size: 0.7rem; letter-spacing: 1px; display: block; margin-bottom: 5px; }
+        .res-val { font-family: 'Almendra Display'; font-size: 1.8rem; display: block; }
 
         #notif { 
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            background: var(--lima); color: var(--fondo); padding: 15px 40px;
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: var(--cian); color: var(--fondo); padding: 15px 30px;
             border-radius: 50px; font-family: 'Bungee'; z-index: 10000; display: none;
-            box-shadow: 0 0 30px var(--lima);
         }
     </style>
 </head>
 <body>
 
-<div id="loader"><div class="gota"></div><h2 style="font-family:'Bungee'; color:white; margin-top:20px">VIAJANDO...</h2></div>
-<div id="notif">¡CONSEGUIDO!</div>
+<div id="loader"><div class="gota"></div></div>
+<div id="notif">REGISTRADO ✨</div>
 
 <div id="bloqueo">
     <h1>Wonderland</h1>
-    <div class="sub">DIARIO MÁGICO DE SANGRE</div>
-    <input type="password" id="pass" class="pass-input" placeholder="????">
-    <button onclick="acceder()" style="margin-top:30px; background:white; color:var(--morado); border:none; padding:15px 40px; font-family:'Bungee'; border-radius:20px; box-shadow: 0 10px 0 var(--cian)">ENTRAR</button>
+    <input type="password" id="pass" class="pass-input" placeholder="CODE">
+    <button onclick="acceder()" style="margin-top:30px; background:var(--rosa); color:white; border:none; padding:15px 40px; font-family:'Bungee'; border-radius:20px;">ENTRAR</button>
 </div>
 
 <div class="app-container" id="app" style="display:none">
@@ -151,21 +127,22 @@
     <div class="sub" id="txt-fecha"></div>
     
     <div id="menu" class="menu-grid">
-        <div class="card" onclick="ir('s-glu')"><i>🍬</i><b>GLUCOSA</b></div>
+        <div class="card" onclick="ir('s-glu')"><i>🍬</i><b>AYUNAS</b></div>
         <div class="card" onclick="ir('s-ale')"><i>🍄</i><b>ALERTAS</b></div>
         <div class="card" onclick="ir('s-reg')"><i>🎀</i><b>CICLO</b></div>
         <div class="card" onclick="ir('s-med')"><i>🍭</i><b>MEDIA</b></div>
-        <div class="card" onclick="cargarResumen()" style="grid-column: span 2; background: var(--lima); border-color: var(--fondo);">
-            <i style="filter: none;">✨</i><b style="color:var(--fondo); text-shadow: none;">RESUMEN DEL DÍA</b>
+        <div class="card btn-resumen-lujo" onclick="cargarResumen()">
+            <i>✨</i><b>RESUMEN DEL DÍA</b>
         </div>
     </div>
 
     <div id="s-glu" class="sec">
         <button class="btn-atras" onclick="volver()">← ATRÁS</button>
-        <button class="btn-box" onclick="envG('ALTA')">AYUNAS > 130 <span>▲</span></button>
-        <button class="btn-box rojo" onclick="envG('BAJA')">AYUNAS < 80 <span>▼</span></button>
-        <input type="number" id="v-m" class="input-v" placeholder="000" inputmode="numeric">
-        <button class="btn-box" onclick="envG('MANUAL')" style="justify-content:center; background: var(--cian); color: var(--fondo);">GUARDAR</button>
+        <button class="btn-box" onclick="envG('ALTA')">ALTA > 130 <span>▲</span></button>
+        <button class="btn-box rojo" onclick="envG('BAJA')">BAJA < 80 <span>▼</span></button>
+        
+        <button class="btn-box otros" onclick="alert('Cuéntame para qué sirven estos botones y los programamos!')">PROXIMAMENTE...</button>
+        <button class="btn-box otros" onclick="alert('Otro hueco libre para ti')">DISPONIBLE...</button>
     </div>
 
     <div id="s-ale" class="sec">
@@ -182,29 +159,29 @@
 
     <div id="s-med" class="sec">
         <button class="btn-atras" onclick="volver()">← ATRÁS</button>
-        <input type="number" id="v-med" class="input-v" placeholder="000" oninput="calcA1c()">
-        <div id="c-a1c" style="display:none; text-align:center; padding:20px; border: 5px dashed var(--rosa); border-radius:30px; margin-bottom:20px;">
-            <div id="v-a1c" style="font-size:4rem; font-family:'Bungee'; color:var(--lima)">0.0%</div>
-            <div style="font-family:'Quicksand'; font-size:1rem; color:white">A1C MÁGICA</div>
+        <input type="number" id="v-med" style="width:100%; padding:20px; border-radius:20px; border:none; font-family:'Bungee'; font-size:3rem; text-align:center; margin-bottom:20px;" placeholder="000" oninput="calcA1c()">
+        <div id="c-a1c" style="display:none; text-align:center; padding:20px; border: 4px dashed var(--cian); border-radius:30px; margin-bottom:20px;">
+            <div id="v-a1c" style="font-size:3.5rem; font-family:'Bungee'; color:var(--lima)">0.0%</div>
+            <div style="font-family:'Quicksand'; font-size:1rem; color:white">A1C ESTIMADA</div>
         </div>
-        <button class="btn-box" onclick="envS('MEDIA', document.getElementById('v-med').value)" style="justify-content:center">SUBIR</button>
+        <button class="btn-box" onclick="envS('MEDIA', document.getElementById('v-med').value)" style="justify-content:center">ENVIAR</button>
     </div>
 
     <div id="s-res" class="sec">
         <button class="btn-atras" onclick="volver()">← ATRÁS</button>
-        <div class="res-container">
-            <div class="res-item">
-                <label>AL DESPERTAR</label>
-                <span id="r-lev">...</span>
+        <div class="resumen-v2">
+            <div class="res-row">
+                <span class="res-label">Glucosa al Despertar</span>
+                <span class="res-val" id="r-lev">...</span>
             </div>
-            <div class="res-item">
-                <label>PROMEDIO SEMANAL</label>
-                <span id="r-med" style="color:var(--lima)">...</span>
+            <div class="res-row">
+                <span class="res-label">Media Semanal</span>
+                <span class="res-val" id="r-med" style="color:var(--cian)">...</span>
             </div>
-            <div class="res-item">
-                <label>ALERTAS</label>
-                <div id="r-hpo" style="font-size:1.2rem; font-weight: bold;">...</div>
-                <div id="r-hpe" style="font-size:1.2rem; font-weight: bold; margin-top:10px">...</div>
+            <div class="res-row">
+                <span class="res-label">Alertas de Hoy</span>
+                <div id="r-hpo" style="font-size:1.2rem; font-weight:bold; margin-top:10px">...</div>
+                <div id="r-hpe" style="font-size:1.2rem; font-weight:bold; margin-top:5px">...</div>
             </div>
         </div>
     </div>
@@ -232,8 +209,7 @@
         const v = document.getElementById('v-a1c');
         if (m > 50) {
             c.style.display = 'block';
-            const a = (parseFloat(m) + 46.7) / 28.7;
-            v.innerText = a.toFixed(1) + "%";
+            v.innerText = ((parseFloat(m) + 46.7) / 28.7).toFixed(1) + "%";
         } else { c.style.display = 'none'; }
     }
 
@@ -247,22 +223,18 @@
             document.getElementById('r-med').innerText = d.mediaInfo;
             document.getElementById('r-hpo').innerText = d.hipoInfo;
             document.getElementById('r-hpe').innerText = d.hiperInfo;
-            document.getElementById('r-hpo').style.color = d.hipoInfo.includes("⚠️") ? "var(--rosa)" : "var(--lima)";
-            document.getElementById('r-hpe').style.color = d.hiperInfo.includes("⚠️") ? "var(--rosa)" : "var(--lima)";
-        } catch (e) { document.getElementById('r-lev').innerText = "ERROR MÁGICO"; }
+            document.getElementById('r-hpo').style.color = d.hipoInfo.includes("⚠️") ? "var(--rosa)" : "white";
+            document.getElementById('r-hpe').style.color = d.hiperInfo.includes("⚠️") ? "var(--rosa)" : "white";
+        } catch (e) { document.getElementById('r-lev').innerText = "ERROR"; }
         document.getElementById('loader').style.display = 'none';
     }
 
-    function regla(tipo) {
-        if (tipo === 'INICIO' && !confirm("¿Empieza la magia?")) return;
-        envS('REGLA', tipo);
-    }
+    function regla(tipo) { if (confirm("¿Confirmar ciclo?")) envS('REGLA', tipo); }
 
     function envG(tipo) {
         let d = { destino: 'GLUCOSA' };
         if(tipo==='ALTA'){ d.alta="X"; d.glucosa=">130"; } 
         else if(tipo==='BAJA'){ d.baja="X"; d.glucosa="<80"; }
-        else if(tipo==='MANUAL'){ d.otros=document.getElementById('v-m').value; d.glucosa="MANUAL"; }
         enviar(d);
     }
 
@@ -273,7 +245,7 @@
         fetch(URL_APP, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) })
         .then(() => { 
             document.getElementById('loader').style.display = 'none';
-            msg("¡SANGRE REGISTRADA!");
+            msg("¡CONSEGUIDO!");
             setTimeout(() => { volver(); }, 1200); 
         });
     }
