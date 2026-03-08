@@ -3,151 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DT1 Pro - Registro Inteligente</title>
+    <title>MyDT1 - Glow Edition</title>
     <style>
         :root {
-            --bg: #f0f2f5;
-            --grad-morado: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --grad-rojo: linear-gradient(135deg, #ff5f6d 0%, #ffc371 100%);
-            --grad-azul: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
-            --grad-naranja: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --white: #ffffff;
+            --bg-dark: #0f172a;
+            --card-dark: #1e293b;
+            --accent-purple: #c084fc;
+            --accent-pink: #f472b6;
+            --text-main: #f8fafc;
+            --glow: 0 0 15px rgba(192, 132, 252, 0.4);
         }
 
         body { 
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg); margin: 0; padding: 15px;
-            display: flex; justify-content: center; overflow-x: hidden;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-dark); color: var(--text-main);
+            margin: 0; padding: 20px; display: flex; justify-content: center;
         }
 
         .app-container { width: 100%; max-width: 400px; }
 
-        /* Pantalla de Bloqueo */
+        /* Pantalla de Bloqueo Estilo "Cyber" */
         #bloqueo {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--grad-morado); display: flex; align-items: center; 
-            justify-content: center; z-index: 1000; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--bg-dark); display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; z-index: 1000;
         }
-        .login-box { background: rgba(255,255,255,0.15); padding: 35px; border-radius: 30px; backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.3); text-align: center; width: 80%; }
-        .pass-input { width: 100%; padding: 15px; border-radius: 15px; border: none; font-size: 1.2rem; text-align: center; outline: none; margin-top: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .btn-login { background: white; color: #764ba2; border: none; padding: 15px; border-radius: 15px; margin-top: 20px; font-weight: 800; width: 100%; cursor: pointer; }
+        .pass-input { 
+            background: var(--card-dark); border: 2px solid var(--accent-purple);
+            color: white; padding: 15px; border-radius: 50px; text-align: center;
+            font-size: 1.2rem; width: 70%; outline: none; box-shadow: var(--glow);
+        }
 
-        /* Dashboard */
-        .main-app { display: none; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        h1 { text-align: center; font-weight: 900; background: var(--grad-morado); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2rem; }
+        /* Dashboard de Diseño */
+        .main-app { display: none; }
+        h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 30px; text-align: left; }
+        h1 span { color: var(--accent-purple); }
 
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .card { background: white; border-radius: 28px; padding: 25px 15px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.05); cursor: pointer; border: 1px solid rgba(255,255,255,0.8); transition: 0.3s; }
-        .card:active { transform: scale(0.92); }
-        .card i { font-size: 2.2rem; display: block; margin-bottom: 12px; }
-        .card span { font-weight: 800; font-size: 0.85rem; color: #636e72; letter-spacing: 1px; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .card { 
+            background: var(--card-dark); border-radius: 30px; padding: 30px 15px;
+            text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+        .card:active { transform: scale(0.95); filter: brightness(1.2); }
+        .card i { font-size: 2rem; display: block; margin-bottom: 10px; }
+        .card b { font-size: 0.8rem; letter-spacing: 1px; color: #94a3b8; }
 
         /* Secciones */
-        .sec { display: none; background: white; padding: 30px; border-radius: 35px; box-shadow: 0 20px 45px rgba(0,0,0,0.12); animation: slideUp 0.4s ease; }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        
-        .btn-back { background: #f1f3f5; border: none; padding: 12px 18px; border-radius: 15px; font-weight: 700; margin-bottom: 20px; cursor: pointer; color: #764ba2; }
+        .sec { display: none; animation: slideIn 0.4s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
-        /* BOTONES DE GLUCOSA "ESTILO APP" */
-        .glu-stack { display: flex; flex-direction: column; gap: 15px; }
-        .btn-action { 
-            padding: 22px; border-radius: 22px; border: none; color: white; 
-            font-size: 1rem; font-weight: 800; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            text-align: left; padding-left: 25px; position: relative;
+        .btn-back { background: none; border: 1px solid #334155; color: white; padding: 8px 15px; border-radius: 50px; margin-bottom: 20px; cursor: pointer; }
+
+        /* Botones Glucosa Estilo "Mando de Consola" */
+        .action-list { display: flex; flex-direction: column; gap: 12px; }
+        .btn-glow {
+            padding: 25px; border-radius: 25px; border: none; color: white;
+            font-size: 1.1rem; font-weight: 700; cursor: pointer;
+            text-align: left; position: relative; overflow: hidden;
         }
-        .btn-action::after { content: '→'; position: absolute; right: 25px; opacity: 0.7; }
-        
-        .bg-orange { background: var(--grad-naranja); }
-        .bg-blue { background: var(--grad-azul); }
-        .bg-gray { background: #b2bec3; }
+        .purple-glow { background: linear-gradient(90deg, #7e22ce, #a855f7); box-shadow: 0 4px 15px rgba(126, 34, 206, 0.4); }
+        .pink-glow { background: linear-gradient(90deg, #be185d, #ec4899); box-shadow: 0 4px 15px rgba(190, 24, 93, 0.4); }
+        .gray-glow { background: #334155; }
 
-        #panel-otros { display: none; margin-top: 20px; padding: 20px; background: #f8f9fa; border-radius: 20px; }
-        input[type="number"] { width: 100%; padding: 18px; border-radius: 15px; border: 2px solid #e1e4e8; font-size: 1.3rem; text-align: center; outline: none; margin-bottom: 15px; }
+        #panel-otros { margin-top: 20px; }
+        input[type="number"] { 
+            width: 100%; background: var(--card-dark); border: 1px solid #475569;
+            padding: 20px; border-radius: 20px; color: white; font-size: 1.5rem; text-align: center;
+        }
 
-        .btn-save { width: 100%; border: none; padding: 20px; border-radius: 20px; color: white; font-weight: 800; font-size: 1rem; cursor: pointer; background: var(--grad-morado); box-shadow: 0 10px 20px rgba(118,75,162,0.3); }
-
-        #toast { position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%); background: #2d3436; color: white; padding: 15px 35px; border-radius: 50px; display: none; font-weight: 600; z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        #toast { 
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: var(--accent-purple); color: black; padding: 15px 40px;
+            border-radius: 50px; font-weight: 800; display: none; z-index: 2000;
+        }
     </style>
 </head>
 <body>
 
 <div id="bloqueo">
-    <div class="login-box">
-        <h2 style="color:white; margin:0">BIEVENIDA 👋</h2>
-        <input type="password" id="pass" class="pass-input" placeholder="Tu Contraseña">
-        <button class="btn-login" onclick="check()">ENTRAR</button>
-    </div>
+    <h2 style="margin-bottom:20px">MY<span>DT1</span></h2>
+    <input type="password" id="pass" class="pass-input" placeholder="PASS">
+    <button onclick="check()" style="margin-top:20px; background:none; border:none; color:var(--accent-purple); font-weight:800; cursor:pointer;">ACCEDER</button>
 </div>
 
 <div class="app-container main-app" id="app">
-    <h1>Diario Pro DT1</h1>
+    <h1>Hey! <span>Control.</span></h1>
     
     <div id="menu" class="menu-grid">
-        <div class="card" onclick="show('s-glu')"><i>🩸</i><span>GLUCOSA</span></div>
-        <div class="card" onclick="show('s-ale')"><i>⚠️</i><span>ALERTA</span></div>
-        <div class="card" onclick="show('s-reg')"><i>📅</i><span>REGLA</span></div>
-        <div class="card" onclick="show('s-med')"><i>📊</i><span>MEDIA</span></div>
+        <div class="card" onclick="show('s-glu')"><i>⚡</i><b>GLUCOSA</b></div>
+        <div class="card" onclick="show('s-ale')"><i>🔥</i><b>ALERTA</b></div>
+        <div class="card" onclick="show('s-reg')"><i>🌸</i><b>CICLO</b></div>
+        <div class="card" onclick="show('s-med')"><i>📈</i><b>MEDIA</b></div>
     </div>
 
     <div id="s-glu" class="sec">
-        <button class="btn-back" onclick="home()">← VOLVER</button>
-        <h2 style="margin-top:0">¿Qué registramos?</h2>
-        
-        <div class="glu-stack">
-            <button class="btn-action bg-orange" onclick="enviarGlucosa('ALTA')">☀️ AYUNAS > 130</button>
-            <button class="btn-action bg-blue" onclick="enviarGlucosa('BAJA')">🌙 AYUNAS < 80</button>
-            <button class="btn-action bg-gray" onclick="mostrarOtros()">✏️ OTRO VALOR</button>
+        <button class="btn-back" onclick="home()">VOLVER</button>
+        <div class="action-list">
+            <button class="btn-glow purple-glow" onclick="env('ALTA')">Ayunando > 130</button>
+            <button class="btn-glow pink-glow" onclick="env('BAJA')">Ayunando < 80</button>
+            <button class="btn-glow gray-glow" onclick="document.getElementById('panel-otros').style.display='block'">Otro Valor...</button>
         </div>
-
-        <div id="panel-otros">
-            <input type="number" id="v-otros" placeholder="mg/dL" inputmode="numeric">
-            <button class="btn-save" onclick="enviarGlucosa('MANUAL')">GUARDAR OTRO</button>
+        <div id="panel-otros" style="display:none">
+            <input type="number" id="v-otros" inputmode="numeric">
+            <button class="btn-glow purple-glow" style="width:100%; margin-top:10px; text-align:center" onclick="env('MANUAL')">GUARDAR</button>
         </div>
     </div>
 
-    <div id="s-ale" class="sec"><button class="btn-back" onclick="home()">← VOLVER</button><h2>Alerta</h2><button class="btn-save" style="background:var(--grad-rojo)" onclick="enviarSimple('EVENTOS', 'HIPO')">🚨 ENVIAR HIPO GRAVE</button></div>
-    <div id="s-reg" class="sec"><button class="btn-back" onclick="home()">← VOLVER</button><h2>Ciclo</h2><button class="btn-save" onclick="enviarSimple('REGLA', 'INICIO')">REGISTRAR HOY</button></div>
-    <div id="s-med" class="sec"><button class="btn-back" onclick="home()">← VOLVER</button><h2>Media</h2><input type="number" id="v-med" placeholder="Valor Semanal"><button class="btn-save" style="background:var(--grad-azul)" onclick="enviarSimple('MEDIA', document.getElementById('v-med').value)">SUBIR MEDIA</button></div>
+    <div id="s-ale" class="sec"><button class="btn-back" onclick="home()">VOLVER</button><button class="btn-glow pink-glow" onclick="envSimple('EVENTOS', 'HIPO')">🚨 AVISO HIPO</button></div>
+    <div id="s-reg" class="sec"><button class="btn-back" onclick="home()">VOLVER</button><button class="btn-glow purple-glow" onclick="envSimple('REGLA', 'INICIO')">MARCAR CICLO HOY</button></div>
+    <div id="s-med" class="sec"><button class="btn-back" onclick="home()">VOLVER</button><input type="number" id="v-med" placeholder="MEDIA"><button class="btn-glow purple-glow" style="width:100%; margin-top:10px" onclick="envSimple('MEDIA', document.getElementById('v-med').value)">SUBIR</button></div>
 </div>
 
-<div id="toast">¡Guardado con éxito! ✨</div>
+<div id="toast">LOGGED! ✨</div>
 
 <script>
     const P_OK = "Idnopiras"; 
-    const URL = "https://script.google.com/macros/s/AKfycbyzt3huXi9UkJLVgM5SZAwazBuSvhXiuYyMCCtn9PPnzDwGy4tMiKb3MJoEgTAGN8fb/exec";
+    const URL = "https://script.google.com/macros/s/AKfycbzdYhjgVmixnrpw0nBCOTTGRPob5J2oU9unnz5VjaKhDrZz_F-qOl6vTZsZZQnzqtNm/exec";
 
-    function check() { if(document.getElementById('pass').value === P_OK) { document.getElementById('bloqueo').style.transform = "translateY(-100%)"; document.getElementById('app').style.display = "block"; } }
+    function check() { if(document.getElementById('pass').value === P_OK) { document.getElementById('bloqueo').style.display = "none"; document.getElementById('app').style.display = "block"; } }
     function show(id) { document.getElementById('menu').style.display = 'none'; document.getElementById(id).style.display = 'block'; }
-    function home() { document.getElementById('menu').style.display = 'grid'; document.querySelectorAll('.sec').forEach(s => s.style.display = 'none'); document.getElementById('panel-otros').style.display='none'; }
-    function mostrarOtros() { document.getElementById('panel-otros').style.display = 'block'; }
+    function home() { document.getElementById('menu').style.display = 'grid'; document.querySelectorAll('.sec').forEach(s => s.style.display = 'none'); }
 
-    async function enviarGlucosa(tipo) {
-        const t = document.getElementById('toast');
-        t.style.display = "block"; t.innerText = "⏳ Enviando...";
-        
-        // Creamos el objeto exactamente como lo espera tu Excel
+    async function env(tipo) {
+        const t = document.getElementById('toast'); t.style.display="block"; t.innerText="ENVIANDO...";
         let d = { destino: 'GLUCOSA' };
-        
-        if(tipo === 'ALTA')   { d.alta = "X"; d.glucosa = ">130"; } 
-        if(tipo === 'BAJA')   { d.baja = "X"; d.glucosa = "<80"; }
-        if(tipo === 'MANUAL') { d.otros = document.getElementById('v-otros').value; d.glucosa = "MANUAL"; }
+        if(tipo==='ALTA'){ d.alta="X"; d.glucosa=">130"; } 
+        if(tipo==='BAJA'){ d.baja="X"; d.glucosa="<80"; }
+        if(tipo==='MANUAL'){ d.otros=document.getElementById('v-otros').value; d.glucosa="MANUAL"; }
 
-        try {
-            await fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) });
-            t.innerText = "¡Dato en Excel! ✨";
-            setTimeout(() => { t.style.display="none"; home(); }, 2000);
-        } catch(e) { t.innerText = "Error de conexión ❌"; }
+        fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) })
+        .then(() => { t.innerText="¡GUARDADO! ✨"; setTimeout(()=>{t.style.display="none"; home();}, 1500); })
+        .catch(() => { t.innerText="ERROR ❌"; });
     }
 
-    async function enviarSimple(dest, val) {
-        const t = document.getElementById('toast'); t.style.display = "block"; t.innerText = "Enviando...";
-        try {
-            await fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ destino: dest, valor: val }) });
-            t.innerText = "¡Listo! ✅";
-            setTimeout(() => { t.style.display="none"; home(); }, 2000);
-        } catch(e) { t.innerText = "Error ❌"; }
+    async function envSimple(dest, val) {
+        const t = document.getElementById('toast'); t.style.display="block";
+        fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ destino: dest, valor: val }) })
+        .then(() => { t.innerText="¡LISTO! ✅"; setTimeout(()=>{t.style.display="none"; home();}, 1500); });
     }
 </script>
 </body>
