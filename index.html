@@ -6,83 +6,58 @@
     <title>Wonderland Candy Elite</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Grandstander:wght@700;900&display=swap');
-        
-        :root { 
-            --rosa: #ff4dff; 
-            --azul: #00d4ff; 
-            --lila: #a64dff; 
-            --verde: #39ff14; 
-            --fondo: #0a001a;
-        }
-
+        :root { --rosa: #ff4dff; --azul: #00d4ff; --lila: #a64dff; --verde: #39ff14; --fondo: #0a001a; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
+        
         body { 
-            font-family: 'Bubblegum Sans', cursive; 
-            margin: 0; 
-            background: var(--fondo);
-            /* FONDO LIMPIO: Efecto Aurora */
-            background-image: 
-                radial-gradient(circle at 0% 0%, rgba(166, 77, 255, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 100% 100%, rgba(0, 212, 255, 0.2) 0%, transparent 50%);
-            background-attachment: fixed;
-            color: white; 
-            min-height: 100vh;
+            font-family: 'Bubblegum Sans', cursive; margin: 0; background: var(--fondo);
+            background-image: radial-gradient(circle at 10% 20%, rgba(166, 77, 255, 0.2) 0%, transparent 40%),
+                              radial-gradient(circle at 90% 80%, rgba(0, 212, 255, 0.15) 0%, transparent 40%);
+            background-attachment: fixed; color: white; min-height: 100vh; overflow-x: hidden;
         }
 
-        #loader {
-            position: fixed; inset: 0; background: rgba(10, 0, 26, 0.95);
-            display: none; z-index: 10000; backdrop-filter: blur(20px);
-        }
-        .candy { position: absolute; font-size: 2.5rem; animation: fall linear infinite; }
-        @keyframes fall {
-            0% { transform: translateY(-15vh) rotate(0deg); opacity: 0; }
-            20% { opacity: 1; }
-            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-        }
-
+        #loader { position: fixed; inset: 0; background: rgba(10, 0, 26, 0.9); display: none; z-index: 10000; backdrop-filter: blur(15px); }
+        .candy { position: absolute; font-size: 2.5rem; animation: fall linear infinite; filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); }
+        @keyframes fall { 0% { transform: translateY(-15vh) rotate(0deg); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+        
         #bloqueo { position: fixed; inset: 0; background: var(--fondo); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
-        .pass-input { background: rgba(255,255,255,0.05); border: 3px solid var(--rosa); color: white; padding: 15px; border-radius: 25px; text-align: center; font-size: 2rem; width: 80%; font-family: 'Grandstander'; }
+        .pass-input { background: rgba(255,255,255,0.05); border: 3px solid var(--rosa); color: white; padding: 15px; border-radius: 25px; text-align: center; font-size: 2rem; width: 80%; font-family: 'Grandstander'; box-shadow: 0 0 15px var(--rosa); }
 
-        .app-container { width: 100%; max-width: 450px; padding: 25px; margin: auto; }
-        h1 { font-family: 'Grandstander'; font-size: 3.5rem; text-align: center; color: white; text-shadow: 0 0 20px var(--rosa); margin-bottom: 20px; }
+        .app-container { width: 100%; max-width: 450px; padding: 20px; margin: auto; }
+        h1 { font-family: 'Grandstander'; font-size: 3rem; text-align: center; text-shadow: 0 0 20px var(--rosa); margin: 20px 0; }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 30px;
-            padding: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-            margin-bottom: 20px;
+        .glass-card { 
+            background: rgba(255, 255, 255, 0.07); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255, 255, 255, 0.12); 
+            border-radius: 28px; padding: 20px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
+            margin-bottom: 20px; 
         }
 
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card { background: rgba(255, 255, 255, 0.05); border-radius: 25px; padding: 20px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .card i { font-style: normal; font-size: 2.8rem; display: block; }
-        .card b { font-family: 'Grandstander'; color: var(--azul); }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .card { background: rgba(255, 255, 255, 0.05); border-radius: 22px; padding: 18px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.2s; }
+        .card:active { transform: scale(0.95); background: rgba(255,255,255,0.1); }
+        .card i { font-style: normal; font-size: 2.4rem; display: block; margin-bottom: 5px; }
+        .card b { font-family: 'Grandstander'; color: var(--azul); font-size: 0.85rem; letter-spacing: 1px; }
 
-        .btn-box { 
-            width: 100%; padding: 20px; border-radius: 20px; border: none; color: white; font-family: 'Grandstander'; font-size: 1.3rem; 
-            margin-bottom: 15px; cursor: pointer; box-shadow: 0 6px 0 rgba(0,0,0,0.3);
-        }
+        .btn-box { width: 100%; padding: 18px; border-radius: 18px; border: none; color: white; font-family: 'Grandstander'; font-size: 1.2rem; margin-bottom: 15px; cursor: pointer; box-shadow: 0 6px 0 rgba(0,0,0,0.3); text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
+        .btn-box:active { transform: translateY(3px); box-shadow: 0 3px 0 rgba(0,0,0,0.3); }
 
-        input, select { width: 100%; padding: 15px; border-radius: 18px; border: 2px solid var(--lila); background: rgba(0,0,0,0.4); color: white; font-family: 'Bubblegum Sans'; font-size: 1.2rem; margin-top: 10px; }
+        input, select { width: 100%; padding: 15px; border-radius: 15px; border: 2px solid var(--lila); background: rgba(0,0,0,0.5); color: white; font-family: 'Bubblegum Sans'; font-size: 1.2rem; margin-top: 10px; outline: none; }
 
         .st-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .st-btn { padding: 12px; border-radius: 15px; font-family: 'Grandstander'; cursor: pointer; text-align: center; opacity: 0.4; }
-        .st-btn.active { opacity: 1; border: 2px solid white; transform: scale(1.05); }
+        .st-btn { padding: 12px; border-radius: 12px; font-family: 'Grandstander'; cursor: pointer; text-align: center; opacity: 0.3; background: rgba(255,255,255,0.1); transition: 0.3s; }
+        .st-btn.active { opacity: 1; border: 2px solid white; transform: scale(1.05); box-shadow: 0 0 10px currentColor; }
 
-        .sec { display: none; }
+        .sec { display: none; animation: slideUp 0.4s ease-out; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        /* CRÓNICA */
         .cronica-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.1); }
-        .cronica-tag { font-family: 'Grandstander'; font-size: 0.9rem; color: var(--azul); }
-        .cronica-val { font-size: 1.3rem; text-align: right; }
-        .food-item { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 15px; margin: 10px 0; border-left: 5px solid var(--lila); }
-        .destaque { color: var(--rosa); font-weight: 900; }
-        #notif { position: fixed; top: 40%; left: 50%; transform: translateX(-50%); background: white; color: var(--lila); padding: 25px 40px; border-radius: 50px; font-family: 'Grandstander'; font-size: 2rem; z-index: 10001; display: none; border: 8px solid var(--verde); }
+        .food-item { background: rgba(0,0,0,0.3); border-radius: 18px; padding: 15px; margin: 10px 0; border-left: 6px solid var(--lila); }
+        .destaque { color: var(--rosa); font-weight: 900; text-shadow: 0 0 5px var(--rosa); }
+        
+        #notif { position: fixed; top: 40%; left: 50%; transform: translateX(-50%); background: white; color: var(--lila); padding: 25px 45px; border-radius: 50px; font-family: 'Grandstander'; font-size: 2rem; z-index: 10001; display: none; border: 8px solid var(--verde); box-shadow: 0 0 30px var(--verde); }
     </style>
 </head>
 <body>
@@ -91,20 +66,21 @@
 <div id="notif">¡REGISTRADO! ✨</div>
 
 <div id="bloqueo">
-    <h1>Wonderland</h1>
+    <h1 style="margin-bottom:30px">Wonderland</h1>
     <input type="password" id="pass" class="pass-input" placeholder="CODE">
-    <button onclick="acceder()" class="btn-box" style="background:var(--rosa); width:auto; margin-top:40px; padding:10px 60px;">ENTRAR</button>
+    <button onclick="acceder()" class="btn-box" style="background:var(--rosa); width:auto; margin-top:40px; padding:15px 60px;">ENTRAR</button>
 </div>
 
 <div class="app-container" id="app" style="display:none">
-    <h1>Mi Diario</h1>
+    <h1>Diario Real</h1>
+    
     <div id="menu" class="menu-grid">
         <div class="card" onclick="ir('s-glu')"><i>🍬</i><b>AYUNAS</b></div>
-        <div class="card" onclick="ir('s-com')"><i>🍱</i><b>COMIDAS</b></div>
+        <div class="card" onclick="ir('s-com')"><i>🍱</i><b>BANQUETES</b></div>
         <div class="card" onclick="ir('s-ale')"><i>🍄</i><b>SUSTOS</b></div>
         <div class="card" onclick="ir('s-reg')"><i>🎀</i><b>CICLO</b></div>
         <div class="card" onclick="ir('s-med')"><i>🍭</i><b>MEDIA</b></div>
-        <div class="card" style="grid-column: span 2; background: var(--lila)" onclick="obtenerResumen()"><i>✨</i><b>CRÓNICA DE HOY</b></div>
+        <div class="card" style="grid-column: span 2; background: linear-gradient(45deg, var(--lila), var(--rosa))" onclick="obtenerResumen()"><i>✨</i><b>VER CRÓNICA</b></div>
     </div>
 
     <div id="s-glu" class="sec">
@@ -127,31 +103,7 @@
                 <div class="st-btn active" id="h-ok" style="background:var(--verde); color:black" onclick="setSt('OK')">OK</div>
                 <div class="st-btn" id="h-hiper" style="background:var(--rosa)" onclick="setSt('HIPER')">HIPER</div>
             </div>
-            <button class="btn-box" style="background:var(--lila); margin-top:20px" onclick="envCom()">GUARDAR</button>
-        </div>
-    </div>
-
-    <div id="s-ale" class="sec">
-        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
-        <div class="glass-card">
-            <button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'ALERTAS', valor:'SANGRE BAJA'})">SANGRE BAJA</button>
-            <button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'ALERTAS', valor:'SANGRE ALTA'})">SANGRE ALTA</button>
-        </div>
-    </div>
-
-    <div id="s-reg" class="sec">
-        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
-        <div class="glass-card">
-            <button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'CICLO', valor:'INICIO'})">INICIO</button>
-            <button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'CICLO', valor:'FIN'})">FIN</button>
-        </div>
-    </div>
-
-    <div id="s-med" class="sec">
-        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
-        <div class="glass-card">
-            <input type="number" id="v-med" placeholder="Valor media">
-            <button class="btn-box" style="background:var(--verde); color:black; margin-top:10px" onclick="enviar({destino:'MEDIA', valor:document.getElementById('v-med').value})">REGISTRAR</button>
+            <button class="btn-box" style="background:var(--lila); margin-top:20px" onclick="envCom()">GUARDAR BANQUETE</button>
         </div>
     </div>
 
@@ -159,6 +111,11 @@
         <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
         <div id="res-cont"></div>
     </div>
+    
+    <div id="s-ale" class="sec"><button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button><div class="glass-card"><button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'ALERTAS', valor:'SANGRE BAJA'})">SANGRE BAJA</button><button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'ALERTAS', valor:'SANGRE ALTA'})">SANGRE ALTA</button></div></div>
+    <div id="s-reg" class="sec"><button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button><div class="glass-card"><button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'CICLO', valor:'INICIO'})">INICIO</button><button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'CICLO', valor:'FIN'})">FIN</button></div></div>
+    <div id="s-med" class="sec"><button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button><div class="glass-card"><input type="number" id="v-med" placeholder="Valor media"><button class="btn-box" style="background:var(--verde); color:black; margin-top:15px" onclick="enviar({destino:'MEDIA', valor:document.getElementById('v-med').value})">REGISTRAR</button></div></div>
+
 </div>
 
 <script>
@@ -167,7 +124,7 @@
     let candyInterval;
 
     function acceder() { if(document.getElementById('pass').value === "Idnopiras") { document.getElementById('bloqueo').style.display='none'; document.getElementById('app').style.display='block'; } }
-    function ir(id) { document.getElementById('menu').style.display='none'; document.getElementById(id).style.display='block'; }
+    function ir(id) { document.getElementById('menu').style.display='none'; document.getElementById(id).style.display='block'; window.scrollTo(0,0); }
     function volver() { document.getElementById('menu').style.display='grid'; document.querySelectorAll('.sec').forEach(s=>s.style.display='none'); }
     function setSt(v) { curSt = v; document.querySelectorAll('.st-btn').forEach(b=>b.classList.remove('active')); document.getElementById('h-'+v.toLowerCase()).classList.add('active'); }
 
@@ -177,13 +134,13 @@
         candyInterval = setInterval(() => {
             const c = document.createElement('div');
             c.className = 'candy';
-            c.innerText = ['🍬','🍭','🍫','🍩','🍪'][Math.floor(Math.random()*5)];
+            c.innerText = ['🍬','🍭','🍫','🍩','🍪','🧁'][Math.floor(Math.random()*6)];
             c.style.left = Math.random()*100 + 'vw';
-            const dur = (Math.random()*2 + 1) + 's';
+            const dur = (Math.random()*2 + 1.2) + 's';
             c.style.animationDuration = dur;
             wrap.appendChild(c);
             setTimeout(() => c.remove(), parseFloat(dur)*1000);
-        }, 100);
+        }, 90);
     }
     function stopCandyRain() { clearInterval(candyInterval); document.getElementById('loader').style.display='none'; }
 
@@ -198,13 +155,10 @@
     }
 
     function envCom() {
-        enviar({
-            destino: 'COMIDAS',
-            tipo: document.getElementById('c-tipo').value,
-            comida: document.getElementById('c-nom').value,
-            insulina: document.getElementById('c-ins').value,
-            estado: curSt
-        });
+        const p = document.getElementById('c-nom').value;
+        if(!p) return;
+        enviar({ destino: 'COMIDAS', tipo: document.getElementById('c-tipo').value, comida: p, insulina: document.getElementById('c-ins').value, estado: curSt });
+        document.getElementById('c-nom').value = "";
     }
 
     async function obtenerResumen() {
@@ -213,36 +167,43 @@
         try {
             const r = await fetch(URL_APP);
             const d = await r.json();
-            let h = `<h2 style="font-family:'Grandstander';text-align:center;color:var(--rosa)">Crónica de Hoy</h2>`;
+            
+            let h = `<h2 style="text-align:center; color:var(--rosa); font-size:2rem; margin-bottom:15px;">Crónica Real</h2>`;
             
             h += `<div class="glass-card">
-                    <div class="cronica-row"><span class="cronica-tag">🌅 Ayunas</span><span class="cronica-val destaque">${d.ayunas}</span></div>
-                    <div class="cronica-row"><span class="cronica-tag">🍭 Media</span><span class="cronica-val">${d.media}</span></div>
-                    <div class="cronica-row"><span class="cronica-tag">🎀 Ciclo</span><span class="cronica-val">${d.ciclo}</span></div>
+                    <div class="cronica-row"><span>🌅 Ayunas</span><span class="destaque">${d.ayunas}</span></div>
+                    <div class="cronica-row"><span>🍭 Media</span><span>${d.media}</span></div>
+                    <div class="cronica-row"><span>🎀 Ciclo</span><span>${d.ciclo}</span></div>
                   </div>`;
 
-            h += `<h3 style="margin-left:10px">Banquetes</h3><div class="glass-card">`;
+            h += `<h3 style="margin:20px 0 10px 10px; color:var(--azul); font-family:'Grandstander'">Banquetes</h3><div class="glass-card">`;
+            const tipos = ["Desayuno", "Almuerzo", "Comida", "Merienda", "Cena"];
             let hayCom = false;
-            for (let t in d.comidas) {
-                if(d.comidas[t]) {
+            tipos.forEach(t => {
+                if(d.comidas && d.comidas[t]) {
                     hayCom = true;
                     h += `<div class="food-item">
-                            <b style="color:var(--azul)">${t}</b><br>${d.comidas[t].plato}<br>
-                            <small>${d.comidas[t].insu}u • <span class="destaque">${d.comidas[t].estado}</span></small>
+                            <b style="color:var(--azul); font-size:0.8rem; text-transform:uppercase">${t}</b><br>
+                            <span style="font-size:1.1rem">${d.comidas[t].plato}</span><br>
+                            <small style="opacity:0.8">${d.comidas[t].insu}u • <span class="destaque">${d.comidas[t].estado}</span></small>
                           </div>`;
                 }
-            }
-            if(!hayCom) h += `<p style="text-align:center;opacity:0.5">Sin banquetes</p>`;
+            });
+            if(!hayCom) h += `<p style="text-align:center; opacity:0.5; font-style:italic">Aún no hay banquetes hoy.</p>`;
             h += `</div>`;
 
-            h += `<h3 style="margin-left:10px">Sustos</h3><div class="glass-card">`;
-            if(d.alertas.length > 0) {
-                d.alertas.forEach(a => { h += `<div class="cronica-row"><span>🍄 ${a.tipo}</span><span style="opacity:0.6">${a.hora}</span></div>`; });
-            } else { h += `<p style="text-align:center;opacity:0.5">Todo en calma</p>`; }
+            h += `<h3 style="margin:20px 0 10px 10px; color:var(--rosa); font-family:'Grandstander'">Sustos</h3><div class="glass-card">`;
+            if(d.alertas && d.alertas.length > 0) {
+                d.alertas.forEach(a => {
+                    h += `<div class="cronica-row"><span>🍄 ${a.tipo}</span><span style="font-size:0.8rem; opacity:0.6">${a.hora}</span></div>`;
+                });
+            } else { h += `<p style="text-align:center; opacity:0.5; font-style:italic">Día tranquilo.</p>`; }
             h += `</div>`;
 
             document.getElementById('res-cont').innerHTML = h;
-        } catch(e) { document.getElementById('res-cont').innerHTML = "Error al conectar."; }
+        } catch(e) { 
+            document.getElementById('res-cont').innerHTML = "<div class='glass-card'>Error al leer el espejo.</div>";
+        }
         stopCandyRain();
     }
 </script>
