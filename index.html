@@ -6,222 +6,201 @@
     <title>Wonderland Candy Elite</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Grandstander:wght@700;900&display=swap');
-
-        :root {
-            --rosa: #ff4dff;
-            --azul: #00d4ff;
-            --lila: #a64dff;
-            --verde: #39ff14;
-            --fondo: #120024;
-        }
-
+        :root { --rosa: #ff4dff; --azul: #00d4ff; --lila: #a64dff; --verde: #39ff14; --fondo: #120024; }
+        
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { 
-            font-family: 'Bubblegum Sans', cursive; margin: 0; 
-            background: var(--fondo); color: white; overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% 0%, rgba(166, 77, 255, 0.2) 0%, transparent 70%);
-        }
+        body { font-family: 'Bubblegum Sans', cursive; margin: 0; background: var(--fondo); color: white; overflow-x: hidden; }
 
-        /* --- PANTALLA DE CARGA (Piruleta) --- */
+        /* PANTALLA DE CARGA PIRULETA */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(18, 0, 36, 0.95); display: none; flex-direction: column;
-            align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(15px);
+            align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(10px);
         }
-        .piruleta-portal {
-            width: 100px; height: 100px;
+        .piruleta {
+            width: 80px; height: 80px;
             background: conic-gradient(var(--rosa), var(--azul), var(--lila), var(--verde), var(--rosa));
-            border-radius: 50%; animation: spinPortal 0.7s infinite linear;
-            box-shadow: 0 0 50px var(--rosa), inset 0 0 20px white;
-            border: 8px solid white; position: relative;
+            border-radius: 50%; border: 5px solid white;
+            animation: spin 0.8s infinite linear; position: relative;
         }
-        .piruleta-portal::after {
-            content: ''; position: absolute; top: 100%; left: 45%;
-            width: 10px; height: 60px; background: white; border-radius: 0 0 10px 10px;
-        }
-        .loading-text { margin-top: 80px; font-family: 'Grandstander'; font-size: 1.2rem; color: var(--azul); animation: pulse 1s infinite alternate; }
-        @keyframes spinPortal { to { transform: rotate(360deg); } }
-        @keyframes pulse { from { opacity: 0.4; } to { opacity: 1; } }
+        .piruleta::after { content: ''; position: absolute; top: 80px; left: 35px; width: 10px; height: 50px; background: white; border-radius: 5px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         /* NOTIFICACIÓN */
         #notif { 
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: white; color: var(--lila); padding: 40px; border-radius: 50px;
+            background: white; color: var(--lila); padding: 30px; border-radius: 40px;
             font-family: 'Grandstander'; font-size: 2rem; z-index: 10001; display: none;
-            box-shadow: 0 0 80px var(--rosa); border: 10px solid var(--verde);
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 8px solid var(--verde); box-shadow: 0 0 50px var(--rosa);
         }
-        @keyframes popIn { from { scale: 0; } to { scale: 1; } }
 
-        /* INTERFAZ */
-        .app-container { width: 100%; max-width: 420px; padding: 25px; margin: auto; text-align: center; }
-        h1 { font-family: 'Grandstander'; font-size: 3rem; text-shadow: 3px 3px 0 var(--rosa); margin-bottom: 25px; }
+        .app-container { width: 100%; max-width: 420px; padding: 20px; margin: auto; text-align: center; }
+        h1 { font-family: 'Grandstander'; font-size: 3rem; text-shadow: 3px 3px var(--rosa); margin-bottom: 20px; }
 
+        /* LOGIN */
+        #bloqueo {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--fondo); display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; z-index: 9999;
+        }
+        .pass-input { 
+            background: rgba(255,255,255,0.1); border: 5px solid var(--rosa);
+            color: white; padding: 15px; border-radius: 20px; text-align: center;
+            font-size: 2rem; width: 70%; outline: none; font-family: 'Grandstander';
+        }
+
+        /* MENÚ Y BOTONES */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card { 
-            background: rgba(255,255,255,0.08); border: 3px solid rgba(255,255,255,0.2);
-            border-radius: 30px; padding: 20px; cursor: pointer;
-        }
-        .card i { font-style: normal; font-size: 2.5rem; display: block; margin-bottom: 5px; }
-        .card b { font-family: 'Grandstander'; font-size: 0.8rem; }
+        .card { background: rgba(255,255,255,0.1); border-radius: 25px; padding: 20px; cursor: pointer; border: 2px solid rgba(255,255,255,0.1); }
+        .card i { font-style: normal; font-size: 2.5rem; display: block; }
+        
+        .sec { display: none; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .sec { display: none; }
-        .btn-box {
-            width: 100%; padding: 18px; border-radius: 25px; border: none;
-            color: white; font-size: 1.2rem; font-family: 'Grandstander'; margin-bottom: 15px;
-            cursor: pointer; box-shadow: 0 6px 0 rgba(0,0,0,0.3);
-        }
+        .btn-box { width: 100%; padding: 18px; border-radius: 20px; border: none; color: white; font-family: 'Grandstander'; font-size: 1.2rem; margin-bottom: 12px; cursor: pointer; box-shadow: 0 5px 0 rgba(0,0,0,0.3); }
+        .btn-box:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,0.3); }
 
-        .form-group { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 25px; margin-bottom: 15px; text-align: left; }
-        label { font-family: 'Grandstander'; color: var(--azul); font-size: 0.9rem; }
-        input, select { width: 100%; padding: 12px; border-radius: 15px; border: 3px solid var(--lila); margin-top: 5px; }
+        input, select { width: 100%; padding: 12px; border-radius: 15px; border: 3px solid var(--lila); margin-top: 5px; font-size: 1rem; font-family: 'Bubblegum Sans'; }
 
-        .status-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 5px; }
-        .status-btn { padding: 10px; border-radius: 12px; border: 2px solid transparent; font-family: 'Grandstander'; font-size: 0.8rem; opacity: 0.4; cursor: pointer; text-align: center; }
-        .status-btn.active { opacity: 1; border-color: white; transform: scale(1.05); }
+        .status-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .st-btn { padding: 10px; border-radius: 10px; opacity: 0.3; font-family: 'Grandstander'; cursor: pointer; text-align: center; }
+        .st-btn.active { opacity: 1; border: 2px solid white; transform: scale(1.05); }
 
-        .resumen-panel {
-            background: white; color: var(--fondo); border-radius: 35px; padding: 25px;
-            box-shadow: 0 15px 0 var(--lila); text-align: left; line-height: 1.4;
-        }
-        .res-destaque { color: var(--rosa); font-weight: 900; font-family: 'Grandstander'; }
-
-        #bloqueo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--fondo); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
+        .resumen-panel { background: white; color: #333; border-radius: 30px; padding: 25px; text-align: left; box-shadow: 0 10px 0 var(--lila); line-height: 1.5; }
+        .destaque { color: var(--rosa); font-weight: 900; }
     </style>
 </head>
 <body>
 
-<div id="loader"><div class="piruleta-portal"></div><div class="loading-text">LEYENDO EL DIARIO...</div></div>
+<div id="loader"><div class="piruleta"></div><h2 style="color:var(--azul); font-family:'Grandstander'; margin-top:20px;">CARGANDO...</h2></div>
 <div id="notif">¡REGISTRADO! ✨</div>
 
 <div id="bloqueo">
     <h1>Wonderland</h1>
-    <input type="password" id="pass" placeholder="CODE" style="width: 60%; text-align: center; font-size: 2rem; border: 5px solid var(--rosa); border-radius: 20px;">
-    <button onclick="acceder()" style="margin-top:20px; background:var(--rosa); color:white; border:none; padding:15px 40px; border-radius:30px; font-family:'Grandstander';">ENTRAR</button>
+    <input type="password" id="pass" class="pass-input" placeholder="CODE">
+    <button onclick="acceder()" class="btn-box" style="background:var(--rosa); width:auto; margin-top:20px; padding:10px 50px;">ENTRAR</button>
 </div>
 
 <div class="app-container" id="app" style="display:none">
     <h1>Mi Diario</h1>
-    
     <div id="menu" class="menu-grid">
         <div class="card" onclick="ir('s-glu')"><i>🍬</i><b>Ayunas</b></div>
         <div class="card" onclick="ir('s-com')"><i>🍱</i><b>Comidas</b></div>
         <div class="card" onclick="ir('s-ale')"><i>🍄</i><b>Alertas</b></div>
         <div class="card" onclick="ir('s-reg')"><i>🎀</i><b>Ciclo</b></div>
         <div class="card" onclick="ir('s-med')"><i>🍭</i><b>Media</b></div>
-        <div class="card" style="grid-column: span 2; background: var(--lila);" onclick="obtenerResumen()"><i>✨</i><b>Resumen de Hoy</b></div>
+        <div class="card" style="grid-column: span 2; background: var(--lila)" onclick="obtenerResumen()"><i>✨</i><b>Resumen de Hoy</b></div>
     </div>
 
     <div id="s-glu" class="sec">
-        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
-        <button onclick="enviar({destino:'GLUCOSA', valor:'MAYOR DE 130'})" class="btn-box" style="background:var(--lila)">MAYOR DE 130 ▲</button>
-        <button onclick="enviar({destino:'GLUCOSA', valor:'MENOR DE 80'})" class="btn-box" style="background:var(--rosa)">MENOR DE 80 ▼</button>
-        <button onclick="enviar({destino:'GLUCOSA', valor:'OK'})" class="btn-box" style="background:var(--verde); color:black">OK</button>
+        <button class="btn-box" style="background:var(--azul)" onclick="volver()">VOLVER</button>
+        <button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'GLUCOSA', valor:'MAYOR DE 130'})">MAYOR DE 130 ▲</button>
+        <button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'GLUCOSA', valor:'MENOR DE 80'})">MENOR DE 80 ▼</button>
+        <button class="btn-box" style="background:var(--verde); color:black" onclick="enviar({destino:'GLUCOSA', valor:'OK'})">OK</button>
     </div>
 
     <div id="s-com" class="sec">
-        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
-        <div class="form-group">
-            <label>¿QUÉ TOCA?</label>
-            <select id="com-tipo">
-                <option>Desayuno</option><option>Almuerzo</option><option>Comida</option><option>Merienda</option><option>Cena</option>
-            </select>
+        <button class="btn-box" style="background:var(--azul)" onclick="volver()">VOLVER</button>
+        <input type="text" id="c-nom" placeholder="¿Qué has comido?">
+        <select id="c-tipo" style="margin-top:10px">
+            <option>Desayuno</option><option>Almuerzo</option><option>Comida</option><option>Merienda</option><option>Cena</option>
+        </select>
+        <input type="number" id="c-ins" placeholder="Unidades insulina" style="margin-top:10px">
+        <div class="status-grid">
+            <div class="st-btn" id="h-hipo" style="background:var(--azul)" onclick="setSt('HIPO')">HIPO</div>
+            <div class="st-btn active" id="h-ok" style="background:var(--verde); color:black" onclick="setSt('OK')">OK</div>
+            <div class="st-btn" id="h-hiper" style="background:var(--rosa)" onclick="setSt('HIPER')">HIPER</div>
         </div>
-        <div class="form-group"><label>EL BANQUETE</label><input type="text" id="com-nombre" placeholder="¿Qué has comido?"></div>
-        <div class="form-group"><label>INSULINA</label><input type="number" id="com-insu" value="0"></div>
-        <div class="form-group">
-            <label>RESULTADO</label>
-            <div class="status-grid">
-                <div class="status-btn" style="background:var(--azul)" id="st-hipo" onclick="selStatus('hipo')">HIPO</div>
-                <div class="status-btn active" style="background:var(--verde); color:black" id="st-ok" onclick="selStatus('ok')">OK</div>
-                <div class="status-btn" style="background:var(--rosa)" id="st-hiper" onclick="selStatus('hiper')">HIPER</div>
-            </div>
-        </div>
-        <button class="btn-box" style="background:var(--verde); color:black" onclick="envComida()">GUARDAR RECETA</button>
+        <button class="btn-box" style="background:var(--lila); margin-top:20px" onclick="envCom()">GUARDAR BANQUETE</button>
     </div>
 
     <div id="s-reg" class="sec">
-        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
-        <button onclick="enviar({destino:'CICLO', valor:'INICIO'})" class="btn-box" style="background:var(--rosa)">INICIO CICLO</button>
-        <button onclick="enviar({destino:'CICLO', valor:'FIN'})" class="btn-box" style="background:var(--lila)">FIN CICLO</button>
+        <button class="btn-box" style="background:var(--azul)" onclick="volver()">VOLVER</button>
+        <button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'CICLO', valor:'INICIO'})">INICIO CICLO</button>
+        <button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'CICLO', valor:'FIN'})">FIN CICLO</button>
     </div>
 
     <div id="s-med" class="sec">
-        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
-        <div class="form-group"><label>VALOR MEDIA</label><input type="number" id="val-media" placeholder="000"></div>
-        <button onclick="enviar({destino:'MEDIA', valor: document.getElementById('val-media').value})" class="btn-box" style="background:var(--verde); color:black">REGISTRAR MEDIA</button>
+        <button class="btn-box" style="background:var(--azul)" onclick="volver()">VOLVER</button>
+        <input type="number" id="v-med" placeholder="Valor de glucosa media">
+        <button class="btn-box" style="background:var(--verde); color:black; margin-top:10px" onclick="enviar({destino:'MEDIA', valor:document.getElementById('v-med').value})">REGISTRAR</button>
     </div>
 
     <div id="s-ale" class="sec">
-        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
-        <button onclick="enviar({destino:'ALERTAS', valor:'SANGRE BAJA'})" class="btn-box" style="background:var(--rosa)">¡SANGRE BAJA!</button>
-        <button onclick="enviar({destino:'ALERTAS', valor:'SANGRE ALTA'})" class="btn-box" style="background:var(--lila)">¡SANGRE ALTA!</button>
+        <button class="btn-box" style="background:var(--azul)" onclick="volver()">VOLVER</button>
+        <button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'ALERTAS', valor:'SANGRE BAJA'})">¡SANGRE BAJA!</button>
+        <button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'ALERTAS', valor:'SANGRE ALTA'})">¡SANGRE ALTA!</button>
     </div>
 
     <div id="s-res" class="sec">
-        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
-        <div class="resumen-panel" id="resumen-texto"></div>
+        <button class="btn-box" style="background:var(--azul)" onclick="volver()">VOLVER</button>
+        <div id="res-cont" class="resumen-panel"></div>
     </div>
 </div>
 
 <script>
-    const CLAVE = "Idnopiras"; 
     const URL_APP = "https://script.google.com/macros/s/AKfycbzdYhjgVmixnrpw0nBCOTTGRPob5J2oU9unnz5VjaKhDrZz_F-qOl6vTZsZZQnzqtNm/exec";
-    let statusComida = "OK";
+    let curSt = "OK";
 
-    function acceder() { if(document.getElementById('pass').value === CLAVE) { document.getElementById('bloqueo').style.display="none"; document.getElementById('app').style.display="block"; } }
+    function acceder() { 
+        if(document.getElementById('pass').value === "Idnopiras") { 
+            document.getElementById('bloqueo').style.display='none'; 
+            document.getElementById('app').style.display='block'; 
+        } else {
+            alert("Código incorrecto, Alicia.");
+        }
+    }
+
     function ir(id) { document.getElementById('menu').style.display='none'; document.getElementById(id).style.display='block'; }
-    function volver() { document.getElementById('menu').style.display='grid'; document.querySelectorAll('.sec').forEach(s => s.style.display='none'); }
-    function selStatus(val) { statusComida = val.toUpperCase(); document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active')); document.getElementById('st-'+val).classList.add('active'); }
+    function volver() { document.getElementById('menu').style.display='grid'; document.querySelectorAll('.sec').forEach(s=>s.style.display='none'); }
+    
+    function setSt(v) { 
+        curSt = v; 
+        document.querySelectorAll('.st-btn').forEach(b=>b.classList.remove('active')); 
+        document.getElementById('h-'+v.toLowerCase()).classList.add('active'); 
+    }
 
-    function envComida() {
-        enviar({
-            destino: 'COMIDAS',
-            tipo: document.getElementById('com-tipo').value,
-            comida: document.getElementById('com-nombre').value,
-            insulina: document.getElementById('com-insu').value,
-            estado: statusComida
+    function enviar(d) {
+        document.getElementById('loader').style.display='flex';
+        fetch(URL_APP, { method:'POST', mode:'no-cors', body:JSON.stringify(d) })
+        .then(()=>{ 
+            document.getElementById('loader').style.display='none'; 
+            document.getElementById('notif').style.display='block'; 
+            setTimeout(()=>{ document.getElementById('notif').style.display='none'; volver(); }, 2000); 
         });
     }
 
-    function enviar(datos) {
-        document.getElementById('loader').style.display = 'flex';
-        fetch(URL_APP, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) })
-        .then(() => {
-            document.getElementById('loader').style.display = 'none';
-            const n = document.getElementById('notif');
-            n.style.display = "block";
-            setTimeout(() => { n.style.display = "none"; volver(); }, 2000);
+    function envCom() {
+        enviar({ 
+            destino:'COMIDAS', 
+            tipo: document.getElementById('c-tipo').value, 
+            comida: document.getElementById('c-nom').value, 
+            insulina: document.getElementById('c-ins').value, 
+            estado: curSt 
         });
     }
 
     async function obtenerResumen() {
         ir('s-res');
-        const panel = document.getElementById('resumen-texto');
-        document.getElementById('loader').style.display = 'flex'; // ACTIVA PIRULETA AL CARGAR RESUMEN
-        
+        document.getElementById('loader').style.display='flex';
         try {
-            const resp = await fetch(URL_APP);
-            const data = await resp.json();
+            const r = await fetch(URL_APP);
+            const d = await r.json();
+            let h = `<h2 style="font-family:'Grandstander'; color:var(--lila); text-align:center;">Crónica de Hoy</h2>`;
+            h += `<p>🌅 <b>Ayunas:</b> <span class="destaque">${d.ayunas}</span></p>`;
+            h += `<p>🍱 <b>Banquete:</b> ${d.comida ? d.comida.plato + " (" + d.comida.tipo + ") con " + d.comida.insu + "u. Sentó: <span class='destaque'>" + d.comida.estado + "</span>" : "No existen datos"}</p>`;
+            h += `<p>🍭 <b>Media:</b> <span class="destaque">${d.media}</span></p>`;
             
-            let html = `<h2 style="font-family:'Grandstander'; color:var(--lila); text-align:center; margin-top:0">Crónica de Hoy</h2>`;
-            html += `<p>🌅 <b>Ayunas:</b> <span class="res-destaque">${data.ayunas || 'No existen datos de hoy'}</span></p>`;
-            
-            if(data.comida && data.comida.plato) {
-                html += `<p>🍱 <b>Banquete:</b> Comiste ${data.comida.plato} (${data.comida.tipo}) con ${data.comida.insu}u y te sentó <span class="res-destaque">${data.comida.estado}</span>.</p>`;
-            } else { html += `<p>🍱 <b>Comidas:</b> No existen datos de hoy</p>`; }
-
-            html += `<p>🍭 <b>Media:</b> <span class="res-destaque">${data.media || 'No existen datos de hoy'}</span></p>`;
-
-            if(data.alertas && data.alertas.length > 0) {
-                html += `<p style="color:var(--rosa); font-weight:900">⚠️ Sustos:</p>`;
-                data.alertas.forEach(a => html += `<p style="font-size:0.9rem; margin-left:10px">• ${a.tipo} a las ${a.hora}</p>`);
-            } else { html += `<p>🌈 <b>Alertas:</b> Todo tranquilo hoy</p>`; }
-
-            panel.innerHTML = html;
-        } catch(e) { panel.innerHTML = "<p>El libro de hoy está en blanco o hay un error de conexión.</p>"; }
-        
-        document.getElementById('loader').style.display = 'none'; // QUITA PIRULETA AL TERMINAR
+            if(d.alertas && d.alertas.length > 0) {
+                h += `<p style="color:var(--rosa)">⚠️ <b>Alertas:</b> ${d.alertas[0].tipo} (${d.alertas[0].hora})</p>`;
+            } else {
+                h += `<p>🌈 <b>Alertas:</b> Todo tranquilo hoy.</p>`;
+            }
+            document.getElementById('res-cont').innerHTML = h;
+        } catch(e) { 
+            document.getElementById('res-cont').innerHTML = "El espejo mágico no responde. Revisa la URL."; 
+        }
+        document.getElementById('loader').style.display='none';
     }
 </script>
 </body>
