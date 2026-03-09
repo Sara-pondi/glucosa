@@ -229,14 +229,20 @@
     }
 
     function envCom() {
-        enviar({ 
-            destino:'COMIDAS', 
-            tipo: document.getElementById('c-tipo').value, 
-            comida: document.getElementById('com-nombre').value, 
-            insulina: document.getElementById('c-ins').value, 
-            estado: curSt 
-        });
-    }
+    const plato = document.getElementById('c-nom').value;
+    const tipo = document.getElementById('c-tipo').value;
+    const insu = document.getElementById('c-ins').value;
+    
+    if(!plato) { alert("¡Dime qué has comido!"); return; }
+
+    enviar({ 
+        destino: 'COMIDAS', 
+        tipo: tipo,           // Columna B
+        comida: plato,        // Columna C
+        insulina: insu,       // Columna D
+        estado: curSt         // Columna E (HIPO/OK/HIPER)
+    });
+}
 
     async function obtenerResumen() {
         ir('s-res');
@@ -264,3 +270,4 @@
 </script>
 </body>
 </html>
+
