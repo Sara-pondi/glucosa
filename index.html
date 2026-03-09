@@ -60,11 +60,9 @@
             font-size: 2.5rem; width: 70%; outline: none; font-family: 'Grandstander';
         }
 
-        /* CONTENEDOR */
         .app-container { width: 100%; max-width: 420px; padding: 25px; margin: auto; text-align: center; }
         h1 { font-family: 'Grandstander'; font-size: 3.5rem; text-shadow: 4px 4px 0 var(--rosa); margin-bottom: 25px; }
 
-        /* MENÚ */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card { 
             background: rgba(255,255,255,0.08); border: 3px solid rgba(255,255,255,0.2);
@@ -73,7 +71,6 @@
         .card i { font-style: normal; font-size: 2.8rem; display: block; margin-bottom: 5px; }
         .card b { font-family: 'Grandstander'; text-transform: uppercase; font-size: 0.9rem; }
 
-        /* BOTONES Y FORMULARIOS */
         .sec { display: none; animation: fadeIn 0.4s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
@@ -86,9 +83,8 @@
 
         .form-group { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 25px; margin-bottom: 15px; text-align: left; }
         label { font-family: 'Grandstander'; color: var(--azul); font-size: 0.9rem; display: block; margin-bottom: 8px; }
-        select, input { width: 100%; padding: 12px; border-radius: 15px; border: 3px solid var(--lila); font-family: 'Bubblegum Sans'; font-size: 1.1rem; }
+        select, input { width: 100%; padding: 12px; border-radius: 15px; border: 3px solid var(--lila); font-family: 'Bubblegum Sans'; font-size: 1.1rem; outline: none;}
 
-        /* RESUMEN REDACTADO */
         .resumen-panel {
             background: white; color: var(--fondo); border-radius: 40px; padding: 30px;
             box-shadow: 0 20px 0 var(--lila); text-align: left; line-height: 1.5;
@@ -128,6 +124,7 @@
         <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
         <button onclick="envG('MAYOR DE 130')" class="btn-box" style="background:var(--lila)">MAYOR DE 130 ▲</button>
         <button onclick="envG('MENOR DE 80')" class="btn-box" style="background:var(--rosa)">MENOR DE 80 ▼</button>
+        <button onclick="envG('OK')" class="btn-box" style="background:var(--verde); color:black">OK</button>
     </div>
 
     <div id="s-com" class="sec">
@@ -142,7 +139,7 @@
                 <option value="Cena">Cena</option>
             </select>
         </div>
-        <div class="form-group"><label>EL BANQUETE</label><input type="text" id="com-nombre" placeholder="Ej: Pizza..."></div>
+        <div class="form-group"><label>EL BANQUETE</label><input type="text" id="com-nombre" placeholder="¿Qué has comido?"></div>
         <div class="form-group"><label>INSULINA</label><input type="number" id="com-insu" placeholder="0"></div>
         <div class="form-group">
             <label>RESULTADO</label>
@@ -157,8 +154,23 @@
 
     <div id="s-ale" class="sec">
         <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
-        <button onclick="enviarS('ALERTAS', 'SANGRE BAJA')" class="btn-box" style="background:var(--rosa)">¡SANGRE BAJA!</button>
-        <button onclick="enviarS('ALERTAS', 'SANGRE ESPESA')" class="btn-box" style="background:var(--lila)">¡SANGRE ESPESA!</button>
+        <button onclick="enviar({destino:'ALERTAS', valor:'SANGRE BAJA'})" class="btn-box" style="background:var(--rosa)">¡SANGRE BAJA!</button>
+        <button onclick="enviar({destino:'ALERTAS', valor:'SANGRE ALTA'})" class="btn-box" style="background:var(--lila)">¡SANGRE ALTA!</button>
+    </div>
+
+    <div id="s-reg" class="sec">
+        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
+        <button onclick="enviar({destino:'CICLO', valor:'INICIO'})" class="btn-box" style="background:var(--rosa)">INICIAR CICLO</button>
+        <button onclick="enviar({destino:'CICLO', valor:'FIN'})" class="btn-box" style="background:var(--lila)">TERMINAR CICLO</button>
+    </div>
+
+    <div id="s-med" class="sec">
+        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
+        <div class="form-group">
+            <label>VALOR DE LA MEDIA</label>
+            <input type="number" id="val-media" placeholder="000">
+        </div>
+        <button onclick="enviar({destino:'MEDIA', valor: document.getElementById('val-media').value})" class="btn-box" style="background:var(--verde); color:black">REGISTRAR MEDIA</button>
     </div>
 
     <div id="s-res" class="sec">
@@ -201,6 +213,7 @@
     }
 
     function enviar(datos) {
+        if(!datos.valor && datos.destino !== 'COMIDAS') { alert("Escribe un valor primero"); return; }
         document.getElementById('loader').style.display = 'flex';
         fetch(URL_APP, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) })
         .then(() => {
@@ -212,46 +225,41 @@
     }
 
     async function obtenerResumen() {
-    ir('s-res');
-    const panel = document.getElementById('resumen-texto');
-    panel.innerHTML = "<p class='loading-text'>LEYENDO TU DIARIO...</p>";
-    
-    try {
-        const response = await fetch(URL_APP);
-        const data = await response.json();
+        ir('s-res');
+        const panel = document.getElementById('resumen-texto');
+        panel.innerHTML = "<p class='loading-text'>LEYENDO TU DIARIO...</p>";
         
-        let texto = `<h2 style="font-family:'Grandstander'; color:var(--lila); text-align:center;">Crónica de Hoy</h2>`;
+        try {
+            const response = await fetch(URL_APP);
+            const data = await response.json();
+            
+            let texto = `<h2 style="font-family:'Grandstander'; color:var(--lila); text-align:center;">Crónica de Hoy</h2>`;
 
-        // Narración de Ayunas
-        texto += `<p>🌅 <b>Ayunas:</b> ${data.ayunas}.</p>`;
+            texto += `<p>🌅 <b>Ayunas:</b> <span class="res-destaque">${data.ayunas || 'No existen datos de hoy'}</span>.</p>`;
 
-        // Narración de Comidas
-        if (data.comida) {
-            texto += `<p>🍱 <b>Último banquete:</b> En el ${data.comida.tipo} comiste ${data.comida.plato}, usaste ${data.comida.insu} unidades y te sentó ${data.comida.estado}.</p>`;
-        } else {
-            texto += `<p>🍱 <b>Comidas:</b> No existen datos de hoy.</p>`;
+            if (data.comida && data.comida.plato) {
+                texto += `<p>🍱 <b>Último banquete:</b> En el ${data.comida.tipo} comiste ${data.comida.plato}, usaste ${data.comida.insu} unidades y te sentó ${data.comida.estado}.</p>`;
+            } else {
+                texto += `<p>🍱 <b>Comidas:</b> No existen datos de hoy.</p>`;
+            }
+
+            texto += `<p>🍭 <b>Media registrada:</b> <span class="res-destaque">${data.media || 'No existen datos de hoy'}</span>.</p>`;
+
+            if (data.alertas && data.alertas.length > 0) {
+                texto += `<p style="color:var(--rosa)">⚠️ <b>Sustos del día:</b></p>`;
+                data.alertas.forEach(a => {
+                    texto += `<p style="font-size:1rem; margin-left:15px;">• ${a.tipo} a las ${a.hora}</p>`;
+                });
+            } else {
+                texto += `<p>🌈 <b>Alertas:</b> Todo tranquilo hoy.</p>`;
+            }
+
+            panel.innerHTML = texto;
+
+        } catch (error) {
+            panel.innerHTML = "<p>El espejo mágico está nublado. Revisa la conexión.</p>";
         }
-
-        // Narración de Media
-        texto += `<p>🍭 <b>Media registrada:</b> ${data.media}.</p>`;
-
-        // Narración de Alertas
-        if (data.alertas && data.alertas.length > 0) {
-            texto += `<p style="color:var(--rosa)">⚠️ <b>Sustos del día:</b></p>`;
-            data.alertas.forEach(a => {
-                texto += `<p style="font-size:1rem; margin-left:15px;">• ${a.tipo} a las ${a.hora}</p>`;
-            });
-        } else {
-            texto += `<p>🌈 <b>Alertas:</b> Todo tranquilo hoy.</p>`;
-        }
-
-        panel.innerHTML = texto;
-
-    } catch (error) {
-        panel.innerHTML = "<p>El espejo mágico está nublado. Revisa la conexión.</p>";
     }
-}
 </script>
 </body>
 </html>
-
