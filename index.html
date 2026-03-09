@@ -212,24 +212,46 @@
     }
 
     async function obtenerResumen() {
-        ir('s-res');
-        const panel = document.getElementById('resumen-texto');
-        panel.innerHTML = "Consultando el libro de hoy...";
-        // Aquí conectas con tu doGet de Apps Script
-        const data = { vacio: false, ayunas: "Mayor de 130", comida: "Pizza", estado: "OK", alertas: [{tipo: "SANGRE BAJA", hora: "16:45"}] };
+    ir('s-res');
+    const panel = document.getElementById('resumen-texto');
+    panel.innerHTML = "<p class='loading-text'>LEYENDO TU DIARIO...</p>";
+    
+    try {
+        const response = await fetch(URL_APP);
+        const data = await response.json();
         
-        setTimeout(() => {
-            let texto = `<h2 style="font-family:'Grandstander'; color:var(--lila)">Crónica de hoy</h2>`;
-            texto += `<p>Al despertar, el azúcar estaba <b class="res-destaque">${data.ayunas}</b>.</p>`;
-            texto += `<p>En la comida, tomaste <b class="res-destaque">${data.comida}</b> y todo terminó en un estado <b class="res-destaque">${data.estado}</b>.</p>`;
-            if(data.alertas.length > 0) {
-                data.alertas.forEach(a => {
-                    texto += `<p style="color:red">⚠️ ¡Atención! Registraste <b class="res-destaque">${a.tipo}</b> a las ${a.hora}.</p>`;
-                });
-            }
-            panel.innerHTML = texto;
-        }, 1000);
+        let texto = `<h2 style="font-family:'Grandstander'; color:var(--lila); text-align:center;">Crónica de Hoy</h2>`;
+
+        // Narración de Ayunas
+        texto += `<p>🌅 <b>Ayunas:</b> ${data.ayunas}.</p>`;
+
+        // Narración de Comidas
+        if (data.comida) {
+            texto += `<p>🍱 <b>Último banquete:</b> En el ${data.comida.tipo} comiste ${data.comida.plato}, usaste ${data.comida.insu} unidades y te sentó ${data.comida.estado}.</p>`;
+        } else {
+            texto += `<p>🍱 <b>Comidas:</b> No existen datos de hoy.</p>`;
+        }
+
+        // Narración de Media
+        texto += `<p>🍭 <b>Media registrada:</b> ${data.media}.</p>`;
+
+        // Narración de Alertas
+        if (data.alertas && data.alertas.length > 0) {
+            texto += `<p style="color:var(--rosa)">⚠️ <b>Sustos del día:</b></p>`;
+            data.alertas.forEach(a => {
+                texto += `<p style="font-size:1rem; margin-left:15px;">• ${a.tipo} a las ${a.hora}</p>`;
+            });
+        } else {
+            texto += `<p>🌈 <b>Alertas:</b> Todo tranquilo hoy.</p>`;
+        }
+
+        panel.innerHTML = texto;
+
+    } catch (error) {
+        panel.innerHTML = "<p>El espejo mágico está nublado. Revisa la conexión.</p>";
     }
+}
 </script>
 </body>
 </html>
+
