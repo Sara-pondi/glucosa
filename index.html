@@ -3,96 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Wonderland Candy Rain</title>
+    <title>Wonderland Candy Elite</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Grandstander:wght@700;900&display=swap');
         :root { --rosa: #ff4dff; --azul: #00d4ff; --lila: #a64dff; --verde: #39ff14; --fondo: #120024; }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Bubblegum Sans', cursive; margin: 0; background: var(--fondo); color: white; overflow-x: hidden; }
+        
+        /* FONDO CON TEXTURA Y PURPURINA */
+        body { 
+            font-family: 'Bubblegum Sans', cursive; margin: 0; background: var(--fondo);
+            background-image: radial-gradient(circle at 50% 50%, rgba(255, 77, 255, 0.1), transparent),
+                              url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+            color: white; overflow-x: hidden;
+        }
 
-        /* --- EFECTO LLUVIA DE CARAMELOS (CANDY RAIN) --- */
+        /* LLUVIA DE CARAMELOS */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(18, 0, 36, 0.9); display: none; z-index: 10000;
-            backdrop-filter: blur(10px); overflow: hidden; /* Importante para que no salgan barras de desplazamiento */
+            backdrop-filter: blur(10px);
         }
-        .candy {
-            position: absolute; font-size: 2rem;
-            animation: fall linear infinite;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            opacity: 0.8;
-        }
+        .candy { position: absolute; font-size: 2.2rem; animation: fall linear infinite; }
         @keyframes fall {
             0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
+            20% { opacity: 1; }
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
-        .loading-text {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-family: 'Grandstander'; font-size: 1.8rem; color: white;
-            text-shadow: 0 0 15px var(--rosa); text-align: center;
-            animation: pulse 1s infinite alternate; z-index: 10001;
-        }
-        @keyframes pulse { from { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); } to { opacity: 1; transform: translate(-50%, -50%) scale(1.1); } }
-
-        /* NOTIFICACIÓN ÉXITO */
-        #notif { 
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: white; color: var(--lila); padding: 30px; border-radius: 40px;
-            font-family: 'Grandstander'; font-size: 2rem; z-index: 10001; display: none;
-            border: 8px solid var(--verde); box-shadow: 0 0 50px var(--rosa);
-        }
-
-        .app-container { width: 100%; max-width: 420px; padding: 20px; margin: auto; text-align: center; }
-        h1 { font-family: 'Grandstander'; font-size: 3rem; text-shadow: 3px 3px var(--rosa); margin-bottom: 20px; }
 
         /* LOGIN */
-        #bloqueo {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--fondo); display: flex; flex-direction: column; 
-            align-items: center; justify-content: center; z-index: 9999;
-        }
-        .pass-input { 
-            background: rgba(255,255,255,0.1); border: 5px solid var(--rosa);
-            color: white; padding: 15px; border-radius: 20px; text-align: center;
-            font-size: 2rem; width: 70%; outline: none; font-family: 'Grandstander';
-        }
+        #bloqueo { position: fixed; inset: 0; background: var(--fondo); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
+        .pass-input { background: rgba(255,255,255,0.1); border: 4px solid var(--rosa); color: white; padding: 15px; border-radius: 20px; text-align: center; font-size: 2rem; width: 70%; font-family: 'Grandstander'; }
 
-        /* MENÚ Y BOTONES */
+        /* INTERFAZ GLASS */
+        .app-container { width: 100%; max-width: 420px; padding: 20px; margin: auto; text-align: center; }
+        h1 { font-family: 'Grandstander'; font-size: 3rem; text-shadow: 3px 3px var(--rosa); margin-bottom: 20px; }
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card { background: rgba(255,255,255,0.1); border-radius: 25px; padding: 20px; cursor: pointer; border: 2px solid rgba(255,255,255,0.1); }
+        .card { 
+            background: rgba(255, 255, 255, 0.08); border-radius: 30px; padding: 20px; cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
         .card i { font-style: normal; font-size: 2.5rem; display: block; }
         
-        .sec { display: none; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .sec { display: none; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; scale: 0.95; } to { opacity: 1; scale: 1; } }
 
-        .btn-box { width: 100%; padding: 18px; border-radius: 20px; border: none; color: white; font-family: 'Grandstander'; font-size: 1.2rem; margin-bottom: 12px; cursor: pointer; box-shadow: 0 5px 0 rgba(0,0,0,0.3); }
-        .btn-box:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,0.3); }
+        /* BOTONES CARAMELO */
+        .btn-box { 
+            width: 100%; padding: 18px; border-radius: 20px; border: none; color: white; font-family: 'Grandstander'; font-size: 1.2rem; 
+            margin-bottom: 15px; cursor: pointer; box-shadow: 0 6px 0 rgba(0,0,0,0.3);
+            background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
+        }
+        
+        input, select { width: 100%; padding: 14px; border-radius: 15px; border: 3px solid var(--lila); margin-top: 8px; font-family: 'Bubblegum Sans'; font-size: 1.1rem; }
 
-        input, select { width: 100%; padding: 12px; border-radius: 15px; border: 3px solid var(--lila); margin-top: 5px; font-size: 1rem; font-family: 'Bubblegum Sans'; }
-
-        .status-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .st-btn { padding: 10px; border-radius: 10px; opacity: 0.3; font-family: 'Grandstander'; cursor: pointer; text-align: center; }
+        .st-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .st-btn { padding: 12px; border-radius: 12px; opacity: 0.3; font-family: 'Grandstander'; cursor: pointer; text-align: center; }
         .st-btn.active { opacity: 1; border: 2px solid white; transform: scale(1.05); }
 
-        .resumen-panel { background: white; color: #333; border-radius: 30px; padding: 25px; text-align: left; box-shadow: 0 10px 0 var(--lila); line-height: 1.5; }
-        .destaque { color: var(--rosa); font-weight: 900; }
+        .resumen-panel { 
+            background: rgba(255, 255, 255, 0.95); color: #222; border-radius: 35px; padding: 25px; text-align: left;
+            box-shadow: 0 15px 40px rgba(166, 77, 255, 0.4); border: 5px solid var(--lila);
+        }
+        .destaque { color: var(--rosa); font-weight: 900; font-family: 'Grandstander'; }
+        #notif { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; color: var(--lila); padding: 30px; border-radius: 40px; font-family: 'Grandstander'; font-size: 2rem; z-index: 10001; display: none; border: 8px solid var(--verde); }
     </style>
 </head>
 <body>
 
-<div id="loader">
-    <div class="loading-text">ABRIENDO EL PORTAL DULCE...</div>
-    </div>
-
+<div id="loader"><div id="candy-wrap"></div><div style="position:absolute;top:60%;left:50%;transform:translate(-50%,-50%);font-family:'Grandstander';font-size:1.8rem;text-shadow:0 0 10px var(--rosa);">DULCIFICANDO...</div></div>
 <div id="notif">¡REGISTRADO! ✨</div>
 
 <div id="bloqueo">
     <h1>Wonderland</h1>
     <input type="password" id="pass" class="pass-input" placeholder="CODE">
-    <button onclick="acceder()" class="btn-box" style="background:var(--rosa); width:auto; margin-top:20px; padding:10px 50px;">ENTRAR</button>
+    <button onclick="acceder()" class="btn-box" style="background:var(--rosa); width:auto; margin-top:30px; padding:10px 60px;">ENTRAR</button>
 </div>
 
 <div class="app-container" id="app" style="display:none">
@@ -108,24 +94,22 @@
 
     <div id="s-glu" class="sec">
         <button class="btn-box" style="background:var(--azul)" onclick="volver()">VOLVER</button>
-        <button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'GLUCOSA', valor:'MAYOR DE 130'})">MAYOR DE 130 ▲</button>
-        <button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'GLUCOSA', valor:'MENOR DE 80'})">MENOR DE 80 ▼</button>
+        <button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'GLUCOSA', valor:'MAYOR DE 130'})">MAYOR DE 130</button>
+        <button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'GLUCOSA', valor:'MENOR DE 80'})">MENOR DE 80</button>
         <button class="btn-box" style="background:var(--verde); color:black" onclick="enviar({destino:'GLUCOSA', valor:'OK'})">OK</button>
     </div>
 
     <div id="s-com" class="sec">
         <button class="btn-box" style="background:var(--azul)" onclick="volver()">VOLVER</button>
         <input type="text" id="c-nom" placeholder="¿Qué has comido?">
-        <select id="c-tipo" style="margin-top:10px">
-            <option>Desayuno</option><option>Almuerzo</option><option>Comida</option><option>Merienda</option><option>Cena</option>
-        </select>
-        <input type="number" id="c-ins" placeholder="Unidades insulina" style="margin-top:10px">
-        <div class="status-grid">
+        <select id="c-tipo"><option>Desayuno</option><option>Almuerzo</option><option>Comida</option><option>Merienda</option><option>Cena</option></select>
+        <input type="number" id="c-ins" placeholder="Insulina">
+        <div class="st-grid">
             <div class="st-btn" id="h-hipo" style="background:var(--azul)" onclick="setSt('HIPO')">HIPO</div>
             <div class="st-btn active" id="h-ok" style="background:var(--verde); color:black" onclick="setSt('OK')">OK</div>
             <div class="st-btn" id="h-hiper" style="background:var(--rosa)" onclick="setSt('HIPER')">HIPER</div>
         </div>
-        <button class="btn-box" style="background:var(--lila); margin-top:20px" onclick="envCom()">GUARDAR BANQUETE</button>
+        <button class="btn-box" style="background:var(--lila); margin-top:25px" onclick="envCom()">GUARDAR</button>
     </div>
 
     <div id="s-reg" class="sec">
@@ -136,14 +120,14 @@
 
     <div id="s-med" class="sec">
         <button class="btn-box" style="background:var(--azul)" onclick="volver()">VOLVER</button>
-        <input type="number" id="v-med" placeholder="Valor de glucosa media">
+        <input type="number" id="v-med" placeholder="Glucosa media">
         <button class="btn-box" style="background:var(--verde); color:black; margin-top:10px" onclick="enviar({destino:'MEDIA', valor:document.getElementById('v-med').value})">REGISTRAR</button>
     </div>
 
     <div id="s-ale" class="sec">
         <button class="btn-box" style="background:var(--azul)" onclick="volver()">VOLVER</button>
-        <button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'ALERTAS', valor:'SANGRE BAJA'})">¡SANGRE BAJA!</button>
-        <button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'ALERTAS', valor:'SANGRE ALTA'})">¡SANGRE ALTA!</button>
+        <button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'ALERTAS', valor:'SANGRE BAJA'})">SANGRE BAJA</button>
+        <button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'ALERTAS', valor:'SANGRE ALTA'})">SANGRE ALTA</button>
     </div>
 
     <div id="s-res" class="sec">
@@ -153,121 +137,69 @@
 </div>
 
 <script>
-    // --- IMPORTANTE: PEGA AQUÍ TU URL DE IMPLEMENTACIÓN ---
-    const URL_APP = "https://script.google.com/macros/s/AKfycbzdYhjgVmixnrpw0nBCOTTGRPob5J2oU9unnz5VjaKhDrZz_F-qOl6vTZsZZQnzqtNm/exec";
-    const CLAVE_CORRECTA = "Idnopiras";
-    
+    const URL_APP = "https://script.google.com/macros/s/AKfycbzdYhjgVmixnrpw0nBCOTTGRPob5J2oU9unnz5VjaKhDrZz_F-qOl6vTZsZZQnzqtNm/exec"; // <-- PEGA TU URL
     let curSt = "OK";
-    let candyInterval; // Para controlar la generación de caramelos
+    let candyInterval;
 
-    function acceder() { 
-        if(document.getElementById('pass').value === CLAVE_CORRECTA) { 
-            document.getElementById('bloqueo').style.display='none'; 
-            document.getElementById('app').style.display='block'; 
-        } else {
-            alert("Código incorrecto, Alicia.");
-        }
-    }
-
+    function acceder() { if(document.getElementById('pass').value === "Idnopiras") { document.getElementById('bloqueo').style.display='none'; document.getElementById('app').style.display='block'; } }
     function ir(id) { document.getElementById('menu').style.display='none'; document.getElementById(id).style.display='block'; }
     function volver() { document.getElementById('menu').style.display='grid'; document.querySelectorAll('.sec').forEach(s=>s.style.display='none'); }
-    
-    function setSt(v) { 
-        curSt = v; 
-        document.querySelectorAll('.st-btn').forEach(b=>b.classList.remove('active')); 
-        document.getElementById('h-'+v.toLowerCase()).classList.add('active'); 
-    }
+    function setSt(v) { curSt = v; document.querySelectorAll('.st-btn').forEach(b=>b.classList.remove('active')); document.getElementById('h-'+v.toLowerCase()).classList.add('active'); }
 
-    // --- LÓGICA DE CARGA (Candy Rain) ---
-    const CANDIES = ['🍬', '🍭', '🍫', '🍩', '🍪', '🍨', '🧁'];
-    
     function startCandyRain() {
-        const loader = document.getElementById('loader');
-        loader.style.display = 'block';
-        
-        // Generar un caramelo cada 150ms
+        const wrap = document.getElementById('candy-wrap');
+        document.getElementById('loader').style.display='block';
         candyInterval = setInterval(() => {
-            const candy = document.createElement('div');
-            candy.classList.add('candy');
-            candy.innerText = CANDIES[Math.floor(Math.random() * CANDIES.length)];
-            
-            // Posición horizontal aleatoria (0% a 100% del ancho)
-            candy.style.left = Math.random() * 100 + 'vw';
-            
-            // Duración de caída aleatoria (entre 3s y 6s) para efecto 3D
-            const duration = (Math.random() * 3 + 3) + 's';
-            candy.style.animationDuration = duration;
-            
-            // Tamaño aleatorio (entre 1.5rem y 2.5rem)
-            candy.style.fontSize = (Math.random() * 1 + 1.5) + 'rem';
-
-            loader.appendChild(candy);
-            
-            // Borrar el caramelo después de que termine la animación
-            setTimeout(() => { candy.remove(); }, parseFloat(duration) * 1000);
-            
-        }, 150);
+            const c = document.createElement('div');
+            c.className = 'candy';
+            c.innerText = ['🍬','🍭','🍫','🍩','🍪'][Math.floor(Math.random()*5)];
+            c.style.left = Math.random()*100 + 'vw';
+            const dur = (Math.random()*2 + 2) + 's';
+            c.style.animationDuration = dur;
+            wrap.appendChild(c);
+            setTimeout(() => c.remove(), parseFloat(dur)*1000);
+        }, 100);
     }
 
-    function stopCandyRain() {
-        clearInterval(candyInterval);
-        document.getElementById('loader').style.display = 'none';
-        // Limpiar caramelos restantes
-        const candies = document.querySelectorAll('.candy');
-        candies.forEach(c => c.remove());
-    }
+    function stopCandyRain() { clearInterval(candyInterval); document.getElementById('loader').style.display='none'; }
 
-    // --- ENVÍO Y RESUMEN ---
     function enviar(d) {
-        startCandyRain(); // INICIA LLUVIA
+        startCandyRain();
         fetch(URL_APP, { method:'POST', mode:'no-cors', body:JSON.stringify(d) })
-        .then(()=>{ 
-            stopCandyRain(); // PARA LLUVIA
-            document.getElementById('notif').style.display='block'; 
-            setTimeout(()=>{ document.getElementById('notif').style.display='none'; volver(); }, 2000); 
+        .then(() => {
+            stopCandyRain();
+            document.getElementById('notif').style.display='block';
+            setTimeout(() => { document.getElementById('notif').style.display='none'; volver(); }, 2000);
         });
     }
 
     function envCom() {
-    const plato = document.getElementById('c-nom').value;
-    const tipo = document.getElementById('c-tipo').value;
-    const insu = document.getElementById('c-ins').value;
-    
-    if(!plato) { alert("¡Dime qué has comido!"); return; }
-
-    enviar({ 
-        destino: 'COMIDAS', 
-        tipo: tipo,           // Columna B
-        comida: plato,        // Columna C
-        insulina: insu,       // Columna D
-        estado: curSt         // Columna E (HIPO/OK/HIPER)
-    });
-}
+        enviar({
+            destino: 'COMIDAS',
+            tipo: document.getElementById('c-tipo').value,
+            comida: document.getElementById('c-nom').value,
+            insulina: document.getElementById('c-ins').value,
+            estado: curSt
+        });
+    }
 
     async function obtenerResumen() {
         ir('s-res');
-        startCandyRain(); // INICIA LLUVIA
+        startCandyRain();
         try {
             const r = await fetch(URL_APP);
             const d = await r.json();
-            let h = `<h2>Crónica de Hoy</h2>`;
-            // Forzar "No existen datos" si viene null/undefined
-            h += `<p>🌅 <b>Ayunas:</b> <span class="destaque">${d.ayunas || 'No existen datos de hoy'}</span></p>`;
-            h += `<p>🍱 <b>Banquete:</b> ${d.comida && d.comida.plato ? d.comida.plato + " (" + d.comida.tipo + ") con " + d.comida.insu + "u. Sentó: <span class='destaque'>" + d.comida.estado + "</span>" : "No existen datos"}</p>`;
-            h += `<p>🍭 <b>Media:</b> <span class="destaque">${d.media || 'No existen datos de hoy'}</span></p>`;
-            
-            if(d.alertas && d.alertas.length > 0) {
-                h += `<p style="color:var(--rosa)">⚠️ <b>Alertas:</b> ${d.alertas[0].tipo} (${d.alertas[0].hora})</p>`;
-            } else {
-                h += `<p>🌈 <b>Alertas:</b> Todo tranquilo hoy.</p>`;
-            }
+            let h = `<h2 style="font-family:'Grandstander';color:var(--lila);text-align:center;margin-top:0">Crónica de Hoy</h2>`;
+            h += `<p>🌅 <b>Ayunas:</b> <span class="destaque">${d.ayunas}</span></p>`;
+            if(d.comida) h += `<p>🍱 <b>Banquete:</b> ${d.comida.plato} (${d.comida.tipo}) con ${d.comida.insu}u. Sentó: <span class="destaque">${d.comida.estado}</span></p>`;
+            else h += `<p>🍱 <b>Comida:</b> No existen datos</p>`;
+            h += `<p>🍭 <b>Media:</b> <span class="destaque">${d.media}</span></p>`;
+            h += `<p>⚠️ <b>Alertas:</b> ${d.alertas.length > 0 ? d.alertas.map(a=>a.tipo).join(", ") : "Todo en calma"}</p>`;
+            h += `<p>🎀 <b>Ciclo:</b> <span style="color:var(--lila)">${d.cicloEstado}</span></p>`;
             document.getElementById('res-cont').innerHTML = h;
-        } catch(e) { 
-            document.getElementById('res-cont').innerHTML = "No existen datos de hoy. ¡El diario está en blanco!"; 
-        }
-        stopCandyRain(); // PARA LLUVIA
+        } catch(e) { document.getElementById('res-cont').innerHTML = "Error al leer el espejo mágico."; }
+        stopCandyRain();
     }
 </script>
 </body>
 </html>
-
