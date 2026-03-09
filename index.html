@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cheshire Elite Control</title>
+    <title>Cheshire Alchemy Elite</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Almendra+Display&family=Bungee&family=Quicksand:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Comfortaa:wght@400;700&family=Bungee&display=swap');
 
         :root {
             --morado: #9d00ff;
@@ -13,101 +13,118 @@
             --cian: #00ffff;
             --lima: #39ff14;
             --fondo: #0f001e;
-            --glass: rgba(255, 255, 255, 0.1);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body { 
-            font-family: 'Quicksand', sans-serif;
+            font-family: 'Comfortaa', cursive;
             margin: 0; padding: 0; min-height: 100vh;
             color: white; background: var(--fondo);
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(157, 0, 255, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 50% 100%, rgba(0, 255, 255, 0.2) 0%, transparent 50%);
+                radial-gradient(circle at 50% 0%, rgba(157, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, rgba(0, 255, 255, 0.1) 0%, transparent 40%);
             background-attachment: fixed;
+        }
+
+        /* Bloqueo */
+        #bloqueo {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--fondo); display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; z-index: 9999;
+        }
+        .pass-input { 
+            background: rgba(255,255,255,0.05); border: 3px solid var(--rosa);
+            color: white; padding: 20px; border-radius: 25px; text-align: center;
+            font-size: 2.5rem; width: 80%; outline: none; font-family: 'Bungee';
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.2);
         }
 
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(15, 0, 30, 0.9); display: none; flex-direction: column;
-            align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(10px);
+            align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(10px);
         }
         .gota {
-            width: 40px; height: 40px; border-radius: 0 50% 50% 50%; transform: rotate(45deg);
-            background: var(--cian); box-shadow: 0 0 30px var(--cian);
-            animation: goteo 0.8s infinite alternate;
+            width: 30px; height: 30px; border-radius: 0 50% 50% 50%; transform: rotate(45deg);
+            background: var(--cian); box-shadow: 0 0 20px var(--cian);
+            animation: goteo 0.6s infinite alternate;
         }
-        @keyframes goteo { from { transform: translateY(-50px) rotate(45deg); } to { transform: translateY(50px) rotate(45deg); } }
+        @keyframes goteo { from { transform: translateY(-20px); } to { transform: translateY(20px); } }
 
         .app-container { width: 100%; max-width: 420px; padding: 25px; margin: auto; }
 
-        #bloqueo {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--fondo); display: flex; flex-direction: column; 
-            align-items: center; justify-content: center; z-index: 8000;
-        }
-        .pass-input { 
-            background: var(--glass); border: 4px solid var(--rosa);
-            color: white; padding: 20px; border-radius: 20px; text-align: center;
-            font-size: 2.5rem; width: 80%; outline: none; font-family: 'Bungee';
-        }
-
         h1 { 
-            font-family: 'Almendra Display', serif; font-size: 3.5rem; text-align: center; 
-            margin: 0; background: linear-gradient(to right, var(--cian), var(--rosa));
+            font-family: 'Lobster', cursive; font-size: 3.5rem; text-align: center; margin: 0;
+            background: linear-gradient(to right, #fff, var(--cian));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
         }
-        .sub { text-align: center; font-family: 'Bungee'; color: var(--cian); font-size: 0.8rem; margin-bottom: 30px; }
+        .sub { text-align: center; font-size: 0.9rem; color: var(--rosa); letter-spacing: 1px; margin-bottom: 30px; font-weight: 700; }
 
-        /* Menú Principal */
+        /* Menú */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card { 
-            background: linear-gradient(135deg, rgba(157, 0, 255, 0.3), rgba(255, 0, 127, 0.3));
-            border: 2px solid rgba(255,255,255,0.2); border-radius: 25px; padding: 25px 5px;
-            text-align: center; cursor: pointer; transition: 0.2s; backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 25px; padding: 25px 10px; text-align: center; cursor: pointer;
+            backdrop-filter: blur(8px); transition: 0.2s;
         }
-        .card:active { transform: scale(0.9); background: var(--rosa); }
-        .card i { font-size: 2.8rem; display: block; margin-bottom: 10px; }
-        .card b { font-family: 'Bungee'; font-size: 1rem; color: white; }
+        .card:active { transform: scale(0.92); background: rgba(157, 0, 255, 0.2); border-color: var(--morado); }
+        .card i { font-size: 2.5rem; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 10px var(--morado)); }
+        .card b { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* EL BOTÓN DE RESUMEN (Ya no es verde horroroso) */
-        .btn-resumen-lujo {
-            grid-column: span 2; background: linear-gradient(to right, #6a11cb, #2575fc);
-            border: 3px solid var(--cian) !important; box-shadow: 0 0 15px var(--cian);
+        .btn-resumen {
+            grid-column: span 2; background: linear-gradient(45deg, var(--morado), var(--rosa));
+            border: none; margin-top: 10px; box-shadow: 0 5px 15px rgba(157, 0, 255, 0.3);
         }
 
-        .sec { display: none; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* Secciones */
+        .sec { display: none; animation: slideIn 0.3s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .btn-atras { background: none; border: 2px solid var(--cian); color: var(--cian); padding: 8px 15px; font-family: 'Bungee'; border-radius: 10px; margin-bottom: 20px; }
+        .btn-atras { background: none; border: 1px solid var(--cian); color: var(--cian); padding: 8px 15px; border-radius: 12px; margin-bottom: 25px; cursor: pointer; font-family: 'Comfortaa'; }
 
+        /* Formulario Comidas */
+        .form-group { margin-bottom: 20px; }
+        .form-group label { font-size: 0.8rem; color: var(--cian); display: block; margin-bottom: 8px; font-weight: 700; text-transform: uppercase; }
+        
+        select, input[type="text"], input[type="number"] {
+            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--morado);
+            padding: 15px; border-radius: 15px; color: white; font-family: 'Comfortaa'; outline: none;
+        }
+        
         .btn-box {
-            width: 100%; padding: 25px; border-radius: 20px; border: none;
-            color: white; font-size: 1.2rem; font-family: 'Bungee'; margin-bottom: 15px;
-            background: var(--morado); box-shadow: 0 8px 0 #5e0099;
-            display: flex; justify-content: space-between; align-items: center;
+            width: 100%; padding: 20px; border-radius: 18px; border: none;
+            color: white; font-size: 1.1rem; font-weight: 700; margin-top: 10px;
+            background: var(--morado); cursor: pointer; transition: 0.2s;
         }
-        .btn-box:active { transform: translateY(4px); box-shadow: 0 4px 0 #5e0099; }
-        .btn-box.rojo { background: var(--rosa); box-shadow: 0 8px 0 #b30059; }
-        .btn-box.otros { background: var(--cian); color: var(--fondo); box-shadow: 0 8px 0 #009999; }
+        .btn-box:active { transform: scale(0.98); opacity: 0.8; }
+        .btn-box.save { background: var(--rosa); }
 
-        /* RESUMEN MEJORADO */
-        .resumen-v2 {
-            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.1) 100%);
-            border-radius: 35px; padding: 30px; border: 2px solid var(--rosa);
-            box-shadow: 0 0 25px rgba(255, 0, 127, 0.3);
+        /* Status Buttons */
+        .status-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .status-btn { 
+            padding: 12px; border-radius: 12px; border: 2px solid transparent; 
+            font-size: 0.75rem; font-weight: 700; cursor: pointer; opacity: 0.5; text-align: center;
         }
-        .res-row { margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
-        .res-row:last-child { border: none; }
-        .res-label { font-family: 'Bungee'; color: var(--cian); font-size: 0.7rem; letter-spacing: 1px; display: block; margin-bottom: 5px; }
-        .res-val { font-family: 'Almendra Display'; font-size: 1.8rem; display: block; }
+        .status-btn.active { opacity: 1; border-color: white; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .ok { background: var(--lima); color: #000; }
+        .hipo { background: var(--cian); color: #000; }
+        .hiper { background: var(--rosa); color: #fff; }
+
+        /* Resumen Estilo Cristal */
+        .resumen-v2 {
+            background: rgba(255,255,255,0.03); border-radius: 30px; padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+        }
+        .res-row { margin-bottom: 20px; }
+        .res-label { font-size: 0.75rem; color: var(--cian); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 5px; }
+        .res-val { font-family: 'Lobster'; font-size: 2.2rem; display: block; color: #fff; }
 
         #notif { 
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: var(--cian); color: var(--fondo); padding: 15px 30px;
-            border-radius: 50px; font-family: 'Bungee'; z-index: 10000; display: none;
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: var(--lima); color: black; padding: 15px 35px;
+            border-radius: 50px; font-weight: 700; z-index: 10000; display: none;
         }
     </style>
 </head>
@@ -118,78 +135,98 @@
 
 <div id="bloqueo">
     <h1>Wonderland</h1>
-    <input type="password" id="pass" class="pass-input" placeholder="CODE">
-    <button onclick="acceder()" style="margin-top:30px; background:var(--rosa); color:white; border:none; padding:15px 40px; font-family:'Bungee'; border-radius:20px;">ENTRAR</button>
+    <input type="password" id="pass" class="pass-input" placeholder="••••">
+    <button onclick="acceder()" style="margin-top:30px; background:var(--rosa); color:white; border:none; padding:15px 40px; border-radius:20px; font-family:'Comfortaa'; font-weight:700;">ACCEDER</button>
 </div>
 
 <div class="app-container" id="app" style="display:none">
     <h1>Mi Diario</h1>
-    <div class="sub" id="txt-fecha"></div>
+    <div class="sub" id="txt-fecha">ALQUIMIA DE VIDA</div>
     
     <div id="menu" class="menu-grid">
-        <div class="card" onclick="ir('s-glu')"><i>🍬</i><b>AYUNAS</b></div>
-        <div class="card" onclick="ir('s-ale')"><i>🍄</i><b>ALERTAS</b></div>
-        <div class="card" onclick="ir('s-reg')"><i>🎀</i><b>CICLO</b></div>
-        <div class="card" onclick="ir('s-med')"><i>🍭</i><b>MEDIA</b></div>
-        <div class="card btn-resumen-lujo" onclick="cargarResumen()">
-            <i>✨</i><b>RESUMEN DEL DÍA</b>
-        </div>
+        <div class="card" onclick="ir('s-glu')"><i>🍬</i><b>Ayunas</b></div>
+        <div class="card" onclick="ir('s-com')"><i>🍱</i><b>Comidas</b></div>
+        <div class="card" onclick="ir('s-ale')"><i>🍄</i><b>Alertas</b></div>
+        <div class="card" onclick="ir('s-reg')"><i>🎀</i><b>Ciclo</b></div>
+        <div class="card" onclick="ir('s-med')"><i>🍭</i><b>Media</b></div>
+        <div class="card btn-resumen" onclick="cargarResumen()"><i>✨</i><b>Ver Resumen</b></div>
     </div>
 
     <div id="s-glu" class="sec">
-        <button class="btn-atras" onclick="volver()">← ATRÁS</button>
-        <button class="btn-box" onclick="envG('ALTA')">ALTA > 130 <span>▲</span></button>
-        <button class="btn-box rojo" onclick="envG('BAJA')">BAJA < 80 <span>▼</span></button>
-        
-        <button class="btn-box otros" onclick="alert('Cuéntame para qué sirven estos botones y los programamos!')">PROXIMAMENTE...</button>
-        <button class="btn-box otros" onclick="alert('Otro hueco libre para ti')">DISPONIBLE...</button>
+        <button class="btn-atras" onclick="volver()">← VOLVER</button>
+        <button class="btn-box" onclick="envG('ALTA')">ALTA > 130</button>
+        <button class="btn-box" style="background:var(--rosa)" onclick="envG('BAJA')">BAJA < 80</button>
+    </div>
+
+    <div id="s-com" class="sec">
+        <button class="btn-atras" onclick="volver()">← VOLVER</button>
+        <div class="form-group">
+            <label>Tipo de comida</label>
+            <select id="com-tipo">
+                <option value="Desayuno">Desayuno</option>
+                <option value="Almuerzo">Almuerzo</option>
+                <option value="Comida">Comida</option>
+                <option value="Merienda">Merienda</option>
+                <option value="Cena">Cena</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>¿Qué has comido?</label>
+            <input type="text" id="com-nombre" placeholder="Detalla tu plato...">
+        </div>
+        <div class="form-group">
+            <label>Insulina (Unidades)</label>
+            <input type="number" id="com-insu" placeholder="0">
+        </div>
+        <div class="form-group">
+            <label>Resultado</label>
+            <div class="status-grid">
+                <div class="status-btn hipo" id="st-hipo" onclick="selStatus('hipo')">HIPO</div>
+                <div class="status-btn ok active" id="st-ok" onclick="selStatus('ok')">OK</div>
+                <div class="status-btn hiper" id="st-hiper" onclick="selStatus('hiper')">HIPER</div>
+            </div>
+        </div>
+        <button class="btn-box save" onclick="envComida()">GUARDAR BANQUETE</button>
     </div>
 
     <div id="s-ale" class="sec">
-        <button class="btn-atras" onclick="volver()">← ATRÁS</button>
-        <button class="btn-box rojo" onclick="envS('EVENTOS', 'HIPO ↓')">HIPO!</button>
-        <button class="btn-box" onclick="envS('EVENTOS', 'HIPER ↑')">HIPER!</button>
+        <button class="btn-atras" onclick="volver()">← VOLVER</button>
+        <button class="btn-box" style="background:var(--rosa)" onclick="envS('EVENTOS', 'HIPO ↓')">¡TENGO HIPO!</button>
+        <button class="btn-box" onclick="envS('EVENTOS', 'HIPER ↑')">¡TENGO HIPER!</button>
     </div>
 
     <div id="s-reg" class="sec">
-        <button class="btn-atras" onclick="volver()">← ATRÁS</button>
-        <button class="btn-box" onclick="regla('INICIO')">EMPIEZA</button>
-        <button class="btn-box rojo" onclick="regla('FIN')">TERMINA</button>
+        <button class="btn-atras" onclick="volver()">← VOLVER</button>
+        <button class="btn-box" onclick="regla('INICIO')">INICIAR CICLO</button>
+        <button class="btn-box" style="background:var(--rosa)" onclick="regla('FIN')">TERMINAR CICLO</button>
     </div>
 
     <div id="s-med" class="sec">
-        <button class="btn-atras" onclick="volver()">← ATRÁS</button>
-        <input type="number" id="v-med" style="width:100%; padding:20px; border-radius:20px; border:none; font-family:'Bungee'; font-size:3rem; text-align:center; margin-bottom:20px;" placeholder="000" oninput="calcA1c()">
-        <div id="c-a1c" style="display:none; text-align:center; padding:20px; border: 4px dashed var(--cian); border-radius:30px; margin-bottom:20px;">
-            <div id="v-a1c" style="font-size:3.5rem; font-family:'Bungee'; color:var(--lima)">0.0%</div>
-            <div style="font-family:'Quicksand'; font-size:1rem; color:white">A1C ESTIMADA</div>
-        </div>
-        <button class="btn-box" onclick="envS('MEDIA', document.getElementById('v-med').value)" style="justify-content:center">ENVIAR</button>
+        <button class="btn-atras" onclick="volver()">← VOLVER</button>
+        <input type="number" id="v-med" placeholder="000" style="font-size:3rem; text-align:center;">
+        <button class="btn-box" onclick="envS('MEDIA', document.getElementById('v-med').value)">ENVIAR MEDIA</button>
     </div>
 
     <div id="s-res" class="sec">
-        <button class="btn-atras" onclick="volver()">← ATRÁS</button>
+        <button class="btn-atras" onclick="volver()">← VOLVER</button>
         <div class="resumen-v2">
             <div class="res-row">
-                <span class="res-label">Glucosa al Despertar</span>
+                <span class="res-label">Al Despertar</span>
                 <span class="res-val" id="r-lev">...</span>
             </div>
             <div class="res-row">
                 <span class="res-label">Media Semanal</span>
                 <span class="res-val" id="r-med" style="color:var(--cian)">...</span>
             </div>
-            <div class="res-row">
-                <span class="res-label">Alertas de Hoy</span>
-                <div id="r-hpo" style="font-size:1.2rem; font-weight:bold; margin-top:10px">...</div>
-                <div id="r-hpe" style="font-size:1.2rem; font-weight:bold; margin-top:5px">...</div>
-            </div>
+            <div id="r-hpo"></div><div id="r-hpe" style="margin-top:10px"></div>
         </div>
     </div>
 </div>
 
 <script>
-    const CLAVE = "Idnopiras"; 
+    const CLAVE = "e919d2f5"; // <-- PON TU CLAVE AQUÍ
     const URL_APP = "https://script.google.com/macros/s/AKfycbzdYhjgVmixnrpw0nBCOTTGRPob5J2oU9unnz5VjaKhDrZz_F-qOl6vTZsZZQnzqtNm/exec";
+    let statusSeleccionado = "ok";
 
     document.getElementById('txt-fecha').innerText = new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' }).toUpperCase();
 
@@ -197,45 +234,34 @@
         if(document.getElementById('pass').value === CLAVE) { 
             document.getElementById('bloqueo').style.display = "none"; 
             document.getElementById('app').style.display = "block"; 
-        } 
+        } else {
+            alert("Clave incorrecta");
+        }
     }
 
     function ir(id) { document.getElementById('menu').style.display = 'none'; document.getElementById(id).style.display = 'block'; }
     function volver() { document.getElementById('menu').style.display = 'grid'; document.querySelectorAll('.sec').forEach(s => s.style.display = 'none'); }
 
-    function calcA1c() {
-        const m = document.getElementById('v-med').value;
-        const c = document.getElementById('c-a1c');
-        const v = document.getElementById('v-a1c');
-        if (m > 50) {
-            c.style.display = 'block';
-            v.innerText = ((parseFloat(m) + 46.7) / 28.7).toFixed(1) + "%";
-        } else { c.style.display = 'none'; }
+    function selStatus(val) {
+        statusSeleccionado = val;
+        document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('st-' + val).classList.add('active');
     }
 
-    async function cargarResumen() {
-        document.getElementById('loader').style.display = 'flex';
-        ir('s-res');
-        try {
-            const resp = await fetch(URL_APP);
-            const d = await resp.json();
-            document.getElementById('r-lev').innerText = d.levantado;
-            document.getElementById('r-med').innerText = d.mediaInfo;
-            document.getElementById('r-hpo').innerText = d.hipoInfo;
-            document.getElementById('r-hpe').innerText = d.hiperInfo;
-            document.getElementById('r-hpo').style.color = d.hipoInfo.includes("⚠️") ? "var(--rosa)" : "white";
-            document.getElementById('r-hpe').style.color = d.hiperInfo.includes("⚠️") ? "var(--rosa)" : "white";
-        } catch (e) { document.getElementById('r-lev').innerText = "ERROR"; }
-        document.getElementById('loader').style.display = 'none';
+    function envComida() {
+        const d = {
+            destino: 'COMIDAS',
+            tipo_comida: document.getElementById('com-tipo').value,
+            comida: document.getElementById('com-nombre').value,
+            insulina: document.getElementById('com-insu').value,
+            hipo_hiper_ok: statusSeleccionado.toUpperCase()
+        };
+        if(!d.comida) return alert("¿Qué has comido?");
+        enviar(d);
     }
-
-    function regla(tipo) { if (confirm("¿Confirmar ciclo?")) envS('REGLA', tipo); }
 
     function envG(tipo) {
-        let d = { destino: 'GLUCOSA' };
-        if(tipo==='ALTA'){ d.alta="X"; d.glucosa=">130"; } 
-        else if(tipo==='BAJA'){ d.baja="X"; d.glucosa="<80"; }
-        enviar(d);
+        enviar({ destino: 'GLUCOSA', alta: tipo === 'ALTA' ? 'X' : '', baja: tipo === 'BAJA' ? 'X' : '', glucosa: tipo });
     }
 
     function envS(dest, val) { if(!val) return; enviar({ destino: dest, valor: val }); }
@@ -245,9 +271,23 @@
         fetch(URL_APP, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) })
         .then(() => { 
             document.getElementById('loader').style.display = 'none';
-            msg("¡CONSEGUIDO!");
-            setTimeout(() => { volver(); }, 1200); 
+            msg("¡LOGRADO!");
+            setTimeout(volver, 1200); 
         });
+    }
+
+    async function cargarResumen() {
+        ir('s-res');
+        document.getElementById('loader').style.display = 'flex';
+        try {
+            const resp = await fetch(URL_APP);
+            const d = await resp.json();
+            document.getElementById('r-lev').innerText = d.levantado;
+            document.getElementById('r-med').innerText = d.mediaInfo;
+            document.getElementById('r-hpo').innerText = d.hipoInfo;
+            document.getElementById('r-hpe').innerText = d.hiperInfo;
+        } catch (e) { document.getElementById('r-lev').innerText = "Sin conexión"; }
+        document.getElementById('loader').style.display = 'none';
     }
 
     function msg(t) { 
