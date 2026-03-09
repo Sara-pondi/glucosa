@@ -3,145 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cheshire Alchemy Elite</title>
+    <title>Candy Cheshire Control</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Comfortaa:wght@400;700&family=Bungee&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Grandstander:wght@700;900&display=swap');
 
         :root {
-            --morado: #9d00ff;
-            --rosa: #ff007f;
-            --cian: #00ffff;
-            --lima: #39ff14;
-            --fondo: #0f001e;
+            --rosa-chicle: #ff4dff;
+            --azul-caramelo: #00d4ff;
+            --lila-uva: #a64dff;
+            --verde-menta: #39ff14;
+            --fondo: #1a0033;
+            --txt: #ffffff;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body { 
-            font-family: 'Comfortaa', cursive;
+            font-family: 'Bubblegum Sans', cursive;
             margin: 0; padding: 0; min-height: 100vh;
-            color: white; background: var(--fondo);
+            color: var(--txt);
+            background: var(--fondo);
+            /* Fondo efecto algodón de azúcar */
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(157, 0, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 0% 100%, rgba(0, 255, 255, 0.1) 0%, transparent 40%);
+                radial-gradient(circle at 20% 20%, rgba(255, 77, 255, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.2) 0%, transparent 40%);
             background-attachment: fixed;
         }
 
-        /* Bloqueo */
+        /* Bloqueo Dulce */
         #bloqueo {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--fondo); display: flex; flex-direction: column; 
             align-items: center; justify-content: center; z-index: 9999;
         }
         .pass-input { 
-            background: rgba(255,255,255,0.05); border: 3px solid var(--rosa);
-            color: white; padding: 20px; border-radius: 25px; text-align: center;
-            font-size: 2.5rem; width: 80%; outline: none; font-family: 'Bungee';
-            box-shadow: 0 0 20px rgba(255, 0, 127, 0.2);
+            background: rgba(255,255,255,0.1); border: 5px solid var(--rosa-chicle);
+            color: white; padding: 15px; border-radius: 30px; text-align: center;
+            font-size: 2rem; width: 70%; outline: none; font-family: 'Grandstander';
+            box-shadow: 0 0 20px var(--rosa-chicle), inset 0 0 10px rgba(255,255,255,0.5);
         }
 
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 0, 30, 0.9); display: none; flex-direction: column;
-            align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.8); display: none; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 10000;
         }
-        .gota {
-            width: 30px; height: 30px; border-radius: 0 50% 50% 50%; transform: rotate(45deg);
-            background: var(--cian); box-shadow: 0 0 20px var(--cian);
-            animation: goteo 0.6s infinite alternate;
+        .caramelo-load {
+            width: 50px; height: 50px; background: var(--azul-caramelo);
+            border-radius: 50% 50% 0 50%; transform: rotate(-45deg);
+            animation: bounce 0.5s infinite alternate;
+            box-shadow: 0 0 20px var(--azul-caramelo);
         }
-        @keyframes goteo { from { transform: translateY(-20px); } to { transform: translateY(20px); } }
+        @keyframes bounce { from { transform: translateY(0) rotate(-45deg); } to { transform: translateY(-30px) rotate(-45deg); } }
 
-        .app-container { width: 100%; max-width: 420px; padding: 25px; margin: auto; }
+        .app-container { width: 100%; max-width: 420px; padding: 20px; margin: auto; }
 
         h1 { 
-            font-family: 'Lobster', cursive; font-size: 3.5rem; text-align: center; margin: 0;
-            background: linear-gradient(to right, #fff, var(--cian));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+            font-family: 'Grandstander', cursive; font-size: 3.2rem; text-align: center; margin: 10px 0 0 0;
+            color: white; text-shadow: 4px 4px 0px var(--rosa-chicle), 7px 7px 0px var(--lila-uva);
+            letter-spacing: -1px;
         }
-        .sub { text-align: center; font-size: 0.9rem; color: var(--rosa); letter-spacing: 1px; margin-bottom: 30px; font-weight: 700; }
+        .sub { text-align: center; font-size: 1.1rem; color: var(--azul-caramelo); margin-bottom: 25px; font-weight: bold; text-transform: uppercase; }
 
-        /* Menú */
+        /* Menú Piruleta */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card { 
-            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 25px; padding: 25px 10px; text-align: center; cursor: pointer;
-            backdrop-filter: blur(8px); transition: 0.2s;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(255,255,255,0.05));
+            border: 3px solid rgba(255,255,255,0.3); border-radius: 30px; padding: 20px 10px;
+            text-align: center; cursor: pointer; transition: 0.2s;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3), inset 0 4px 4px rgba(255,255,255,0.4);
         }
-        .card:active { transform: scale(0.92); background: rgba(157, 0, 255, 0.2); border-color: var(--morado); }
-        .card i { font-size: 2.5rem; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 10px var(--morado)); }
-        .card b { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .card:active { transform: translateY(4px) scale(0.95); box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        .card i { font-size: 2.8rem; display: block; margin-bottom: 8px; font-style: normal; filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.3)); }
+        .card b { font-family: 'Grandstander'; font-size: 1rem; color: white; text-transform: uppercase; }
 
         .btn-resumen {
-            grid-column: span 2; background: linear-gradient(45deg, var(--morado), var(--rosa));
-            border: none; margin-top: 10px; box-shadow: 0 5px 15px rgba(157, 0, 255, 0.3);
+            grid-column: span 2; background: linear-gradient(45deg, var(--lila-uva), var(--rosa-chicle));
+            border: 4px solid white; margin-top: 10px;
         }
 
         /* Secciones */
-        .sec { display: none; animation: slideIn 0.3s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .sec { display: none; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        .btn-atras { background: none; border: 1px solid var(--cian); color: var(--cian); padding: 8px 15px; border-radius: 12px; margin-bottom: 25px; cursor: pointer; font-family: 'Comfortaa'; }
+        .btn-atras { background: var(--azul-caramelo); border: none; color: white; padding: 10px 20px; border-radius: 20px; margin-bottom: 20px; cursor: pointer; font-family: 'Grandstander'; box-shadow: 0 4px 0 #008fb3; }
 
-        /* Formulario Comidas */
-        .form-group { margin-bottom: 20px; }
-        .form-group label { font-size: 0.8rem; color: var(--cian); display: block; margin-bottom: 8px; font-weight: 700; text-transform: uppercase; }
+        /* Inputs y Botones Estilo Gominola */
+        .form-group { margin-bottom: 15px; }
+        .form-group label { font-size: 1rem; color: var(--azul-caramelo); display: block; margin-bottom: 5px; padding-left: 10px; }
         
         select, input[type="text"], input[type="number"] {
-            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--morado);
-            padding: 15px; border-radius: 15px; color: white; font-family: 'Comfortaa'; outline: none;
+            width: 100%; background: white; border: 4px solid var(--lila-uva);
+            padding: 15px; border-radius: 25px; color: var(--fondo); font-family: 'Bubblegum Sans'; font-size: 1.2rem; outline: none;
+            box-shadow: inset 0 4px 8px rgba(0,0,0,0.1);
         }
         
         .btn-box {
-            width: 100%; padding: 20px; border-radius: 18px; border: none;
-            color: white; font-size: 1.1rem; font-weight: 700; margin-top: 10px;
-            background: var(--morado); cursor: pointer; transition: 0.2s;
+            width: 100%; padding: 20px; border-radius: 30px; border: none;
+            color: white; font-size: 1.4rem; font-family: 'Grandstander'; margin-top: 12px;
+            background: var(--lila-uva); cursor: pointer; position: relative;
+            box-shadow: 0 8px 0 #7a00cc, inset 0 4px 4px rgba(255,255,255,0.4);
         }
-        .btn-box:active { transform: scale(0.98); opacity: 0.8; }
-        .btn-box.save { background: var(--rosa); }
+        .btn-box:active { transform: translateY(4px); box-shadow: 0 4px 0 #7a00cc; }
+        .btn-box.rojo { background: var(--rosa-chicle); box-shadow: 0 8px 0 #cc00cc; }
+        .btn-box.save { background: var(--verde-menta); color: #004d00; box-shadow: 0 8px 0 #2db300; }
 
-        /* Status Buttons */
-        .status-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        /* Status (Golosinas) */
+        .status-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .status-btn { 
-            padding: 12px; border-radius: 12px; border: 2px solid transparent; 
-            font-size: 0.75rem; font-weight: 700; cursor: pointer; opacity: 0.5; text-align: center;
+            padding: 12px; border-radius: 20px; border: 3px solid transparent; 
+            font-size: 0.9rem; font-weight: 900; cursor: pointer; opacity: 0.6; text-align: center;
+            font-family: 'Grandstander';
         }
-        .status-btn.active { opacity: 1; border-color: white; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
-        .ok { background: var(--lima); color: #000; }
-        .hipo { background: var(--cian); color: #000; }
-        .hiper { background: var(--rosa); color: #fff; }
+        .status-btn.active { opacity: 1; border-color: white; transform: scale(1.05); }
+        .ok { background: var(--verde-menta); color: #000; }
+        .hipo { background: var(--azul-caramelo); color: #000; }
+        .hiper { background: var(--rosa-chicle); color: #fff; }
 
-        /* Resumen Estilo Cristal */
+        /* Resumen "Burbuja de Azúcar" */
         .resumen-v2 {
-            background: rgba(255,255,255,0.03); border-radius: 30px; padding: 25px;
-            border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.1); border-radius: 40px; padding: 25px;
+            border: 5px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
-        .res-row { margin-bottom: 20px; }
-        .res-label { font-size: 0.75rem; color: var(--cian); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 5px; }
-        .res-val { font-family: 'Lobster'; font-size: 2.2rem; display: block; color: #fff; }
+        .res-row { margin-bottom: 20px; text-align: center; }
+        .res-label { font-size: 1rem; color: var(--azul-caramelo); display: block; margin-bottom: 2px; }
+        .res-val { font-family: 'Grandstander'; font-size: 2.2rem; color: white; text-shadow: 2px 2px var(--rosa-chicle); }
 
         #notif { 
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: var(--lima); color: black; padding: 15px 35px;
-            border-radius: 50px; font-weight: 700; z-index: 10000; display: none;
+            background: var(--verde-menta); color: #004d00; padding: 15px 40px;
+            border-radius: 50px; font-family: 'Grandstander'; z-index: 10000; display: none;
+            box-shadow: 0 0 20px var(--verde-menta);
         }
     </style>
 </head>
 <body>
 
-<div id="loader"><div class="gota"></div></div>
-<div id="notif">REGISTRADO ✨</div>
+<div id="loader"><div class="caramelo-load"></div></div>
+<div id="notif">¡DULCE REGISTRO! 🍭</div>
 
 <div id="bloqueo">
     <h1>Wonderland</h1>
-    <input type="password" id="pass" class="pass-input" placeholder="••••">
-    <button onclick="acceder()" style="margin-top:30px; background:var(--rosa); color:white; border:none; padding:15px 40px; border-radius:20px; font-family:'Comfortaa'; font-weight:700;">ACCEDER</button>
+    <input type="password" id="pass" class="pass-input" placeholder="CODE">
+    <button onclick="acceder()" style="margin-top:30px; background:white; color:var(--lila-uva); border:none; padding:15px 40px; border-radius:30px; font-family:'Grandstander'; font-size:1.2rem; box-shadow: 0 6px 0 var(--azul-caramelo);">ENTRAR</button>
 </div>
 
 <div class="app-container" id="app" style="display:none">
     <h1>Mi Diario</h1>
-    <div class="sub" id="txt-fecha">ALQUIMIA DE VIDA</div>
+    <div class="sub" id="txt-fecha">Control de Azúcar</div>
     
     <div id="menu" class="menu-grid">
         <div class="card" onclick="ir('s-glu')"><i>🍬</i><b>Ayunas</b></div>
@@ -149,19 +158,19 @@
         <div class="card" onclick="ir('s-ale')"><i>🍄</i><b>Alertas</b></div>
         <div class="card" onclick="ir('s-reg')"><i>🎀</i><b>Ciclo</b></div>
         <div class="card" onclick="ir('s-med')"><i>🍭</i><b>Media</b></div>
-        <div class="card btn-resumen" onclick="cargarResumen()"><i>✨</i><b>Ver Resumen</b></div>
+        <div class="card btn-resumen" onclick="cargarResumen()"><i>✨</i><b>Resumen Mágico</b></div>
     </div>
 
     <div id="s-glu" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <button class="btn-box" onclick="envG('ALTA')">ALTA > 130</button>
-        <button class="btn-box" style="background:var(--rosa)" onclick="envG('BAJA')">BAJA < 80</button>
+        <button class="btn-box" onclick="envG('ALTA')">ALTA ▲</button>
+        <button class="btn-box rojo" onclick="envG('BAJA')">BAJA ▼</button>
     </div>
 
     <div id="s-com" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
         <div class="form-group">
-            <label>Tipo de comida</label>
+            <label>¿Qué toca comer?</label>
             <select id="com-tipo">
                 <option value="Desayuno">Desayuno</option>
                 <option value="Almuerzo">Almuerzo</option>
@@ -171,40 +180,40 @@
             </select>
         </div>
         <div class="form-group">
-            <label>¿Qué has comido?</label>
-            <input type="text" id="com-nombre" placeholder="Detalla tu plato...">
+            <label>¿Qué hay en el plato?</label>
+            <input type="text" id="com-nombre" placeholder="Ej: Pizza de gominola...">
         </div>
         <div class="form-group">
             <label>Insulina (Unidades)</label>
             <input type="number" id="com-insu" placeholder="0">
         </div>
         <div class="form-group">
-            <label>Resultado</label>
+            <label>¿Cómo fue la digestión?</label>
             <div class="status-grid">
                 <div class="status-btn hipo" id="st-hipo" onclick="selStatus('hipo')">HIPO</div>
                 <div class="status-btn ok active" id="st-ok" onclick="selStatus('ok')">OK</div>
                 <div class="status-btn hiper" id="st-hiper" onclick="selStatus('hiper')">HIPER</div>
             </div>
         </div>
-        <button class="btn-box save" onclick="envComida()">GUARDAR BANQUETE</button>
+        <button class="btn-box save" onclick="envComida()">GUARDAR RECETA</button>
     </div>
 
     <div id="s-ale" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <button class="btn-box" style="background:var(--rosa)" onclick="envS('EVENTOS', 'HIPO ↓')">¡TENGO HIPO!</button>
-        <button class="btn-box" onclick="envS('EVENTOS', 'HIPER ↑')">¡TENGO HIPER!</button>
+        <button class="btn-box rojo" onclick="envS('EVENTOS', 'HIPO ↓')">¡HIPO!</button>
+        <button class="btn-box" onclick="envS('EVENTOS', 'HIPER ↑')">¡HIPER!</button>
     </div>
 
     <div id="s-reg" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
         <button class="btn-box" onclick="regla('INICIO')">INICIAR CICLO</button>
-        <button class="btn-box" style="background:var(--rosa)" onclick="regla('FIN')">TERMINAR CICLO</button>
+        <button class="btn-box rojo" onclick="regla('FIN')">TERMINAR CICLO</button>
     </div>
 
     <div id="s-med" class="sec">
         <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <input type="number" id="v-med" placeholder="000" style="font-size:3rem; text-align:center;">
-        <button class="btn-box" onclick="envS('MEDIA', document.getElementById('v-med').value)">ENVIAR MEDIA</button>
+        <input type="number" id="v-med" placeholder="000" style="font-size:4rem; text-align:center;">
+        <button class="btn-box save" onclick="envS('MEDIA', document.getElementById('v-med').value)">SUBIR MEDIA</button>
     </div>
 
     <div id="s-res" class="sec">
@@ -216,15 +225,16 @@
             </div>
             <div class="res-row">
                 <span class="res-label">Media Semanal</span>
-                <span class="res-val" id="r-med" style="color:var(--cian)">...</span>
+                <span class="res-val" id="r-med" style="color:var(--verde-menta)">...</span>
             </div>
-            <div id="r-hpo"></div><div id="r-hpe" style="margin-top:10px"></div>
+            <div id="r-hpo" style="text-align:center; font-size:1.2rem; color:var(--rosa-chicle)"></div>
+            <div id="r-hpe" style="text-align:center; font-size:1.2rem; color:white; margin-top:5px"></div>
         </div>
     </div>
 </div>
 
 <script>
-    const CLAVE = "Idnopiras"; // <-- PON TU CLAVE AQUÍ
+    const CLAVE = "Idnopiras"; 
     const URL_APP = "https://script.google.com/macros/s/AKfycbzdYhjgVmixnrpw0nBCOTTGRPob5J2oU9unnz5VjaKhDrZz_F-qOl6vTZsZZQnzqtNm/exec";
     let statusSeleccionado = "ok";
 
@@ -234,9 +244,7 @@
         if(document.getElementById('pass').value === CLAVE) { 
             document.getElementById('bloqueo').style.display = "none"; 
             document.getElementById('app').style.display = "block"; 
-        } else {
-            alert("Clave incorrecta");
-        }
+        } else { alert("¡Clave Amarga!"); }
     }
 
     function ir(id) { document.getElementById('menu').style.display = 'none'; document.getElementById(id).style.display = 'block'; }
@@ -256,7 +264,7 @@
             insulina: document.getElementById('com-insu').value,
             hipo_hiper_ok: statusSeleccionado.toUpperCase()
         };
-        if(!d.comida) return alert("¿Qué has comido?");
+        if(!d.comida) return alert("¿Qué comiste?");
         enviar(d);
     }
 
@@ -271,7 +279,7 @@
         fetch(URL_APP, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) })
         .then(() => { 
             document.getElementById('loader').style.display = 'none';
-            msg("¡LOGRADO!");
+            msg("¡DULCE REGISTRO!");
             setTimeout(volver, 1200); 
         });
     }
@@ -286,7 +294,7 @@
             document.getElementById('r-med').innerText = d.mediaInfo;
             document.getElementById('r-hpo').innerText = d.hipoInfo;
             document.getElementById('r-hpe').innerText = d.hiperInfo;
-        } catch (e) { document.getElementById('r-lev').innerText = "Sin conexión"; }
+        } catch (e) { document.getElementById('r-lev').innerText = "Vuelve a intentar"; }
         document.getElementById('loader').style.display = 'none';
     }
 
@@ -297,4 +305,3 @@
 </script>
 </body>
 </html>
-
