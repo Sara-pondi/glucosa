@@ -3,154 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Candy Cheshire Control</title>
+    <title>Wonderland Candy Elite</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Grandstander:wght@700;900&display=swap');
 
         :root {
-            --rosa-chicle: #ff4dff;
-            --azul-caramelo: #00d4ff;
-            --lila-uva: #a64dff;
-            --verde-menta: #39ff14;
-            --fondo: #1a0033;
-            --txt: #ffffff;
+            --rosa: #ff4dff;
+            --azul: #00d4ff;
+            --lila: #a64dff;
+            --verde: #39ff14;
+            --fondo: #120024;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
         body { 
-            font-family: 'Bubblegum Sans', cursive;
-            margin: 0; padding: 0; min-height: 100vh;
-            color: var(--txt);
-            background: var(--fondo);
-            /* Fondo efecto algodón de azúcar */
-            background-image: 
-                radial-gradient(circle at 20% 20%, rgba(255, 77, 255, 0.2) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.2) 0%, transparent 40%);
-            background-attachment: fixed;
+            font-family: 'Bubblegum Sans', cursive; margin: 0; 
+            background: var(--fondo); color: white; overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 0%, rgba(166, 77, 255, 0.2) 0%, transparent 70%);
         }
 
-        /* Bloqueo Dulce */
+        /* CARGA ESPECTACULAR */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(18, 0, 36, 0.98); display: none; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(15px);
+        }
+        .piruleta-portal {
+            width: 120px; height: 120px;
+            background: conic-gradient(var(--rosa), var(--azul), var(--lila), var(--verde), var(--rosa));
+            border-radius: 50%; animation: spinPortal 0.6s infinite linear;
+            box-shadow: 0 0 60px var(--rosa); border: 10px solid white;
+        }
+        .loading-text { margin-top: 30px; font-family: 'Grandstander'; font-size: 1.5rem; letter-spacing: 3px; animation: pulse 1s infinite alternate; }
+        @keyframes spinPortal { to { transform: rotate(360deg); } }
+        @keyframes pulse { from { opacity: 0.4; } to { opacity: 1; } }
+
+        /* NOTIFICACIÓN GIGANTE */
+        #notif { 
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: white; color: var(--lila); padding: 40px; border-radius: 50px;
+            font-family: 'Grandstander'; font-size: 2.5rem; z-index: 10001; display: none;
+            box-shadow: 0 0 100px var(--rosa); border: 12px solid var(--verde);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn { from { scale: 0; } to { scale: 1; } }
+
+        /* LOGIN */
         #bloqueo {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--fondo); display: flex; flex-direction: column; 
             align-items: center; justify-content: center; z-index: 9999;
         }
         .pass-input { 
-            background: rgba(255,255,255,0.1); border: 5px solid var(--rosa-chicle);
-            color: white; padding: 15px; border-radius: 30px; text-align: center;
-            font-size: 2rem; width: 70%; outline: none; font-family: 'Grandstander';
-            box-shadow: 0 0 20px var(--rosa-chicle), inset 0 0 10px rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.1); border: 5px solid var(--rosa);
+            color: white; padding: 20px; border-radius: 30px; text-align: center;
+            font-size: 2.5rem; width: 70%; outline: none; font-family: 'Grandstander';
         }
 
-        #loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); display: none; flex-direction: column;
-            align-items: center; justify-content: center; z-index: 10000;
-        }
-        .caramelo-load {
-            width: 50px; height: 50px; background: var(--azul-caramelo);
-            border-radius: 50% 50% 0 50%; transform: rotate(-45deg);
-            animation: bounce 0.5s infinite alternate;
-            box-shadow: 0 0 20px var(--azul-caramelo);
-        }
-        @keyframes bounce { from { transform: translateY(0) rotate(-45deg); } to { transform: translateY(-30px) rotate(-45deg); } }
+        /* CONTENEDOR */
+        .app-container { width: 100%; max-width: 420px; padding: 25px; margin: auto; text-align: center; }
+        h1 { font-family: 'Grandstander'; font-size: 3.5rem; text-shadow: 4px 4px 0 var(--rosa); margin-bottom: 25px; }
 
-        .app-container { width: 100%; max-width: 420px; padding: 20px; margin: auto; }
-
-        h1 { 
-            font-family: 'Grandstander', cursive; font-size: 3.2rem; text-align: center; margin: 10px 0 0 0;
-            color: white; text-shadow: 4px 4px 0px var(--rosa-chicle), 7px 7px 0px var(--lila-uva);
-            letter-spacing: -1px;
-        }
-        .sub { text-align: center; font-size: 1.1rem; color: var(--azul-caramelo); margin-bottom: 25px; font-weight: bold; text-transform: uppercase; }
-
-        /* Menú Piruleta */
+        /* MENÚ */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card { 
-            background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(255,255,255,0.05));
-            border: 3px solid rgba(255,255,255,0.3); border-radius: 30px; padding: 20px 10px;
-            text-align: center; cursor: pointer; transition: 0.2s;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.3), inset 0 4px 4px rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.08); border: 3px solid rgba(255,255,255,0.2);
+            border-radius: 30px; padding: 20px; cursor: pointer;
         }
-        .card:active { transform: translateY(4px) scale(0.95); box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
-        .card i { font-size: 2.8rem; display: block; margin-bottom: 8px; font-style: normal; filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.3)); }
-        .card b { font-family: 'Grandstander'; font-size: 1rem; color: white; text-transform: uppercase; }
+        .card i { font-style: normal; font-size: 2.8rem; display: block; margin-bottom: 5px; }
+        .card b { font-family: 'Grandstander'; text-transform: uppercase; font-size: 0.9rem; }
 
-        .btn-resumen {
-            grid-column: span 2; background: linear-gradient(45deg, var(--lila-uva), var(--rosa-chicle));
-            border: 4px solid white; margin-top: 10px;
-        }
-
-        /* Secciones */
-        .sec { display: none; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        .btn-atras { background: var(--azul-caramelo); border: none; color: white; padding: 10px 20px; border-radius: 20px; margin-bottom: 20px; cursor: pointer; font-family: 'Grandstander'; box-shadow: 0 4px 0 #008fb3; }
-
-        /* Inputs y Botones Estilo Gominola */
-        .form-group { margin-bottom: 15px; }
-        .form-group label { font-size: 1rem; color: var(--azul-caramelo); display: block; margin-bottom: 5px; padding-left: 10px; }
-        
-        select, input[type="text"], input[type="number"] {
-            width: 100%; background: white; border: 4px solid var(--lila-uva);
-            padding: 15px; border-radius: 25px; color: var(--fondo); font-family: 'Bubblegum Sans'; font-size: 1.2rem; outline: none;
-            box-shadow: inset 0 4px 8px rgba(0,0,0,0.1);
-        }
+        /* BOTONES Y FORMULARIOS */
+        .sec { display: none; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
         .btn-box {
-            width: 100%; padding: 20px; border-radius: 30px; border: none;
-            color: white; font-size: 1.4rem; font-family: 'Grandstander'; margin-top: 12px;
-            background: var(--lila-uva); cursor: pointer; position: relative;
-            box-shadow: 0 8px 0 #7a00cc, inset 0 4px 4px rgba(255,255,255,0.4);
+            width: 100%; padding: 20px; border-radius: 25px; border: none;
+            color: white; font-size: 1.3rem; font-family: 'Grandstander'; margin-bottom: 15px;
+            cursor: pointer; box-shadow: 0 8px 0 rgba(0,0,0,0.3);
         }
-        .btn-box:active { transform: translateY(4px); box-shadow: 0 4px 0 #7a00cc; }
-        .btn-box.rojo { background: var(--rosa-chicle); box-shadow: 0 8px 0 #cc00cc; }
-        .btn-box.save { background: var(--verde-menta); color: #004d00; box-shadow: 0 8px 0 #2db300; }
+        .btn-box:active { transform: translateY(4px); box-shadow: 0 4px 0 rgba(0,0,0,0.3); }
 
-        /* Status (Golosinas) */
-        .status-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .status-btn { 
-            padding: 12px; border-radius: 20px; border: 3px solid transparent; 
-            font-size: 0.9rem; font-weight: 900; cursor: pointer; opacity: 0.6; text-align: center;
-            font-family: 'Grandstander';
+        .form-group { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 25px; margin-bottom: 15px; text-align: left; }
+        label { font-family: 'Grandstander'; color: var(--azul); font-size: 0.9rem; display: block; margin-bottom: 8px; }
+        select, input { width: 100%; padding: 12px; border-radius: 15px; border: 3px solid var(--lila); font-family: 'Bubblegum Sans'; font-size: 1.1rem; }
+
+        /* RESUMEN REDACTADO */
+        .resumen-panel {
+            background: white; color: var(--fondo); border-radius: 40px; padding: 30px;
+            box-shadow: 0 20px 0 var(--lila); text-align: left; line-height: 1.5;
         }
+        .resumen-panel p { font-size: 1.2rem; margin-bottom: 15px; }
+        .res-destaque { color: var(--rosa); font-weight: 900; font-family: 'Grandstander'; }
+
+        .status-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .status-btn { padding: 10px; border-radius: 15px; border: 3px solid transparent; font-family: 'Grandstander'; opacity: 0.4; cursor: pointer; text-align: center; }
         .status-btn.active { opacity: 1; border-color: white; transform: scale(1.05); }
-        .ok { background: var(--verde-menta); color: #000; }
-        .hipo { background: var(--azul-caramelo); color: #000; }
-        .hiper { background: var(--rosa-chicle); color: #fff; }
-
-        /* Resumen "Burbuja de Azúcar" */
-        .resumen-v2 {
-            background: rgba(255,255,255,0.1); border-radius: 40px; padding: 25px;
-            border: 5px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-        .res-row { margin-bottom: 20px; text-align: center; }
-        .res-label { font-size: 1rem; color: var(--azul-caramelo); display: block; margin-bottom: 2px; }
-        .res-val { font-family: 'Grandstander'; font-size: 2.2rem; color: white; text-shadow: 2px 2px var(--rosa-chicle); }
-
-        #notif { 
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: var(--verde-menta); color: #004d00; padding: 15px 40px;
-            border-radius: 50px; font-family: 'Grandstander'; z-index: 10000; display: none;
-            box-shadow: 0 0 20px var(--verde-menta);
-        }
     </style>
 </head>
 <body>
 
-<div id="loader"><div class="caramelo-load"></div></div>
-<div id="notif">¡DULCE REGISTRO! 🍭</div>
+<div id="loader"><div class="piruleta-portal"></div><div class="loading-text">ABRIENDO PORTAL...</div></div>
+<div id="notif">¡REGISTRADO! ✨</div>
 
 <div id="bloqueo">
     <h1>Wonderland</h1>
     <input type="password" id="pass" class="pass-input" placeholder="CODE">
-    <button onclick="acceder()" style="margin-top:30px; background:white; color:var(--lila-uva); border:none; padding:15px 40px; border-radius:30px; font-family:'Grandstander'; font-size:1.2rem; box-shadow: 0 6px 0 var(--azul-caramelo);">ENTRAR</button>
+    <button onclick="acceder()" style="margin-top:20px; background:var(--rosa); color:white; border:none; padding:15px 40px; border-radius:30px; font-family:'Grandstander';">ENTRAR</button>
 </div>
 
 <div class="app-container" id="app" style="display:none">
     <h1>Mi Diario</h1>
-    <div class="sub" id="txt-fecha">Control de Azúcar</div>
     
     <div id="menu" class="menu-grid">
         <div class="card" onclick="ir('s-glu')"><i>🍬</i><b>Ayunas</b></div>
@@ -158,19 +121,19 @@
         <div class="card" onclick="ir('s-ale')"><i>🍄</i><b>Alertas</b></div>
         <div class="card" onclick="ir('s-reg')"><i>🎀</i><b>Ciclo</b></div>
         <div class="card" onclick="ir('s-med')"><i>🍭</i><b>Media</b></div>
-        <div class="card btn-resumen" onclick="cargarResumen()"><i>✨</i><b>Resumen Mágico</b></div>
+        <div class="card" style="grid-column: span 2; background: var(--lila);" onclick="obtenerResumen()"><i>✨</i><b>Resumen de Hoy</b></div>
     </div>
 
     <div id="s-glu" class="sec">
-        <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <button class="btn-box" onclick="envG('ALTA')">ALTA ▲</button>
-        <button class="btn-box rojo" onclick="envG('BAJA')">BAJA ▼</button>
+        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
+        <button onclick="envG('MAYOR DE 130')" class="btn-box" style="background:var(--lila)">MAYOR DE 130 ▲</button>
+        <button onclick="envG('MENOR DE 80')" class="btn-box" style="background:var(--rosa)">MENOR DE 80 ▼</button>
     </div>
 
     <div id="s-com" class="sec">
-        <button class="btn-atras" onclick="volver()">← VOLVER</button>
+        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
         <div class="form-group">
-            <label>¿Qué toca comer?</label>
+            <label>¿QUÉ TOCA?</label>
             <select id="com-tipo">
                 <option value="Desayuno">Desayuno</option>
                 <option value="Almuerzo">Almuerzo</option>
@@ -179,128 +142,93 @@
                 <option value="Cena">Cena</option>
             </select>
         </div>
+        <div class="form-group"><label>EL BANQUETE</label><input type="text" id="com-nombre" placeholder="Ej: Pizza..."></div>
+        <div class="form-group"><label>INSULINA</label><input type="number" id="com-insu" placeholder="0"></div>
         <div class="form-group">
-            <label>¿Qué hay en el plato?</label>
-            <input type="text" id="com-nombre" placeholder="Ej: Pizza de gominola...">
-        </div>
-        <div class="form-group">
-            <label>Insulina (Unidades)</label>
-            <input type="number" id="com-insu" placeholder="0">
-        </div>
-        <div class="form-group">
-            <label>¿Cómo fue la digestión?</label>
+            <label>RESULTADO</label>
             <div class="status-grid">
-                <div class="status-btn hipo" id="st-hipo" onclick="selStatus('hipo')">HIPO</div>
-                <div class="status-btn ok active" id="st-ok" onclick="selStatus('ok')">OK</div>
-                <div class="status-btn hiper" id="st-hiper" onclick="selStatus('hiper')">HIPER</div>
+                <div class="status-btn" style="background:var(--azul)" id="st-hipo" onclick="selStatus('hipo')">HIPO</div>
+                <div class="status-btn active" style="background:var(--verde); color:black" id="st-ok" onclick="selStatus('ok')">OK</div>
+                <div class="status-btn" style="background:var(--rosa)" id="st-hiper" onclick="selStatus('hiper')">HIPER</div>
             </div>
         </div>
-        <button class="btn-box save" onclick="envComida()">GUARDAR RECETA</button>
+        <button class="btn-box" style="background:var(--verde); color:black" onclick="envComida()">GUARDAR RECETA</button>
     </div>
 
     <div id="s-ale" class="sec">
-        <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <button class="btn-box rojo" onclick="envS('EVENTOS', 'HIPO ↓')">¡HIPO!</button>
-        <button class="btn-box" onclick="envS('EVENTOS', 'HIPER ↑')">¡HIPER!</button>
-    </div>
-
-    <div id="s-reg" class="sec">
-        <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <button class="btn-box" onclick="regla('INICIO')">INICIAR CICLO</button>
-        <button class="btn-box rojo" onclick="regla('FIN')">TERMINAR CICLO</button>
-    </div>
-
-    <div id="s-med" class="sec">
-        <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <input type="number" id="v-med" placeholder="000" style="font-size:4rem; text-align:center;">
-        <button class="btn-box save" onclick="envS('MEDIA', document.getElementById('v-med').value)">SUBIR MEDIA</button>
+        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
+        <button onclick="enviarS('ALERTAS', 'SANGRE BAJA')" class="btn-box" style="background:var(--rosa)">¡SANGRE BAJA!</button>
+        <button onclick="enviarS('ALERTAS', 'SANGRE ESPESA')" class="btn-box" style="background:var(--lila)">¡SANGRE ESPESA!</button>
     </div>
 
     <div id="s-res" class="sec">
-        <button class="btn-atras" onclick="volver()">← VOLVER</button>
-        <div class="resumen-v2">
-            <div class="res-row">
-                <span class="res-label">Al Despertar</span>
-                <span class="res-val" id="r-lev">...</span>
-            </div>
-            <div class="res-row">
-                <span class="res-label">Media Semanal</span>
-                <span class="res-val" id="r-med" style="color:var(--verde-menta)">...</span>
-            </div>
-            <div id="r-hpo" style="text-align:center; font-size:1.2rem; color:var(--rosa-chicle)"></div>
-            <div id="r-hpe" style="text-align:center; font-size:1.2rem; color:white; margin-top:5px"></div>
-        </div>
+        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
+        <div class="resumen-panel" id="resumen-texto"></div>
     </div>
 </div>
 
 <script>
     const CLAVE = "Idnopiras"; 
     const URL_APP = "https://script.google.com/macros/s/AKfycbzdYhjgVmixnrpw0nBCOTTGRPob5J2oU9unnz5VjaKhDrZz_F-qOl6vTZsZZQnzqtNm/exec";
-    let statusSeleccionado = "ok";
-
-    document.getElementById('txt-fecha').innerText = new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' }).toUpperCase();
+    let statusComida = "OK";
 
     function acceder() { 
         if(document.getElementById('pass').value === CLAVE) { 
             document.getElementById('bloqueo').style.display = "none"; 
             document.getElementById('app').style.display = "block"; 
-        } else { alert("¡Clave Amarga!"); }
+        } 
     }
 
     function ir(id) { document.getElementById('menu').style.display = 'none'; document.getElementById(id).style.display = 'block'; }
     function volver() { document.getElementById('menu').style.display = 'grid'; document.querySelectorAll('.sec').forEach(s => s.style.display = 'none'); }
 
     function selStatus(val) {
-        statusSeleccionado = val;
+        statusComida = val.toUpperCase();
         document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('st-' + val).classList.add('active');
     }
 
+    function envG(v) { enviar({ destino: 'GLUCOSA', valor: v }); }
+    
     function envComida() {
-        const d = {
+        enviar({
             destino: 'COMIDAS',
-            tipo_comida: document.getElementById('com-tipo').value,
+            tipo: document.getElementById('com-tipo').value,
             comida: document.getElementById('com-nombre').value,
             insulina: document.getElementById('com-insu').value,
-            hipo_hiper_ok: statusSeleccionado.toUpperCase()
-        };
-        if(!d.comida) return alert("¿Qué comiste?");
-        enviar(d);
+            estado: statusComida
+        });
     }
-
-    function envG(tipo) {
-        enviar({ destino: 'GLUCOSA', alta: tipo === 'ALTA' ? 'X' : '', baja: tipo === 'BAJA' ? 'X' : '', glucosa: tipo });
-    }
-
-    function envS(dest, val) { if(!val) return; enviar({ destino: dest, valor: val }); }
 
     function enviar(datos) {
         document.getElementById('loader').style.display = 'flex';
         fetch(URL_APP, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) })
-        .then(() => { 
+        .then(() => {
             document.getElementById('loader').style.display = 'none';
-            msg("¡DULCE REGISTRO!");
-            setTimeout(volver, 1200); 
+            const n = document.getElementById('notif');
+            n.style.display = "block";
+            setTimeout(() => { n.style.display = "none"; volver(); }, 2000);
         });
     }
 
-    async function cargarResumen() {
+    async function obtenerResumen() {
         ir('s-res');
-        document.getElementById('loader').style.display = 'flex';
-        try {
-            const resp = await fetch(URL_APP);
-            const d = await resp.json();
-            document.getElementById('r-lev').innerText = d.levantado;
-            document.getElementById('r-med').innerText = d.mediaInfo;
-            document.getElementById('r-hpo').innerText = d.hipoInfo;
-            document.getElementById('r-hpe').innerText = d.hiperInfo;
-        } catch (e) { document.getElementById('r-lev').innerText = "Vuelve a intentar"; }
-        document.getElementById('loader').style.display = 'none';
-    }
-
-    function msg(t) { 
-        const n = document.getElementById('notif'); n.innerText = t; n.style.display = "block";
-        setTimeout(()=> n.style.display="none", 2500);
+        const panel = document.getElementById('resumen-texto');
+        panel.innerHTML = "Consultando el libro de hoy...";
+        // Aquí conectas con tu doGet de Apps Script
+        const data = { vacio: false, ayunas: "Mayor de 130", comida: "Pizza", estado: "OK", alertas: [{tipo: "SANGRE BAJA", hora: "16:45"}] };
+        
+        setTimeout(() => {
+            let texto = `<h2 style="font-family:'Grandstander'; color:var(--lila)">Crónica de hoy</h2>`;
+            texto += `<p>Al despertar, el azúcar estaba <b class="res-destaque">${data.ayunas}</b>.</p>`;
+            texto += `<p>En la comida, tomaste <b class="res-destaque">${data.comida}</b> y todo terminó en un estado <b class="res-destaque">${data.estado}</b>.</p>`;
+            if(data.alertas.length > 0) {
+                data.alertas.forEach(a => {
+                    texto += `<p style="color:red">⚠️ ¡Atención! Registraste <b class="res-destaque">${a.tipo}</b> a las ${a.hora}.</p>`;
+                });
+            }
+            panel.innerHTML = texto;
+        }, 1000);
     }
 </script>
 </body>
