@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Wonderland Candy Elite</title>
+    <title>Wonderland Candy Rain</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Grandstander:wght@700;900&display=swap');
         :root { --rosa: #ff4dff; --azul: #00d4ff; --lila: #a64dff; --verde: #39ff14; --fondo: #120024; }
@@ -11,22 +11,33 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: 'Bubblegum Sans', cursive; margin: 0; background: var(--fondo); color: white; overflow-x: hidden; }
 
-        /* PANTALLA DE CARGA PIRULETA */
+        /* --- EFECTO LLUVIA DE CARAMELOS (CANDY RAIN) --- */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(18, 0, 36, 0.95); display: none; flex-direction: column;
-            align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(10px);
+            background: rgba(18, 0, 36, 0.9); display: none; z-index: 10000;
+            backdrop-filter: blur(10px); overflow: hidden; /* Importante para que no salgan barras de desplazamiento */
         }
-        .piruleta {
-            width: 80px; height: 80px;
-            background: conic-gradient(var(--rosa), var(--azul), var(--lila), var(--verde), var(--rosa));
-            border-radius: 50%; border: 5px solid white;
-            animation: spin 0.8s infinite linear; position: relative;
+        .candy {
+            position: absolute; font-size: 2rem;
+            animation: fall linear infinite;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            opacity: 0.8;
         }
-        .piruleta::after { content: ''; position: absolute; top: 80px; left: 35px; width: 10px; height: 50px; background: white; border-radius: 5px; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+        .loading-text {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-family: 'Grandstander'; font-size: 1.8rem; color: white;
+            text-shadow: 0 0 15px var(--rosa); text-align: center;
+            animation: pulse 1s infinite alternate; z-index: 10001;
+        }
+        @keyframes pulse { from { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); } to { opacity: 1; transform: translate(-50%, -50%) scale(1.1); } }
 
-        /* NOTIFICACIÓN */
+        /* NOTIFICACIÓN ÉXITO */
         #notif { 
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             background: white; color: var(--lila); padding: 30px; border-radius: 40px;
@@ -72,7 +83,10 @@
 </head>
 <body>
 
-<div id="loader"><div class="piruleta"></div><h2 style="color:var(--azul); font-family:'Grandstander'; margin-top:20px;">CARGANDO...</h2></div>
+<div id="loader">
+    <div class="loading-text">ABRIENDO EL PORTAL DULCE...</div>
+    </div>
+
 <div id="notif">¡REGISTRADO! ✨</div>
 
 <div id="bloqueo">
@@ -139,11 +153,15 @@
 </div>
 
 <script>
+    // --- IMPORTANTE: PEGA AQUÍ TU URL DE IMPLEMENTACIÓN ---
     const URL_APP = "https://script.google.com/macros/s/AKfycbzdYhjgVmixnrpw0nBCOTTGRPob5J2oU9unnz5VjaKhDrZz_F-qOl6vTZsZZQnzqtNm/exec";
+    const CLAVE_CORRECTA = "Idnopiras";
+    
     let curSt = "OK";
+    let candyInterval; // Para controlar la generación de caramelos
 
     function acceder() { 
-        if(document.getElementById('pass').value === "Idnopiras") { 
+        if(document.getElementById('pass').value === CLAVE_CORRECTA) { 
             document.getElementById('bloqueo').style.display='none'; 
             document.getElementById('app').style.display='block'; 
         } else {
@@ -160,11 +178,51 @@
         document.getElementById('h-'+v.toLowerCase()).classList.add('active'); 
     }
 
+    // --- LÓGICA DE CARGA (Candy Rain) ---
+    const CANDIES = ['🍬', '🍭', '🍫', '🍩', '🍪', '🍨', '🧁'];
+    
+    function startCandyRain() {
+        const loader = document.getElementById('loader');
+        loader.style.display = 'block';
+        
+        // Generar un caramelo cada 150ms
+        candyInterval = setInterval(() => {
+            const candy = document.createElement('div');
+            candy.classList.add('candy');
+            candy.innerText = CANDIES[Math.floor(Math.random() * CANDIES.length)];
+            
+            // Posición horizontal aleatoria (0% a 100% del ancho)
+            candy.style.left = Math.random() * 100 + 'vw';
+            
+            // Duración de caída aleatoria (entre 3s y 6s) para efecto 3D
+            const duration = (Math.random() * 3 + 3) + 's';
+            candy.style.animationDuration = duration;
+            
+            // Tamaño aleatorio (entre 1.5rem y 2.5rem)
+            candy.style.fontSize = (Math.random() * 1 + 1.5) + 'rem';
+
+            loader.appendChild(candy);
+            
+            // Borrar el caramelo después de que termine la animación
+            setTimeout(() => { candy.remove(); }, parseFloat(duration) * 1000);
+            
+        }, 150);
+    }
+
+    function stopCandyRain() {
+        clearInterval(candyInterval);
+        document.getElementById('loader').style.display = 'none';
+        // Limpiar caramelos restantes
+        const candies = document.querySelectorAll('.candy');
+        candies.forEach(c => c.remove());
+    }
+
+    // --- ENVÍO Y RESUMEN ---
     function enviar(d) {
-        document.getElementById('loader').style.display='flex';
+        startCandyRain(); // INICIA LLUVIA
         fetch(URL_APP, { method:'POST', mode:'no-cors', body:JSON.stringify(d) })
         .then(()=>{ 
-            document.getElementById('loader').style.display='none'; 
+            stopCandyRain(); // PARA LLUVIA
             document.getElementById('notif').style.display='block'; 
             setTimeout(()=>{ document.getElementById('notif').style.display='none'; volver(); }, 2000); 
         });
@@ -174,7 +232,7 @@
         enviar({ 
             destino:'COMIDAS', 
             tipo: document.getElementById('c-tipo').value, 
-            comida: document.getElementById('c-nom').value, 
+            comida: document.getElementById('com-nombre').value, 
             insulina: document.getElementById('c-ins').value, 
             estado: curSt 
         });
@@ -182,14 +240,15 @@
 
     async function obtenerResumen() {
         ir('s-res');
-        document.getElementById('loader').style.display='flex';
+        startCandyRain(); // INICIA LLUVIA
         try {
             const r = await fetch(URL_APP);
             const d = await r.json();
-            let h = `<h2 style="font-family:'Grandstander'; color:var(--lila); text-align:center;">Crónica de Hoy</h2>`;
-            h += `<p>🌅 <b>Ayunas:</b> <span class="destaque">${d.ayunas}</span></p>`;
-            h += `<p>🍱 <b>Banquete:</b> ${d.comida ? d.comida.plato + " (" + d.comida.tipo + ") con " + d.comida.insu + "u. Sentó: <span class='destaque'>" + d.comida.estado + "</span>" : "No existen datos"}</p>`;
-            h += `<p>🍭 <b>Media:</b> <span class="destaque">${d.media}</span></p>`;
+            let h = `<h2>Crónica de Hoy</h2>`;
+            // Forzar "No existen datos" si viene null/undefined
+            h += `<p>🌅 <b>Ayunas:</b> <span class="destaque">${d.ayunas || 'No existen datos de hoy'}</span></p>`;
+            h += `<p>🍱 <b>Banquete:</b> ${d.comida && d.comida.plato ? d.comida.plato + " (" + d.comida.tipo + ") con " + d.comida.insu + "u. Sentó: <span class='destaque'>" + d.comida.estado + "</span>" : "No existen datos"}</p>`;
+            h += `<p>🍭 <b>Media:</b> <span class="destaque">${d.media || 'No existen datos de hoy'}</span></p>`;
             
             if(d.alertas && d.alertas.length > 0) {
                 h += `<p style="color:var(--rosa)">⚠️ <b>Alertas:</b> ${d.alertas[0].tipo} (${d.alertas[0].hora})</p>`;
@@ -198,12 +257,10 @@
             }
             document.getElementById('res-cont').innerHTML = h;
         } catch(e) { 
-            document.getElementById('res-cont').innerHTML = "El espejo mágico no responde. Revisa la URL."; 
+            document.getElementById('res-cont').innerHTML = "No existen datos de hoy. ¡El diario está en blanco!"; 
         }
-        document.getElementById('loader').style.display='none';
+        stopCandyRain(); // PARA LLUVIA
     }
 </script>
 </body>
 </html>
-
-
