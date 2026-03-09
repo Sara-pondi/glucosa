@@ -13,8 +13,6 @@
             --lila: #a64dff; 
             --verde: #39ff14; 
             --fondo: #0a001a;
-            --glass: rgba(255, 255, 255, 0.1);
-            --border: rgba(255, 255, 255, 0.2);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -23,182 +21,137 @@
             font-family: 'Bubblegum Sans', cursive; 
             margin: 0; 
             background: var(--fondo);
-            /* FONDO COMPLEJO: Degradado + Ruido + Brillos */
+            /* FONDO LIMPIO: Efecto Aurora */
             background-image: 
-                radial-gradient(circle at 20% 30%, rgba(166, 77, 255, 0.2) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(0, 212, 255, 0.15) 0%, transparent 40%),
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.2'/%3E%3C/svg%3E");
+                radial-gradient(circle at 0% 0%, rgba(166, 77, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(0, 212, 255, 0.2) 0%, transparent 50%);
             background-attachment: fixed;
             color: white; 
             min-height: 100vh;
         }
 
-        /* LLUVIA DE CARAMELOS */
         #loader {
-            position: fixed; inset: 0;
-            background: rgba(10, 0, 26, 0.95);
-            display: none; z-index: 10000;
-            backdrop-filter: blur(20px);
+            position: fixed; inset: 0; background: rgba(10, 0, 26, 0.95);
+            display: none; z-index: 10000; backdrop-filter: blur(20px);
         }
-        .candy { position: absolute; font-size: 2.5rem; animation: fall linear infinite; filter: drop-shadow(0 0 10px white); }
+        .candy { position: absolute; font-size: 2.5rem; animation: fall linear infinite; }
         @keyframes fall {
             0% { transform: translateY(-15vh) rotate(0deg); opacity: 0; }
             20% { opacity: 1; }
             100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
         }
 
-        /* LOGIN */
         #bloqueo { position: fixed; inset: 0; background: var(--fondo); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
-        .pass-input { 
-            background: var(--glass); border: 3px solid var(--rosa); color: white; 
-            padding: 15px; border-radius: 25px; text-align: center; font-size: 2rem; 
-            width: 80%; font-family: 'Grandstander'; box-shadow: 0 0 20px var(--rosa);
-        }
+        .pass-input { background: rgba(255,255,255,0.05); border: 3px solid var(--rosa); color: white; padding: 15px; border-radius: 25px; text-align: center; font-size: 2rem; width: 80%; font-family: 'Grandstander'; }
 
-        /* CONTENEDORES GLASS */
         .app-container { width: 100%; max-width: 450px; padding: 25px; margin: auto; }
-        h1 { font-family: 'Grandstander'; font-size: 3.5rem; text-align: center; background: linear-gradient(to bottom, #fff, var(--rosa)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.5)); margin-top: 10px; }
+        h1 { font-family: 'Grandstander'; font-size: 3.5rem; text-align: center; color: white; text-shadow: 0 0 20px var(--rosa); margin-bottom: 20px; }
 
         .glass-card {
-            background: var(--glass);
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--border);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 30px;
             padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
             margin-bottom: 20px;
         }
 
-        /* MENÚ */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card { 
-            background: var(--glass); border-radius: 25px; padding: 20px; text-align: center;
-            border: 1px solid var(--border); transition: 0.3s;
-        }
-        .card:active { transform: scale(0.95); background: rgba(255,255,255,0.2); }
-        .card i { font-style: normal; font-size: 2.8rem; display: block; margin-bottom: 5px; }
-        .card b { font-family: 'Grandstander'; color: var(--azul); letter-spacing: 1px; }
+        .card { background: rgba(255, 255, 255, 0.05); border-radius: 25px; padding: 20px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .card i { font-style: normal; font-size: 2.8rem; display: block; }
+        .card b { font-family: 'Grandstander'; color: var(--azul); }
 
-        /* BOTONES CARAMELO */
         .btn-box { 
-            width: 100%; padding: 20px; border-radius: 20px; border: none; 
-            color: white; font-family: 'Grandstander'; font-size: 1.3rem; 
-            margin-bottom: 15px; cursor: pointer;
-            box-shadow: 0 8px 0 rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.4);
-            text-shadow: 1px 2px 4px rgba(0,0,0,0.4);
-            transition: 0.2s;
-        }
-        .btn-box:active { transform: translateY(4px); box-shadow: 0 4px 0 rgba(0,0,0,0.3); }
-
-        /* INPUTS ESTILO WONDERLAND */
-        input, select { 
-            width: 100%; padding: 15px; border-radius: 18px; border: 3px solid var(--lila); 
-            background: rgba(0,0,0,0.3); color: white; font-family: 'Bubblegum Sans'; 
-            font-size: 1.2rem; margin-top: 10px; outline: none;
+            width: 100%; padding: 20px; border-radius: 20px; border: none; color: white; font-family: 'Grandstander'; font-size: 1.3rem; 
+            margin-bottom: 15px; cursor: pointer; box-shadow: 0 6px 0 rgba(0,0,0,0.3);
         }
 
-        /* STATUS BOTONES (HIPO/OK/HIPER) */
+        input, select { width: 100%; padding: 15px; border-radius: 18px; border: 2px solid var(--lila); background: rgba(0,0,0,0.4); color: white; font-family: 'Bubblegum Sans'; font-size: 1.2rem; margin-top: 10px; }
+
         .st-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .st-btn { padding: 12px; border-radius: 15px; font-family: 'Grandstander'; cursor: pointer; text-align: center; border: 2px solid transparent; opacity: 0.4; transition: 0.3s; }
-        .st-btn.active { opacity: 1; border-color: white; transform: scale(1.1); box-shadow: 0 0 15px currentColor; }
+        .st-btn { padding: 12px; border-radius: 15px; font-family: 'Grandstander'; cursor: pointer; text-align: center; opacity: 0.4; }
+        .st-btn.active { opacity: 1; border: 2px solid white; transform: scale(1.05); }
 
-        /* SECCIONES */
-        .sec { display: none; animation: slideUp 0.4s ease-out; }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .sec { display: none; }
 
-        /* RESUMEN ESTILO CRÓNICA */
-        .cronica-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.1);
-        }
-        .cronica-row:last-child { border: none; }
-        .cronica-tag { font-family: 'Grandstander'; font-size: 0.9rem; color: var(--azul); text-transform: uppercase; }
+        /* CRÓNICA */
+        .cronica-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.1); }
+        .cronica-tag { font-family: 'Grandstander'; font-size: 0.9rem; color: var(--azul); }
         .cronica-val { font-size: 1.3rem; text-align: right; }
-        
-        .food-item {
-            background: rgba(255,255,255,0.05); border-radius: 15px; padding: 12px; margin: 10px 0;
-            border-left: 5px solid var(--lila);
-        }
-
-        .destaque { color: var(--rosa); text-shadow: 0 0 8px var(--rosa); font-weight: 900; }
-        #notif { position: fixed; top: 40%; left: 50%; transform: translateX(-50%); background: white; color: var(--lila); padding: 25px 40px; border-radius: 50px; font-family: 'Grandstander'; font-size: 2rem; z-index: 10001; display: none; border: 10px solid var(--verde); box-shadow: 0 0 50px var(--verde); }
+        .food-item { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 15px; margin: 10px 0; border-left: 5px solid var(--lila); }
+        .destaque { color: var(--rosa); font-weight: 900; }
+        #notif { position: fixed; top: 40%; left: 50%; transform: translateX(-50%); background: white; color: var(--lila); padding: 25px 40px; border-radius: 50px; font-family: 'Grandstander'; font-size: 2rem; z-index: 10001; display: none; border: 8px solid var(--verde); }
     </style>
 </head>
 <body>
 
-<div id="loader"><div id="candy-wrap"></div><div style="position:absolute;top:55%;left:50%;transform:translate(-50%,-50%);font-family:'Grandstander';font-size:2rem;color:white;text-align:center;">HORNEANDO...</div></div>
-<div id="notif">¡HECHO! ✨</div>
+<div id="loader"><div id="candy-wrap"></div></div>
+<div id="notif">¡REGISTRADO! ✨</div>
 
 <div id="bloqueo">
-    <h1 style="margin-bottom:40px">Wonderland</h1>
-    <input type="password" id="pass" class="pass-input" placeholder="PALABRA MÁGICA">
-    <button onclick="acceder()" class="btn-box" style="background:var(--rosa); width:auto; margin-top:40px; padding:15px 60px;">ABRIR DIARIO</button>
+    <h1>Wonderland</h1>
+    <input type="password" id="pass" class="pass-input" placeholder="CODE">
+    <button onclick="acceder()" class="btn-box" style="background:var(--rosa); width:auto; margin-top:40px; padding:10px 60px;">ENTRAR</button>
 </div>
 
 <div class="app-container" id="app" style="display:none">
     <h1>Mi Diario</h1>
-    
     <div id="menu" class="menu-grid">
         <div class="card" onclick="ir('s-glu')"><i>🍬</i><b>AYUNAS</b></div>
-        <div class="card" onclick="ir('s-com')"><i>🍱</i><b>BANQUETES</b></div>
+        <div class="card" onclick="ir('s-com')"><i>🍱</i><b>COMIDAS</b></div>
         <div class="card" onclick="ir('s-ale')"><i>🍄</i><b>SUSTOS</b></div>
         <div class="card" onclick="ir('s-reg')"><i>🎀</i><b>CICLO</b></div>
         <div class="card" onclick="ir('s-med')"><i>🍭</i><b>MEDIA</b></div>
-        <div class="card" style="grid-column: span 2; background: linear-gradient(to right, var(--lila), var(--rosa))" onclick="obtenerResumen()"><i>✨</i><b>CRÓNICA DE HOY</b></div>
+        <div class="card" style="grid-column: span 2; background: var(--lila)" onclick="obtenerResumen()"><i>✨</i><b>CRÓNICA DE HOY</b></div>
     </div>
 
     <div id="s-glu" class="sec">
         <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
         <div class="glass-card">
-            <button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'GLUCOSA', valor:'MAYOR DE 130'})">MAYOR DE 130 ▲</button>
-            <button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'GLUCOSA', valor:'MENOR DE 80'})">MENOR DE 80 ▼</button>
-            <button class="btn-box" style="background:var(--verde); color:black" onclick="enviar({destino:'GLUCOSA', valor:'OK'})">ESTADO OK</button>
+            <button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'GLUCOSA', valor:'MAYOR DE 130'})">MAYOR DE 130</button>
+            <button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'GLUCOSA', valor:'MENOR DE 80'})">MENOR DE 80</button>
+            <button class="btn-box" style="background:var(--verde); color:black" onclick="enviar({destino:'GLUCOSA', valor:'OK'})">OK</button>
         </div>
     </div>
 
     <div id="s-com" class="sec">
         <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
         <div class="glass-card">
-            <input type="text" id="c-nom" placeholder="¿Qué delicia has comido?">
-            <select id="c-tipo">
-                <option>Desayuno</option>
-                <option>Almuerzo</option>
-                <option>Comida</option>
-                <option>Merienda</option>
-                <option>Cena</option>
-            </select>
-            <input type="number" id="c-ins" placeholder="Unidades de Insulina">
+            <input type="text" id="c-nom" placeholder="¿Qué has comido?">
+            <select id="c-tipo"><option>Desayuno</option><option>Almuerzo</option><option>Comida</option><option>Merienda</option><option>Cena</option></select>
+            <input type="number" id="c-ins" placeholder="Insulina">
             <div class="st-grid">
                 <div class="st-btn" id="h-hipo" style="background:var(--azul)" onclick="setSt('HIPO')">HIPO</div>
                 <div class="st-btn active" id="h-ok" style="background:var(--verde); color:black" onclick="setSt('OK')">OK</div>
                 <div class="st-btn" id="h-hiper" style="background:var(--rosa)" onclick="setSt('HIPER')">HIPER</div>
             </div>
-            <button class="btn-box" style="background:var(--lila); margin-top:25px" onclick="envCom()">GUARDAR BANQUETE</button>
-        </div>
-    </div>
-
-    <div id="s-reg" class="sec">
-        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
-        <div class="glass-card">
-            <button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'CICLO', valor:'INICIO'})">INICIO CICLO 🎀</button>
-            <button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'CICLO', valor:'FIN'})">FIN CICLO ✨</button>
-        </div>
-    </div>
-
-    <div id="s-med" class="sec">
-        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
-        <div class="glass-card">
-            <input type="number" id="v-med" placeholder="Introduce el valor media">
-            <button class="btn-box" style="background:var(--verde); color:black; margin-top:15px" onclick="enviar({destino:'MEDIA', valor:document.getElementById('v-med').value})">REGISTRAR MEDIA</button>
+            <button class="btn-box" style="background:var(--lila); margin-top:20px" onclick="envCom()">GUARDAR</button>
         </div>
     </div>
 
     <div id="s-ale" class="sec">
         <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
         <div class="glass-card">
-            <button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'ALERTAS', valor:'SANGRE BAJA'})">¡SANGRE BAJA! 🩸</button>
-            <button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'ALERTAS', valor:'SANGRE ALTA'})">¡SANGRE ALTA! 🩸</button>
+            <button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'ALERTAS', valor:'SANGRE BAJA'})">SANGRE BAJA</button>
+            <button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'ALERTAS', valor:'SANGRE ALTA'})">SANGRE ALTA</button>
+        </div>
+    </div>
+
+    <div id="s-reg" class="sec">
+        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
+        <div class="glass-card">
+            <button class="btn-box" style="background:var(--rosa)" onclick="enviar({destino:'CICLO', valor:'INICIO'})">INICIO</button>
+            <button class="btn-box" style="background:var(--lila)" onclick="enviar({destino:'CICLO', valor:'FIN'})">FIN</button>
+        </div>
+    </div>
+
+    <div id="s-med" class="sec">
+        <button class="btn-box" style="background:var(--azul)" onclick="volver()">← VOLVER</button>
+        <div class="glass-card">
+            <input type="number" id="v-med" placeholder="Valor media">
+            <button class="btn-box" style="background:var(--verde); color:black; margin-top:10px" onclick="enviar({destino:'MEDIA', valor:document.getElementById('v-med').value})">REGISTRAR</button>
         </div>
     </div>
 
@@ -224,15 +177,14 @@
         candyInterval = setInterval(() => {
             const c = document.createElement('div');
             c.className = 'candy';
-            c.innerText = ['🍬','🍭','🍫','🍩','🍪','🍨','🧁'][Math.floor(Math.random()*7)];
+            c.innerText = ['🍬','🍭','🍫','🍩','🍪'][Math.floor(Math.random()*5)];
             c.style.left = Math.random()*100 + 'vw';
-            const dur = (Math.random()*2 + 1.5) + 's';
+            const dur = (Math.random()*2 + 1) + 's';
             c.style.animationDuration = dur;
             wrap.appendChild(c);
             setTimeout(() => c.remove(), parseFloat(dur)*1000);
-        }, 80);
+        }, 100);
     }
-
     function stopCandyRain() { clearInterval(candyInterval); document.getElementById('loader').style.display='none'; }
 
     function enviar(d) {
@@ -246,12 +198,10 @@
     }
 
     function envCom() {
-        const plato = document.getElementById('c-nom').value;
-        if(!plato) return alert("¿Qué has comido, Alicia?");
         enviar({
             destino: 'COMIDAS',
             tipo: document.getElementById('c-tipo').value,
-            comida: plato,
+            comida: document.getElementById('c-nom').value,
             insulina: document.getElementById('c-ins').value,
             estado: curSt
         });
@@ -263,53 +213,36 @@
         try {
             const r = await fetch(URL_APP);
             const d = await r.json();
+            let h = `<h2 style="font-family:'Grandstander';text-align:center;color:var(--rosa)">Crónica de Hoy</h2>`;
             
-            let h = `<h2 style="font-family:'Grandstander'; text-align:center; color:var(--rosa); font-size:2rem; margin-bottom:10px;">Crónica de Hoy</h2>`;
-            
-            // PANEL GENERAL
             h += `<div class="glass-card">
                     <div class="cronica-row"><span class="cronica-tag">🌅 Ayunas</span><span class="cronica-val destaque">${d.ayunas}</span></div>
                     <div class="cronica-row"><span class="cronica-tag">🍭 Media</span><span class="cronica-val">${d.media}</span></div>
-                    <div class="cronica-row"><span class="cronica-tag">🎀 Ciclo</span><span class="cronica-val">${d.ciclo || d.cicloEstado || 'Sin actividad'}</span></div>
+                    <div class="cronica-row"><span class="cronica-tag">🎀 Ciclo</span><span class="cronica-val">${d.ciclo}</span></div>
                   </div>`;
 
-            // PANEL BANQUETES (Por tipos)
-            h += `<h3 style="font-family:'Grandstander'; color:var(--azul); margin: 20px 0 10px 10px;">Los Banquetes</h3>`;
-            h += `<div class="glass-card">`;
-            let hayComidas = false;
-            // Si el script manda el objeto comidas, lo recorremos
-            const lista = d.comidas || {};
-            const tipos = ["Desayuno", "Almuerzo", "Comida", "Merienda", "Cena"];
-            
-            tipos.forEach(t => {
-                if(lista[t]) {
-                    hayComidas = true;
+            h += `<h3 style="margin-left:10px">Banquetes</h3><div class="glass-card">`;
+            let hayCom = false;
+            for (let t in d.comidas) {
+                if(d.comidas[t]) {
+                    hayCom = true;
                     h += `<div class="food-item">
-                            <div style="color:var(--azul); font-family:'Grandstander'; font-size:0.8rem; text-transform:uppercase">${t}</div>
-                            <div style="font-size:1.2rem; margin:5px 0">${lista[t].plato}</div>
-                            <div style="font-size:0.9rem; opacity:0.8">${lista[t].insu}u Insulina • <span class="destaque">${lista[t].estado}</span></div>
+                            <b style="color:var(--azul)">${t}</b><br>${d.comidas[t].plato}<br>
+                            <small>${d.comidas[t].insu}u • <span class="destaque">${d.comidas[t].estado}</span></small>
                           </div>`;
                 }
-            });
-            if(!hayComidas) h += `<p style="text-align:center; opacity:0.5; font-style:italic">No hay banquetes registrados aún.</p>`;
+            }
+            if(!hayCom) h += `<p style="text-align:center;opacity:0.5">Sin banquetes</p>`;
             h += `</div>`;
 
-            // PANEL ALERTAS
-            h += `<h3 style="font-family:'Grandstander'; color:var(--rosa); margin: 20px 0 10px 10px;">Sustos y Alertas</h3>`;
-            h += `<div class="glass-card">`;
-            if(d.alertas && d.alertas.length > 0) {
-                d.alertas.forEach(a => {
-                    h += `<div class="cronica-row"><span>🍄 ${a.tipo}</span><span style="font-size:0.8rem; opacity:0.6">${a.hora}</span></div>`;
-                });
-            } else {
-                h += `<p style="text-align:center; opacity:0.5; font-style:italic">Hoy el bosque está en calma.</p>`;
-            }
+            h += `<h3 style="margin-left:10px">Sustos</h3><div class="glass-card">`;
+            if(d.alertas.length > 0) {
+                d.alertas.forEach(a => { h += `<div class="cronica-row"><span>🍄 ${a.tipo}</span><span style="opacity:0.6">${a.hora}</span></div>`; });
+            } else { h += `<p style="text-align:center;opacity:0.5">Todo en calma</p>`; }
             h += `</div>`;
 
             document.getElementById('res-cont').innerHTML = h;
-        } catch(e) { 
-            document.getElementById('res-cont').innerHTML = "<div class='glass-card'>El espejo está empañado... vuelve a intentar.</div>"; 
-        }
+        } catch(e) { document.getElementById('res-cont').innerHTML = "Error al conectar."; }
         stopCandyRain();
     }
 </script>
